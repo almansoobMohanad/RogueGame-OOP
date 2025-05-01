@@ -9,3 +9,6 @@
   MM     ,M   MM     ,M   MM    ,dP' MM     ,M   M     YMM           MM        MM      MM    MM    M     YMM `Mb.     MM  
 .JMMmmmmMMM .JMMmmmmMMM .JMMmmmdP' .JMMmmmmMMM .JML.    YM         .JMML.    .JMML.  .JMML..JMML..JML.    YM   `"bmmmdPY  
 ```
+
+## Contribution Log
+[Click here to view our team’s contribution log](https://docs.google.com/spreadsheets/d/1Tf71OtnReOH9avVHl5X7nICq4eLA3QJu5ghZaOmaYTI/edit?usp=sharing)
