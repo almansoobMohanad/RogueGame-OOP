@@ -1,4 +1,4 @@
-package game;
+package game.actors;
 
 /**
  * Use this enum class to represent a status.
@@ -6,5 +6,7 @@ package game;
  * @author Riordan D. Alfredo
  */
 public enum Status {
+
     HOSTILE_TO_ENEMY,
+
 }

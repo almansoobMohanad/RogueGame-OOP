@@ -1,4 +1,4 @@
-package game;
+package game.grounds;
 
 import edu.monash.fit2099.engine.positions.Ground;
 
@@ -9,5 +9,6 @@ import edu.monash.fit2099.engine.positions.Ground;
 public class Soil extends Ground {
     public Soil() {
         super('.', "Soil");
+        this.addCapability(GroundStatus.PLANTABLE);
     }
 }

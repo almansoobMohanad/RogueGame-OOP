@@ -7,6 +7,16 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
+import game.actors.Player;
+import game.actors.creatures.OmenSheep;
+import game.actors.creatures.SpiritGoat;
+import game.grounds.Blight;
+import game.grounds.Floor;
+import game.grounds.Soil;
+import game.grounds.Wall;
+import game.items.Talisman;
+import game.items.seeds.BloodroseSeed;
+import game.items.seeds.InheritreeSeed;
 
 /**
  * The main class to setup and run the game.
@@ -51,12 +61,27 @@ public class Application {
             }
         }
 
-        Player player = new Player("Farmer", '@', 100);
+        Player player = new Player("Farmer", '@', 100, 200);
+        player.hurt(20);
+        player.addItemToInventory(new InheritreeSeed());
+        player.addItemToInventory(new BloodroseSeed());
         world.addPlayer(player, gameMap.at(23, 10));
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
+        gameMap.at(20, 14).addActor(new SpiritGoat());
+        gameMap.at(35, 14).addActor(new OmenSheep());
 
         world.run();
+
+        for (String line : FancyMessage.YOU_DIED.split("\n")) {
+            new Display().println(line);
+            try {
+                Thread.sleep(200);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+
     }
 }
