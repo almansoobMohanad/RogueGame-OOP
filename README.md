@@ -11,4 +11,4 @@
 ```
 
 ## Contribution Log
-[Click here to view our team’s contribution log](https://docs.google.com/spreadsheets/d/1Tf71OtnReOH9avVHl5X7nICq4eLA3QJu5ghZaOmaYTI/edit?usp=sharing)
+[Click here to view our team’s contribution log](https://docs.google.com/spreadsheets/d/15pBS-c5y_sP5OufPUacZMtytC-JItUy2VWfKs9Dc9F0/edit?usp=sharing)
