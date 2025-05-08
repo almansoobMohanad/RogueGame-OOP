@@ -11,6 +11,8 @@ public class Sellen extends NPC{
      */
     public Sellen() {
         super("Sellen", 's', 150);
+        this.addDialogue("0","The academy casts out those it fears. Yet knowledge, like the stars, cannot be bound forever.");
+        this.addDialogue("1","You sense it too, don’t you? The Glintstone hums, even now.");
     }
 
     @Override

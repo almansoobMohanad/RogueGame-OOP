@@ -10,7 +10,10 @@ public class Guts extends NPC {
      * Constructor for Guts
      */
     public Guts() {
-        super("Guts", 'g', 300);
+        super("Guts", 'g', 500);
+        this.addDialogue("0", "RAAAAGH!");
+        this.addDialogue("1", "I’LL CRUSH YOU ALL!");
+        this.addDialogue("weak", "WEAK! TOO WEAK TO FIGHT ME!");
     }
 
     @Override
