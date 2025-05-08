@@ -24,7 +24,7 @@ public class MerchantKale extends NPC {
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        return null;
+        return super.playTurn(actions, lastAction, map, display);
     }
 
     @Override

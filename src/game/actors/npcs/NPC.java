@@ -2,6 +2,7 @@ package game.actors.npcs;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
@@ -41,6 +42,23 @@ public abstract class NPC extends Actor {
 
     public Random getRandom() {
         return random;
+    }
+
+    public void addBehaviour(int priority, Behaviour behaviour) {
+        behaviours.put(priority, behaviour);
+    }
+
+    @Override
+    public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+
+        for (Behaviour behaviour : behaviours.values()) {
+            Action action = behaviour.getAction(this, map);
+            if (action != null) {
+                return action;
+            }
+        }
+
+        return new DoNothingAction();
     }
 
     public abstract String sayDialogue(Actor actor, GameMap map);
