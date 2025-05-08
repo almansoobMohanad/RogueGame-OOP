@@ -2,10 +2,13 @@ package game.actors.npcs;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 
-public class Sellen extends NPC{
+import java.util.Random;
+
+public class Sellen extends NPC {
     /**
      * Constructor for Sellen
      */
@@ -18,5 +21,18 @@ public class Sellen extends NPC{
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         return null;
+    }
+
+    @Override
+    public String sayDialogue(Actor actor, GameMap map) {
+        int size = this.getDialogues().size();
+
+        try {
+            Random random = this.getRandom();
+            String randKey = String.valueOf(random.nextInt(size));
+            return this.getDialogues().get(randKey);
+        } catch (IndexOutOfBoundsException e) {
+            return "...(silence)";
+        }
     }
 }

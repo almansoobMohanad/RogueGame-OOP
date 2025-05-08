@@ -14,6 +14,7 @@ public abstract class NPC extends Actor {
 
     private HashMap<String, String> dialogues;
     private Map<Integer, Behaviour> behaviours;
+    private Random random;
 
     /**
      * The constructor of the Actor class.
@@ -27,6 +28,7 @@ public abstract class NPC extends Actor {
         this.dialogues = new HashMap<>();
         this.behaviours = new TreeMap<>();
         this.behaviours.put(0, new WanderBehaviour());
+        this.random = new Random();
     }
 
     public void addDialogue(String key, String dialogue) {
@@ -37,5 +39,9 @@ public abstract class NPC extends Actor {
         return dialogues;
     }
 
-//    public abstract String dialogueChoice();
+    public Random getRandom() {
+        return random;
+    }
+
+    public abstract String sayDialogue(Actor actor, GameMap map);
 }
