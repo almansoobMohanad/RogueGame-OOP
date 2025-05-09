@@ -7,11 +7,13 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
+import game.actors.Status;
 import game.behaviours.WanderBehaviour;
 
 /**
@@ -97,10 +99,40 @@ public class SpiritGoat extends Creature implements Curable, Reproductive {
 
     }
 
+    /**
+     * Spawns a Spirit Goat if in the surroundings of blessed entities.
+     *
+     * @param map the game map of the Spirit Goat reproducing
+     * @param location the location of the Spirit Goat reproducing
+     */
     @Override
     public void reproduce(GameMap map, Location location) {
-        // check surroundings if blessed by grace
-        // spawn new spirit goat in valid adjacent tile
+        boolean nearBlessed = false;
+
+        for (Exit exit : location.getExits()) {
+            Location adjacent = exit.getDestination();
+
+            // Check for blessed ground
+            if (adjacent.getGround().hasCapability(Status.BLESSED_BY_GRACE)) {
+                nearBlessed = true;
+                break;
+            }
+
+            // We can check for other blessed entities too (haven't implemented this yet)
+
+        }
+
+        if (!nearBlessed) return;
+
+        // Spawn SpiritGoat in available adjacent tile
+        for (Exit exit : location.getExits()) {
+            Location spawnLocation = exit.getDestination();
+            if (!spawnLocation.containsAnActor()) {
+                map.at(spawnLocation.x(), spawnLocation.y()).addActor(new SpiritGoat());
+                break;
+            }
+        }
+
     }
 
     /**
