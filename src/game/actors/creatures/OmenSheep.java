@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -14,7 +13,6 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
-import game.actors.Status;
 import game.behaviours.WanderBehaviour;
 import game.grounds.plants.Inheritree;
 
@@ -29,7 +27,7 @@ import game.grounds.plants.Inheritree;
  *
  * @author Mohanad Al-Mansoob
  */
-public class OmenSheep extends Creature implements Curable {
+public class OmenSheep extends Creature implements Curable, Reproductive {
 
 
     /**
@@ -114,6 +112,11 @@ public class OmenSheep extends Creature implements Curable {
 
         }
 
+    }
+
+    @Override
+    public void reproduce(GameMap map,Location location) {
+        // spawn egg based on conditions
     }
 
     /**

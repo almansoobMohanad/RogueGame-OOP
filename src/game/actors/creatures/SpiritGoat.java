@@ -12,7 +12,6 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
-import game.actors.Status;
 import game.behaviours.WanderBehaviour;
 
 /**
@@ -26,7 +25,7 @@ import game.behaviours.WanderBehaviour;
  *
  * @author Mohanad Al-Mansoob
  */
-public class SpiritGoat extends Creature implements Curable {
+public class SpiritGoat extends Creature implements Curable, Reproductive {
 
     /**
      * Constructor for the Spirit Goat.
@@ -96,6 +95,12 @@ public class SpiritGoat extends Creature implements Curable {
 
         this.modifyAttribute(CreatureAttributes.ROT_COUNTDOWN, ActorAttributeOperations.INCREASE, maxCountDown);
 
+    }
+
+    @Override
+    public void reproduce(GameMap map, Location location) {
+        // check surroundings if blessed by grace
+        // spawn new spirit goat in valid adjacent tile
     }
 
     /**
