@@ -10,6 +10,8 @@ import edu.monash.fit2099.engine.positions.World;
 import game.actors.Player;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
+import game.actors.npcs.MerchantKale;
+import game.actors.npcs.Sellen;
 import game.grounds.Blight;
 import game.grounds.Floor;
 import game.grounds.Soil;
@@ -62,7 +64,7 @@ public class Application {
         }
 
         Player player = new Player("Farmer", '@', 100, 200);
-        player.hurt(20);
+        player.hurt(10);
         player.addItemToInventory(new InheritreeSeed());
         player.addItemToInventory(new BloodroseSeed());
         world.addPlayer(player, gameMap.at(23, 10));
@@ -71,6 +73,11 @@ public class Application {
         gameMap.at(24, 11).addItem(new Talisman());
         gameMap.at(20, 14).addActor(new SpiritGoat());
         gameMap.at(35, 14).addActor(new OmenSheep());
+        gameMap.at(25, 14).addActor(new Sellen());
+        gameMap.at(21, 14).addActor(new MerchantKale());
+
+        player.addBalance(5000);
+        System.out.println("THE PLAYERS MONEY: " + player.getBalance());
 
         world.run();
 
