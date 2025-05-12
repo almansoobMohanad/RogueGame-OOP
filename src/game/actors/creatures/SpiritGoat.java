@@ -26,6 +26,7 @@ import game.behaviours.WanderBehaviour;
  * <p>This creature does not engage in combat or perform any special actions aside from wandering.</p>
  *
  * @author Mohanad Al-Mansoob
+ * Modified by: Arielle Ocampo
  */
 public class SpiritGoat extends Creature implements Curable, Reproductive {
 
@@ -58,6 +59,7 @@ public class SpiritGoat extends Creature implements Curable, Reproductive {
 
         modifyAttribute(CreatureAttributes.ROT_COUNTDOWN, ActorAttributeOperations.DECREASE, 1);
 
+
         if (getAttribute(CreatureAttributes.ROT_COUNTDOWN) < 1){
 
             map.removeActor(this);
@@ -65,6 +67,8 @@ public class SpiritGoat extends Creature implements Curable, Reproductive {
             return new DoNothingAction();
 
         }
+        
+        reproduce(map, map.locationOf(this));
 
         return super.playTurn(actions, lastAction, map, display);
 
