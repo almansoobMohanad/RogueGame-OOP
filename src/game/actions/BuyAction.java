@@ -26,14 +26,11 @@ public class BuyAction extends Action {
             return actor + " does not have enough Runes to buy " + item;
         }
 
-
-        //item.onPurchase(actor);
         actor.addItemToInventory((Item) item);
-        item.onPurchase(actor);
-        merchant.decideEffect(item, actor);
+        item.onPurchase(actor, merchant, map);
+        actor.deductBalance(cost);
 
         return actor + " buys " + item + " from " + merchant;
-
 
     }
 
