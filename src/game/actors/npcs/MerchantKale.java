@@ -10,6 +10,11 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.BuyAction;
 import game.actors.Merchant;
+import game.actors.creatures.SpiritGoat;
+import game.effects.AttributeEffect;
+import game.effects.EffectsList;
+import game.effects.MaxAttributeEffect;
+import game.effects.SpawnActorEffect;
 import game.grounds.GroundStatus;
 import game.weapons.BroadSword;
 import game.weapons.Buyable;
@@ -32,8 +37,13 @@ public class MerchantKale extends NPC implements Merchant {
         this.addDialogue("cursed", "Rest by the flame when you can, friend. These lands will wear you thin.");
         this.addDialogue("default", "A merchant’s life is a lonely one. But the roads… they whisper secrets to those who listen.");
 
-        sellItems.add(new BroadSword(150));
-        sellItems.add(new DragonslayerGreatsword(1700));
+        EffectsList broadSwordEffects = new EffectsList();
+        broadSwordEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.STAMINA, 30));
+        sellItems.add(new BroadSword(150, broadSwordEffects));
+
+        EffectsList dragonslayerGreatswordEffects = new EffectsList();
+        dragonslayerGreatswordEffects.addEffect(new AttributeEffect(BaseActorAttributes.STAMINA, 20));
+        sellItems.add(new DragonslayerGreatsword(1700, dragonslayerGreatswordEffects));
 
     }
 
@@ -84,23 +94,6 @@ public class MerchantKale extends NPC implements Merchant {
 
     }
 
-        @Override
-    public void decideEffect(Buyable item, Actor buyer) {
-
-        if (item instanceof BroadSword){
-
-            buyer.modifyAttributeMaximum(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, 30);
-
-        }
-
-        else if(item instanceof DragonslayerGreatsword){
-
-            buyer.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, 20);
-
-        }
-
-
-    }
 
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
