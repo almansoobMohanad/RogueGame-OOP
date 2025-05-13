@@ -25,7 +25,7 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
 
     private int eggLayCounter = 0;
     private Actor followTarget = null;
-    private boolean reproduced = false;
+
 
     public GoldenBeetle() {
         super("Golden Beetle", 'b', 25);
@@ -41,11 +41,10 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
     @Override
     public void reproduce(GameMap map,Location location) {
         eggLayCounter++;
-
         if (eggLayCounter >= 5) {
             location.addItem(new GoldenEgg());
             eggLayCounter = 0;
-            reproduced = true;
+
         }
     }
 
@@ -59,7 +58,7 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
 
     @Override
     public String eat(Actor actor, GameMap map) {
-        actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 15);
+        actor.heal(15);
         actor.addBalance(1000);
         map.removeActor(this);
         return actor + " eats the beetle.";
@@ -69,10 +68,6 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
         reproduce(map, map.locationOf(this));
-        if (reproduced){
-            reproduced = false;  //figure out about the flag
-            return new DoNothingAction();
-        }
 
         if (followTarget == null || !map.contains(followTarget)) {
             // Scan surroundings for a followable actor
