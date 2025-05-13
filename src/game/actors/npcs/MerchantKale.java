@@ -6,6 +6,8 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.ListenAction;
+import game.behaviours.WanderBehaviour;
 import game.grounds.GroundStatus;
 
 import java.util.List;
@@ -16,10 +18,11 @@ public class MerchantKale extends NPC {
      */
     public MerchantKale() {
         super("Merchant Kale", 'k', 200);
-        this.addDialogue("less", "Ah, hard times, I see. Keep your head low and your blade sharp.");
-        this.addDialogue("empty", "Not a scrap to your name? Even a farmer should carry a trinket or two.");
-        this.addDialogue("cursed", "Rest by the flame when you can, friend. These lands will wear you thin.");
-        this.addDialogue("default", "A merchant’s life is a lonely one. But the roads… they whisper secrets to those who listen.");
+        this.addBehaviour(0, new WanderBehaviour());
+        this.addMonologue("less", "Ah, hard times, I see. Keep your head low and your blade sharp.");
+        this.addMonologue("empty", "Not a scrap to your name? Even a farmer should carry a trinket or two.");
+        this.addMonologue("cursed", "Rest by the flame when you can, friend. These lands will wear you thin.");
+        this.addMonologue("default", "A merchant’s life is a lonely one. But the roads… they whisper secrets to those who listen.");
     }
 
     @Override
@@ -41,16 +44,27 @@ public class MerchantKale extends NPC {
 
         try {
             if (actor.getItemInventory().isEmpty()) {
-                return this.getDialogues().get("empty");
-            } else if (actor.getBalance() < 500) {
-                return this.getDialogues().get("less");
-            } else if (nearCursedGround) {
-                return this.getDialogues().get("cursed");
-            } else {
-                return this.getDialogues().get("default");
+                this.addIntoMonologuePool(this.getMonologues().get("empty"));
             }
+            if (actor.getBalance() < 500) {
+                this.addIntoMonologuePool(this.getMonologues().get("less"));
+            }
+            if (nearCursedGround) {
+                this.addIntoMonologuePool(this.getMonologues().get("cursed"));
+            }
+            this.addIntoMonologuePool(this.getMonologues().get("default"));
+
+            return this.getMonologuePool().get(this.getRandom().nextInt(this.getMonologuePool().size()));
+
         } catch (IndexOutOfBoundsException e) {
             return "...(silence)";
         }
+    }
+
+    @Override
+    public ActionList allowableActions(Actor actor, String direction, GameMap map) {
+        ActionList actions = super.allowableActions(actor, direction, map);
+        actions.add(new ListenAction(this));
+        return actions;
     }
 }

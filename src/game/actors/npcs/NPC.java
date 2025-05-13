@@ -13,7 +13,8 @@ import java.util.*;
 
 public abstract class NPC extends Actor {
 
-    private HashMap<String, String> dialogues;
+    private HashMap<String, String> monologues;
+    private List<String> monologuePool;
     private Map<Integer, Behaviour> behaviours;
     private Random random;
 
@@ -26,18 +27,26 @@ public abstract class NPC extends Actor {
      */
     public NPC(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
-        this.dialogues = new HashMap<>();
+        this.monologues = new HashMap<>();
         this.behaviours = new TreeMap<>();
-        this.behaviours.put(0, new WanderBehaviour());
+        this.monologuePool = new ArrayList<>();
         this.random = new Random();
     }
 
-    public void addDialogue(String key, String dialogue) {
-        dialogues.put(key, dialogue);
+    public void addMonologue(String key, String dialogue) {
+        monologues.put(key, dialogue);
     }
 
-    public HashMap<String, String> getDialogues() {
-        return dialogues;
+    public HashMap<String, String> getMonologues() {
+        return monologues;
+    }
+
+    public void addIntoMonologuePool(String dialogue) {
+        monologuePool.add(dialogue);
+    }
+
+    public List<String> getMonologuePool() {
+        return monologuePool;
     }
 
     public Random getRandom() {
