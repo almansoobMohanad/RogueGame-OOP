@@ -9,6 +9,12 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.BuyAction;
 import game.actors.Merchant;
+import game.actors.creatures.OmenSheep;
+import game.actors.creatures.SpiritGoat;
+import game.effects.AttributeEffect;
+import game.effects.EffectsList;
+import game.effects.MaxAttributeEffect;
+import game.effects.SpawnActorEffect;
 import game.weapons.*;
 
 import java.util.ArrayList;
@@ -27,9 +33,20 @@ public class Sellen extends NPC implements Merchant {
         this.addDialogue("0","The academy casts out those it fears. Yet knowledge, like the stars, cannot be bound forever.");
         this.addDialogue("1","You sense it too, don’t you? The Glintstone hums, even now.");
 
-        sellItems.add(new BroadSword(100));
-        sellItems.add(new DragonslayerGreatsword(1500));
-        sellItems.add(new Katana(500));
+        EffectsList broadSwordEffects = new EffectsList();
+        broadSwordEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.HEALTH, 20));
+        sellItems.add(new BroadSword(100, broadSwordEffects));
+
+        EffectsList dragonslayerGreatswordEffects = new EffectsList();
+        // this should be GoldenBeetle
+        dragonslayerGreatswordEffects.addEffect(new SpawnActorEffect(new SpiritGoat(), null));
+        sellItems.add(new DragonslayerGreatsword(1500, dragonslayerGreatswordEffects));
+
+        EffectsList katanaEffects = new EffectsList();
+        katanaEffects.addEffect(new SpawnActorEffect(new OmenSheep(), this));
+        katanaEffects.addEffect(new AttributeEffect(BaseActorAttributes.HEALTH, 10));
+        katanaEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.STAMINA, 20));
+        sellItems.add(new Katana(500, katanaEffects));
 
     }
 
@@ -66,27 +83,7 @@ public class Sellen extends NPC implements Merchant {
 
     }
 
-    @Override
-    public void decideEffect(Buyable item, Actor buyer) {
 
-        if (item instanceof BroadSword) {
-
-            int previousMaxHealth = buyer.getAttributeMaximum(BaseActorAttributes.HEALTH);
-
-            buyer.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, previousMaxHealth + 20);
-            
-        } else if (item instanceof DragonslayerGreatsword) {
-
-            System.out.println("GOLDEN BEETLE SHOULD SPAWN");
-            
-        } else if (item instanceof Katana) {
-
-            buyer.heal(10);
-            System.out.println("OMEN SHEEP SHOULD SPAWN");
-            
-        }
-        
-    }
 
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
