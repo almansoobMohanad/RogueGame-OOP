@@ -52,6 +52,6 @@ public class Player extends Actor {
         return super.toString() + " (" +
                 this.getAttribute(BaseActorAttributes.STAMINA) + "/" +
                 this.getAttributeMaximum(BaseActorAttributes.STAMINA) +
-                ")";
+                ")" + " (" + getBalance() + " Runes)";
     }
 }
