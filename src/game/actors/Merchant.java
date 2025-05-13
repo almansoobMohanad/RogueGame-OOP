@@ -8,6 +8,5 @@ public interface Merchant {
 
     ActionList getSellActions();
 
-    void decideEffect(Buyable item, Actor buyer);
 
 }
