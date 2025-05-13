@@ -10,6 +10,9 @@ import edu.monash.fit2099.engine.positions.World;
 import game.actors.Player;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
+import game.actors.npcs.Guts;
+import game.actors.npcs.MerchantKale;
+import game.actors.npcs.Sellen;
 import game.grounds.Blight;
 import game.grounds.Floor;
 import game.grounds.Soil;
@@ -65,12 +68,15 @@ public class Application {
         player.hurt(20);
         player.addItemToInventory(new InheritreeSeed());
         player.addItemToInventory(new BloodroseSeed());
-        world.addPlayer(player, gameMap.at(23, 10));
+        world.addPlayer(player, gameMap.at(26, 10));
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
         gameMap.at(20, 14).addActor(new SpiritGoat());
         gameMap.at(35, 14).addActor(new OmenSheep());
+        gameMap.at(25, 10).addActor(new Sellen());
+        gameMap.at(27, 10).addActor(new MerchantKale());
+        gameMap.at(20, 13).addActor(new Guts());
 
         world.run();
 
