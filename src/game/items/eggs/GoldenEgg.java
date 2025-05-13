@@ -1,10 +1,14 @@
 package game.items.eggs;
 
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.creatures.GoldenBeetle;
 import game.grounds.GroundStatus;
+import game.grounds.plants.Bloodrose;
 
 public class GoldenEgg extends Egg{
 
@@ -32,10 +36,14 @@ public class GoldenEgg extends Egg{
     @Override
     public void hatch(GameMap map, Location location) {
 
+        location.addActor(new GoldenBeetle());
     }
 
     @Override
     public String eat(Actor actor, GameMap map) {
-        return "";
+        actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 20);
+
+        actor.removeItemFromInventory(this);
+        return actor + " eats the egg.";
     }
 }
