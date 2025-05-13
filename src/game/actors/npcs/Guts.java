@@ -11,6 +11,8 @@ import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.weapons.BareFist;
 
+import static game.actors.npcs.Monologues.*;
+
 public class Guts extends NPC {
     /**
      * Constructor for Guts
@@ -20,9 +22,8 @@ public class Guts extends NPC {
         this.setIntrinsicWeapon(new BareFist());
         this.addBehaviour(0, new AttackBehaviour(50));
         this.addBehaviour(1, new WanderBehaviour());
-        this.addIntoMonologuePool("RAAAAGH!");
-        this.addIntoMonologuePool("I’LL CRUSH YOU ALL!");
-        this.addMonologue("weak", "WEAK! TOO WEAK TO FIGHT ME!");
+        this.addIntoMonologuePool(GUTS1.getMessage());
+        this.addIntoMonologuePool(GUTS2.getMessage());
     }
 
     @Override
@@ -36,7 +37,7 @@ public class Guts extends NPC {
         try {
 
             if (actor.getAttribute(BaseActorAttributes.HEALTH) < 50) {
-                this.addIntoMonologuePool(this.getMonologues().get("weak"));
+                this.addIntoMonologuePool(GUTS_WEAK.getMessage());
             }
 
             return this.getMonologuePool().get(this.getRandom().nextInt(this.getMonologuePool().size()));

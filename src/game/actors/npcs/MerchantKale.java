@@ -12,6 +12,8 @@ import game.grounds.GroundStatus;
 
 import java.util.List;
 
+import static game.actors.npcs.Monologues.*;
+
 public class MerchantKale extends NPC {
     /**
      * Constructor for MerchantKale
@@ -19,10 +21,7 @@ public class MerchantKale extends NPC {
     public MerchantKale() {
         super("Merchant Kale", 'k', 200);
         this.addBehaviour(0, new WanderBehaviour());
-        this.addMonologue("less", "Ah, hard times, I see. Keep your head low and your blade sharp.");
-        this.addMonologue("empty", "Not a scrap to your name? Even a farmer should carry a trinket or two.");
-        this.addMonologue("cursed", "Rest by the flame when you can, friend. These lands will wear you thin.");
-        this.addMonologue("default", "A merchant’s life is a lonely one. But the roads… they whisper secrets to those who listen.");
+        this.addIntoMonologuePool(KALE_DEFAULT.getMessage());
     }
 
     @Override
@@ -44,15 +43,14 @@ public class MerchantKale extends NPC {
 
         try {
             if (actor.getItemInventory().isEmpty()) {
-                this.addIntoMonologuePool(this.getMonologues().get("empty"));
+                this.addIntoMonologuePool(KALE_EMPTY.getMessage());
             }
             if (actor.getBalance() < 500) {
-                this.addIntoMonologuePool(this.getMonologues().get("less"));
+                this.addIntoMonologuePool(KALE_LESS.getMessage());
             }
             if (nearCursedGround) {
-                this.addIntoMonologuePool(this.getMonologues().get("cursed"));
+                this.addIntoMonologuePool(KALE_CURSED.getMessage());
             }
-            this.addIntoMonologuePool(this.getMonologues().get("default"));
 
             return this.getMonologuePool().get(this.getRandom().nextInt(this.getMonologuePool().size()));
 

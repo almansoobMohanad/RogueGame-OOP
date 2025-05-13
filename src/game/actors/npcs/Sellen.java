@@ -11,6 +11,9 @@ import game.behaviours.WanderBehaviour;
 import java.util.List;
 import java.util.Random;
 
+import static game.actors.npcs.Monologues.SELLEN1;
+import static game.actors.npcs.Monologues.SELLEN2;
+
 public class Sellen extends NPC {
     /**
      * Constructor for Sellen
@@ -18,8 +21,8 @@ public class Sellen extends NPC {
     public Sellen() {
         super("Sellen", 's', 150);
         this.addBehaviour(0, new WanderBehaviour());
-        this.addIntoMonologuePool("The academy casts out those it fears. Yet knowledge, like the stars, cannot be bound forever.");
-        this.addIntoMonologuePool("You sense it too, don’t you? The Glintstone hums, even now.");
+        this.addIntoMonologuePool(SELLEN1.getMessage());
+        this.addIntoMonologuePool(SELLEN2.getMessage());
     }
 
     @Override
