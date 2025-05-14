@@ -14,6 +14,7 @@ import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
 import game.actors.Status;
+import game.behaviours.ReproduceBehaviour;
 import game.behaviours.WanderBehaviour;
 
 /**
@@ -38,7 +39,8 @@ public class SpiritGoat extends Creature implements Curable, Reproductive {
     public SpiritGoat() {
 
         super("Spirit Goat", 'y', 50);
-        addBehaviour(0, new WanderBehaviour());
+        addBehaviour(0, new ReproduceBehaviour(this));
+        addBehaviour(2, new WanderBehaviour());
         addAttribute(CreatureAttributes.ROT_COUNTDOWN, new BaseActorAttribute(10));
 
     }
@@ -68,7 +70,7 @@ public class SpiritGoat extends Creature implements Curable, Reproductive {
 
         }
         
-        reproduce(map, map.locationOf(this));
+        //reproduce(map, map.locationOf(this));
 
         return super.playTurn(actions, lastAction, map, display);
 

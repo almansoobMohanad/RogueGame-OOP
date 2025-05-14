@@ -16,6 +16,7 @@ import game.actions.CureAction;
 import game.actions.EatAction;
 import game.actors.Ability;
 import game.behaviours.FollowBehaviour;
+import game.behaviours.ReproduceBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.items.eggs.Edible;
 import game.items.eggs.GoldenEgg;
@@ -29,7 +30,8 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
 
     public GoldenBeetle() {
         super("Golden Beetle", 'b', 25);
-        addBehaviour(1, new WanderBehaviour());
+        addBehaviour(0, new ReproduceBehaviour(this));
+        addBehaviour(2, new WanderBehaviour());
     }
 
     /**
@@ -67,8 +69,6 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        reproduce(map, map.locationOf(this));
-
         if (followTarget == null || !map.contains(followTarget)) {
             // Scan surroundings for a followable actor
             Location here = map.locationOf(this);
@@ -77,7 +77,7 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
                 Actor other = adjacent.getActor();
                 if (other != null && other.hasCapability(Ability.FOLLOWABLE)) {
                     followTarget = other;
-                    this.addBehaviour(0, new FollowBehaviour(followTarget));
+                    this.addBehaviour(1, new FollowBehaviour(followTarget));
                     break;
                 }
             }
