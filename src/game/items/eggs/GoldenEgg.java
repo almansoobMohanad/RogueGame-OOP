@@ -34,14 +34,20 @@ public class GoldenEgg extends Egg{
     }
 
     @Override
-    public void hatch(GameMap map, Location location) {
+    public void hatch(GameMap map, Location location) { //can hatch into different creatures so add a new argument for which actor it hatches into
+        for (Exit exit : location.getExits()) {
+            Location adjacent = exit.getDestination();
 
-        location.addActor(new GoldenBeetle());
+            if (!adjacent.containsAnActor()) {
+                adjacent.addActor(new GoldenBeetle());
+                return; // Exit after placing one beetle
+            }
+        }
+
     }
-
     @Override
     public String eat(Actor actor, GameMap map) {
-        actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 20);
+        actor.modifyAttributeMaximum(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, 20);
 
         actor.removeItemFromInventory(this);
         return actor + " eats the egg.";
