@@ -31,7 +31,7 @@ public class OmenSheepEgg extends Egg {
      */
     @Override
     public boolean canHatch(Location location) {
-        return hatchCounter >= 3;
+        return hatchCounter >= 3 && !location.containsAnActor();
     }
 
     /**
