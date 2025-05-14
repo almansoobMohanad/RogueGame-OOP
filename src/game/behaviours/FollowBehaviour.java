@@ -37,9 +37,6 @@ public class FollowBehaviour implements Behaviour {
         if(!map.contains(target) || !map.contains(actor))
             return null;
 
-//        if (!target.hasCapability(Ability.FOLLOWABLE)) {  //might be unncecssar7
-//            return null;
-//        }
 
         Location here = map.locationOf(actor);
         Location there = map.locationOf(target);
