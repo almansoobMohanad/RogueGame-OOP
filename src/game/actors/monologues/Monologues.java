@@ -1,4 +1,4 @@
-package game.actors.npcs;
+package game.actors.monologues;
 
 public enum Monologues {
     SELLEN1("The academy casts out those it fears. Yet knowledge, like the stars, cannot be bound forever."),
