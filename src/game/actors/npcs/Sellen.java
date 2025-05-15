@@ -8,11 +8,8 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.ListenAction;
 import game.behaviours.WanderBehaviour;
 
-import java.util.List;
-import java.util.Random;
-
-import static game.actors.npcs.Monologues.SELLEN1;
-import static game.actors.npcs.Monologues.SELLEN2;
+import static game.actors.monologues.Monologues.SELLEN1;
+import static game.actors.monologues.Monologues.SELLEN2;
 
 public class Sellen extends NPC {
     /**

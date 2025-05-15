@@ -11,7 +11,7 @@ import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.weapons.BareFist;
 
-import static game.actors.npcs.Monologues.*;
+import static game.actors.monologues.Monologues.*;
 
 public class Guts extends NPC {
     /**

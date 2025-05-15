@@ -16,6 +16,9 @@ public abstract class NPC extends Actor {
     private List<String> monologuePool;
     private Map<Integer, Behaviour> behaviours;
     private Random random;
+    private final List<String> monologuePool;
+    private final Map<Integer, Behaviour> behaviours;
+    private final Random random;
 
     /**
      * The constructor of the Actor class.

@@ -12,7 +12,7 @@ import game.grounds.GroundStatus;
 
 import java.util.List;
 
-import static game.actors.npcs.Monologues.*;
+import static game.actors.monologues.Monologues.*;
 
 public class MerchantKale extends NPC {
     /**
