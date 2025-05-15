@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -15,8 +16,10 @@ import game.actions.CureAction;
 import game.actors.Ability;
 import game.behaviours.ReproduceBehaviour;
 import game.behaviours.WanderBehaviour;
+import game.conditions.TurnCounterCondition;
+import game.effects.MaxAttributeEffect;
 import game.grounds.plants.Inheritree;
-import game.items.eggs.OmenSheepEgg;
+import game.items.eggs.Egg;
 
 /**
  * A passive creature that wanders around the map.
@@ -133,7 +136,18 @@ public class OmenSheep extends Creature implements Curable, Reproductive {
         eggLayCounter++;
 
         if (eggLayCounter >= 7) {
-            location.addItem(new OmenSheepEgg());
+            Egg egg = new Egg(
+                    "Omen Sheep Egg", '0',
+                    new OmenSheep(),
+                    null,
+                    new MaxAttributeEffect(BaseActorAttributes.HEALTH, 10)
+            );
+
+            egg.setHatchCondition(new TurnCounterCondition(egg, 3));
+
+            location.addItem(egg);
+            System.out.println("Omen Sheep laid an egg at " + location);
+
             eggLayCounter = 0;
         }
     }
