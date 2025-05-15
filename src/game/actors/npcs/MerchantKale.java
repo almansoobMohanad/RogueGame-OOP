@@ -44,10 +44,7 @@ public class MerchantKale extends NPC implements Merchant {
         this.addIntoMonologuePool(new Monologue(new NearStatusCondition(this, GroundStatus.CURSED), KALE_CURSED.getMessage()));
         this.addIntoMonologuePool(new Monologue(new InventoryCondition(InvConditions.EMPTY), KALE_EMPTY.getMessage()));
         this.addIntoMonologuePool(new Monologue(new MoneyCondition(500, false), KALE_LESS.getMessage()));
-        this.addDialogue("less", "Ah, hard times, I see. Keep your head low and your blade sharp.");
-        this.addDialogue("empty", "Not a scrap to your name? Even a farmer should carry a trinket or two.");
-        this.addDialogue("cursed", "Rest by the flame when you can, friend. These lands will wear you thin.");
-        this.addDialogue("default", "A merchant’s life is a lonely one. But the roads… they whisper secrets to those who listen.");
+
 
         EffectsList broadSwordEffects = new EffectsList();
         broadSwordEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.STAMINA, 30));
@@ -64,12 +61,7 @@ public class MerchantKale extends NPC implements Merchant {
         return super.playTurn(actions, lastAction, map, display);
     }
 
-    @Override
-    public ActionList allowableActions(Actor actor, String direction, GameMap map) {
-        ActionList actions = super.allowableActions(actor, direction, map);
-        actions.add(new ListenAction(this));
-        return actions;
-    }
+
 
     @Override
     public ActionList getSellActions() {
@@ -90,9 +82,10 @@ public class MerchantKale extends NPC implements Merchant {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
 
-        ActionList actionList = new ActionList();
+        ActionList actionList = super.allowableActions(otherActor, direction, map);
 
         actionList.add(getSellActions());
+        actionList.add(new ListenAction(this));
 
         return actionList;
     }

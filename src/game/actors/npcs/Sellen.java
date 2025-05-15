@@ -38,8 +38,7 @@ public class Sellen extends NPC implements Merchant {
         this.addBehaviour(0, new WanderBehaviour());
         this.addIntoMonologuePool(new Monologue(SELLEN1.getMessage()));
         this.addIntoMonologuePool(new Monologue(SELLEN2.getMessage()));
-        this.addDialogue("0","The academy casts out those it fears. Yet knowledge, like the stars, cannot be bound forever.");
-        this.addDialogue("1","You sense it too, don’t you? The Glintstone hums, even now.");
+
 
         EffectsList broadSwordEffects = new EffectsList();
         broadSwordEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.HEALTH, 20));
@@ -63,12 +62,7 @@ public class Sellen extends NPC implements Merchant {
         return super.playTurn(actions, lastAction, map, display);
     }
 
-    @Override
-    public ActionList allowableActions(Actor actor, String direction, GameMap map) {
-        ActionList actions = super.allowableActions(actor, direction, map);
-        actions.add(new ListenAction(this));
-        return actions;
-    }
+
 
     @Override
     public ActionList getSellActions() {
@@ -85,15 +79,17 @@ public class Sellen extends NPC implements Merchant {
 
     }
 
-
-
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
 
-        ActionList actionList = new ActionList();
+        ActionList actions = super.allowableActions(otherActor, direction, map);
 
-        actionList.add(getSellActions());
+        actions.add(getSellActions());
+        actions.add(new ListenAction(this));
 
-        return actionList;
+        return actions;
     }
+
+
+
 }
