@@ -18,6 +18,11 @@ public class BroadSword extends WeaponItem implements Buyable {
 
     }
 
+    public BroadSword(){
+        super("Broadsword", 'b', 30, "slashes", 50);
+    }
+
+
     @Override
     public int getCost() {
         return cost;

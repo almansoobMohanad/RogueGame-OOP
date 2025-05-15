@@ -18,6 +18,12 @@ public class Katana extends WeaponItem implements Buyable {
 
     }
 
+    public Katana() {
+
+        super("Katana", 'j', 50, "delivers", 60);
+
+    }
+
     @Override
     public int getCost() {
         return cost;
