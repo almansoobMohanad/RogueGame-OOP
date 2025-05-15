@@ -3,14 +3,13 @@ package game.actors.npcs;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.ListenAction;
-import game.actors.monologues.BasicMonologue;
-import game.actors.monologues.LowHealthCondition;
+import game.actors.monologues.Monologue;
 import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
+import game.conditions.HealthCondition;
 import game.weapons.BareFist;
 
 import static game.actors.monologues.Monologues.*;
@@ -24,32 +23,14 @@ public class Guts extends NPC {
         this.setIntrinsicWeapon(new BareFist());
         this.addBehaviour(0, new AttackBehaviour(50));
         this.addBehaviour(1, new WanderBehaviour());
-//        this.addIntoMonologuePool(GUTS1.getMessage());
-//        this.addIntoMonologuePool(GUTS2.getMessage());
-        this.addMonologue(new BasicMonologue(GUTS1.getMessage()));
-        this.addMonologue(new BasicMonologue(GUTS2.getMessage()));
-        this.addMonologue(new LowHealthCondition(GUTS_WEAK.getMessage(), 50));
+        this.addIntoMonologuePool(new Monologue(GUTS1.getMessage()));
+        this.addIntoMonologuePool(new Monologue(GUTS2.getMessage()));
+        this.addIntoMonologuePool(new Monologue(new HealthCondition(50, false), GUTS_WEAK.getMessage()));
     }
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         return super.playTurn(actions, lastAction, map, display);
-    }
-
-    @Override
-    public String sayDialogue(Actor actor, GameMap map) {
-
-        try {
-
-            if (actor.getAttribute(BaseActorAttributes.HEALTH) < 50) {
-                this.addIntoMonologuePool(GUTS_WEAK.getMessage());
-            }
-
-            return this.getMonologuePool().get(this.getRandom().nextInt(this.getMonologuePool().size()));
-
-        } catch (IndexOutOfBoundsException e) {
-            return "...(silence)";
-        }
     }
 
     @Override
