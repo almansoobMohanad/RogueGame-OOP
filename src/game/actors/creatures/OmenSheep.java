@@ -13,6 +13,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
+import game.behaviours.ReproduceBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.grounds.plants.Inheritree;
 import game.items.eggs.OmenSheepEgg;
@@ -43,7 +44,8 @@ public class OmenSheep extends Creature implements Curable, Reproductive {
      */
     public OmenSheep() {
         super("Omen Sheep", 'm', 75);
-        addBehaviour(0, new WanderBehaviour());
+        addBehaviour(0, new ReproduceBehaviour(this));
+        addBehaviour(2, new WanderBehaviour());
         addAttribute(CreatureAttributes.ROT_COUNTDOWN, new BaseActorAttribute(15));
     }
 
@@ -70,8 +72,6 @@ public class OmenSheep extends Creature implements Curable, Reproductive {
             return new DoNothingAction();
 
         }
-
-        reproduce(map, map.locationOf(this));
 
         return super.playTurn(actions, lastAction, map, display);
 
