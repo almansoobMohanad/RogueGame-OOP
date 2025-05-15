@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.ListenAction;
 import game.actors.monologues.Monologue;
 
 import java.util.*;
@@ -48,6 +49,13 @@ public abstract class NPC extends Actor {
         }
 
         return new DoNothingAction();
+    }
+
+    @Override
+    public ActionList allowableActions(Actor actor, String direction, GameMap map) {
+        ActionList actions = super.allowableActions(actor, direction, map);
+        actions.add(new ListenAction(this));
+        return actions;
     }
 
     public List<Monologue> sayMonologue(Actor actor, GameMap map){

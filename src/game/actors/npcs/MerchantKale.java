@@ -3,11 +3,9 @@ package game.actors.npcs;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actions.ListenAction;
 import game.actors.monologues.*;
 import game.behaviours.WanderBehaviour;
 import game.conditions.InvConditions;
@@ -16,11 +14,9 @@ import game.conditions.MoneyCondition;
 import game.conditions.NearStatusCondition;
 import game.actions.BuyAction;
 import game.actors.Merchant;
-import game.actors.creatures.SpiritGoat;
 import game.effects.AttributeEffect;
 import game.effects.EffectsList;
 import game.effects.MaxAttributeEffect;
-import game.effects.SpawnActorEffect;
 import game.grounds.GroundStatus;
 import game.weapons.BroadSword;
 import game.weapons.Buyable;
@@ -85,7 +81,6 @@ public class MerchantKale extends NPC implements Merchant {
         ActionList actionList = super.allowableActions(otherActor, direction, map);
 
         actionList.add(getSellActions());
-        actionList.add(new ListenAction(this));
 
         return actionList;
     }

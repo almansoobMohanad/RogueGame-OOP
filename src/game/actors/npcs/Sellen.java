@@ -3,11 +3,9 @@ package game.actors.npcs;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actions.ListenAction;
 import game.actors.monologues.Monologue;
 import game.behaviours.WanderBehaviour;
 import game.actions.BuyAction;
@@ -24,7 +22,6 @@ import static game.actors.monologues.Monologues.SELLEN1;
 import static game.actors.monologues.Monologues.SELLEN2;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Sellen extends NPC implements Merchant {
 
@@ -85,7 +82,6 @@ public class Sellen extends NPC implements Merchant {
         ActionList actions = super.allowableActions(otherActor, direction, map);
 
         actions.add(getSellActions());
-        actions.add(new ListenAction(this));
 
         return actions;
     }
