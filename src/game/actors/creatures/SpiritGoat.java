@@ -7,12 +7,14 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
 import game.actors.Status;
+import game.behaviours.ReproduceBehaviour;
 import game.behaviours.WanderBehaviour;
 
 /**
@@ -25,8 +27,9 @@ import game.behaviours.WanderBehaviour;
  * <p>This creature does not engage in combat or perform any special actions aside from wandering.</p>
  *
  * @author Mohanad Al-Mansoob
+ * Modified by: Arielle Ocampo
  */
-public class SpiritGoat extends Creature implements Curable {
+public class SpiritGoat extends Creature implements Curable, Reproductive {
 
     /**
      * Constructor for the Spirit Goat.
@@ -36,7 +39,8 @@ public class SpiritGoat extends Creature implements Curable {
     public SpiritGoat() {
 
         super("Spirit Goat", 'y', 50);
-        addBehaviour(0, new WanderBehaviour());
+        addBehaviour(0, new ReproduceBehaviour(this));
+        addBehaviour(2, new WanderBehaviour());
         addAttribute(CreatureAttributes.ROT_COUNTDOWN, new BaseActorAttribute(10));
 
     }
@@ -57,6 +61,7 @@ public class SpiritGoat extends Creature implements Curable {
 
         modifyAttribute(CreatureAttributes.ROT_COUNTDOWN, ActorAttributeOperations.DECREASE, 1);
 
+
         if (getAttribute(CreatureAttributes.ROT_COUNTDOWN) < 1){
 
             map.removeActor(this);
@@ -64,6 +69,8 @@ public class SpiritGoat extends Creature implements Curable {
             return new DoNothingAction();
 
         }
+        
+        //reproduce(map, map.locationOf(this));
 
         return super.playTurn(actions, lastAction, map, display);
 
@@ -95,6 +102,42 @@ public class SpiritGoat extends Creature implements Curable {
         int maxCountDown = this.getAttributeMaximum(CreatureAttributes.ROT_COUNTDOWN);
 
         this.modifyAttribute(CreatureAttributes.ROT_COUNTDOWN, ActorAttributeOperations.INCREASE, maxCountDown);
+
+    }
+
+    /**
+     * Spawns a Spirit Goat if in the surroundings of blessed entities.
+     *
+     * @param map the game map of the Spirit Goat reproducing
+     * @param location the location of the Spirit Goat reproducing
+     */
+    @Override
+    public void reproduce(GameMap map, Location location) {
+        boolean nearBlessed = false;
+
+        for (Exit exit : location.getExits()) {
+            Location adjacent = exit.getDestination();
+
+            // Check for blessed ground
+            if (adjacent.getGround().hasCapability(Status.BLESSED_BY_GRACE)) {
+                nearBlessed = true;
+                break;
+            }
+
+            // We can check for other blessed entities too (haven't implemented this yet)
+
+        }
+
+        if (!nearBlessed) return;
+
+        // Spawn SpiritGoat in available adjacent tile
+        for (Exit exit : location.getExits()) {
+            Location spawnLocation = exit.getDestination();
+            if (!spawnLocation.containsAnActor()) {
+                map.at(spawnLocation.x(), spawnLocation.y()).addActor(new SpiritGoat());
+                break;
+            }
+        }
 
     }
 

@@ -6,6 +6,7 @@ package game.actors;
  */
 public enum Ability {
 
-    CURE
+    CURE,
+    FOLLOWABLE,
 
 }

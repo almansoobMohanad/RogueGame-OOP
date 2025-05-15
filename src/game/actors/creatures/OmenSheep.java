@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -14,9 +13,10 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
-import game.actors.Status;
+import game.behaviours.ReproduceBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.grounds.plants.Inheritree;
+import game.items.eggs.OmenSheepEgg;
 
 /**
  * A passive creature that wanders around the map.
@@ -28,9 +28,14 @@ import game.grounds.plants.Inheritree;
  * <p>This creature does not engage in combat or perform any special actions aside from wandering.</p>
  *
  * @author Mohanad Al-Mansoob
+ * Modified by: Arielle Ocampo
  */
-public class OmenSheep extends Creature implements Curable {
+public class OmenSheep extends Creature implements Curable, Reproductive {
 
+    /**
+     * Turn counter to track turns since last egg was laid.
+     */
+    private int eggLayCounter = 0;
 
     /**
      * Constructor for the Omen Sheep.
@@ -39,7 +44,8 @@ public class OmenSheep extends Creature implements Curable {
      */
     public OmenSheep() {
         super("Omen Sheep", 'm', 75);
-        addBehaviour(0, new WanderBehaviour());
+        addBehaviour(0, new ReproduceBehaviour(this));
+        addBehaviour(2, new WanderBehaviour());
         addAttribute(CreatureAttributes.ROT_COUNTDOWN, new BaseActorAttribute(15));
     }
 
@@ -114,6 +120,22 @@ public class OmenSheep extends Creature implements Curable {
 
         }
 
+    }
+
+    /**
+     * Lays a new Omen Sheep Egg when the counter reaches threshold.
+     *
+     * @param map the game map of Omen Sheep
+     * @param location the location of Omen Sheep on the map
+     */
+    @Override
+    public void reproduce(GameMap map,Location location) {
+        eggLayCounter++;
+
+        if (eggLayCounter >= 7) {
+            location.addItem(new OmenSheepEgg());
+            eggLayCounter = 0;
+        }
     }
 
     /**

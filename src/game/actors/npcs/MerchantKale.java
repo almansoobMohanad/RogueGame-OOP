@@ -6,8 +6,14 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.ListenAction;
+import game.actors.monologues.*;
+import game.behaviours.WanderBehaviour;
+import game.conditions.InvConditions;
+import game.conditions.InventoryCondition;
+import game.conditions.MoneyCondition;
+import game.conditions.NearStatusCondition;
 import game.actions.BuyAction;
 import game.actors.Merchant;
 import game.actors.creatures.SpiritGoat;
@@ -20,6 +26,7 @@ import game.weapons.BroadSword;
 import game.weapons.Buyable;
 import game.weapons.DragonslayerGreatsword;
 
+import static game.actors.monologues.Monologues.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +39,11 @@ public class MerchantKale extends NPC implements Merchant {
      */
     public MerchantKale() {
         super("Merchant Kale", 'k', 200);
+        this.addBehaviour(0, new WanderBehaviour());
+        this.addIntoMonologuePool(new Monologue(KALE_DEFAULT.getMessage()));
+        this.addIntoMonologuePool(new Monologue(new NearStatusCondition(this, GroundStatus.CURSED), KALE_CURSED.getMessage()));
+        this.addIntoMonologuePool(new Monologue(new InventoryCondition(InvConditions.EMPTY), KALE_EMPTY.getMessage()));
+        this.addIntoMonologuePool(new Monologue(new MoneyCondition(500, false), KALE_LESS.getMessage()));
         this.addDialogue("less", "Ah, hard times, I see. Keep your head low and your blade sharp.");
         this.addDialogue("empty", "Not a scrap to your name? Even a farmer should carry a trinket or two.");
         this.addDialogue("cursed", "Rest by the flame when you can, friend. These lands will wear you thin.");
@@ -53,30 +65,10 @@ public class MerchantKale extends NPC implements Merchant {
     }
 
     @Override
-    public String sayDialogue(Actor actor, GameMap map) {
-        boolean nearCursedGround = false;
-        List<Exit> exits = map.locationOf(this).getExits();
-
-        for (Exit exit : exits) {
-            if (exit.getDestination().getGround().hasCapability(GroundStatus.CURSED)) {
-                nearCursedGround = true;
-                break;
-            }
-        }
-
-        try {
-            if (actor.getItemInventory().isEmpty()) {
-                return this.getDialogues().get("empty");
-            } else if (actor.getBalance() < 500) {
-                return this.getDialogues().get("less");
-            } else if (nearCursedGround) {
-                return this.getDialogues().get("cursed");
-            } else {
-                return this.getDialogues().get("default");
-            }
-        } catch (IndexOutOfBoundsException e) {
-            return "...(silence)";
-        }
+    public ActionList allowableActions(Actor actor, String direction, GameMap map) {
+        ActionList actions = super.allowableActions(actor, direction, map);
+        actions.add(new ListenAction(this));
+        return actions;
     }
 
     @Override

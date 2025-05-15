@@ -7,6 +7,9 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.ListenAction;
+import game.actors.monologues.Monologue;
+import game.behaviours.WanderBehaviour;
 import game.actions.BuyAction;
 import game.actors.Merchant;
 import game.actors.creatures.OmenSheep;
@@ -17,6 +20,8 @@ import game.effects.MaxAttributeEffect;
 import game.effects.SpawnActorEffect;
 import game.weapons.*;
 
+import static game.actors.monologues.Monologues.SELLEN1;
+import static game.actors.monologues.Monologues.SELLEN2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,6 +35,9 @@ public class Sellen extends NPC implements Merchant {
      */
     public Sellen() {
         super("Sellen", 's', 150);
+        this.addBehaviour(0, new WanderBehaviour());
+        this.addIntoMonologuePool(new Monologue(SELLEN1.getMessage()));
+        this.addIntoMonologuePool(new Monologue(SELLEN2.getMessage()));
         this.addDialogue("0","The academy casts out those it fears. Yet knowledge, like the stars, cannot be bound forever.");
         this.addDialogue("1","You sense it too, don’t you? The Glintstone hums, even now.");
 
@@ -56,16 +64,10 @@ public class Sellen extends NPC implements Merchant {
     }
 
     @Override
-    public String sayDialogue(Actor actor, GameMap map) {
-        int size = this.getDialogues().size();
-
-        try {
-            Random random = this.getRandom();
-            String randKey = String.valueOf(random.nextInt(size));
-            return this.getDialogues().get(randKey);
-        } catch (IndexOutOfBoundsException e) {
-            return "...(silence)";
-        }
+    public ActionList allowableActions(Actor actor, String direction, GameMap map) {
+        ActionList actions = super.allowableActions(actor, direction, map);
+        actions.add(new ListenAction(this));
+        return actions;
     }
 
     @Override

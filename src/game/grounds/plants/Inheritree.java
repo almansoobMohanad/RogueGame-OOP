@@ -8,6 +8,8 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.grounds.GroundStatus;
 import game.grounds.Soil;
 
+import static game.actors.Status.BLESSED_BY_GRACE;
+
 /**
  * A mystical plant that heals actors and cures surrounding cursed ground.
  *
@@ -39,6 +41,7 @@ public class Inheritree extends Plant {
 
         super('t', "Inheritree");
         this.hasCuredGround = false;
+        this.addCapability(BLESSED_BY_GRACE);
 
     }
 

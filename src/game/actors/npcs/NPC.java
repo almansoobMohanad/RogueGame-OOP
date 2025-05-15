@@ -7,15 +7,14 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.behaviours.WanderBehaviour;
+import game.actors.monologues.Monologue;
 
 import java.util.*;
 
 public abstract class NPC extends Actor {
 
-    private HashMap<String, String> dialogues;
-    private Map<Integer, Behaviour> behaviours;
-    private Random random;
+    private final List<Monologue> monologuePool;
+    private final Map<Integer, Behaviour> behaviours;
 
     /**
      * The constructor of the Actor class.
@@ -26,22 +25,12 @@ public abstract class NPC extends Actor {
      */
     public NPC(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
-        this.dialogues = new HashMap<>();
         this.behaviours = new TreeMap<>();
-        this.behaviours.put(0, new WanderBehaviour());
-        this.random = new Random();
+        this.monologuePool = new ArrayList<>();
     }
 
-    public void addDialogue(String key, String dialogue) {
-        dialogues.put(key, dialogue);
-    }
-
-    public HashMap<String, String> getDialogues() {
-        return dialogues;
-    }
-
-    public Random getRandom() {
-        return random;
+    public void addIntoMonologuePool(Monologue dialogue) {
+        monologuePool.add(dialogue);
     }
 
     public void addBehaviour(int priority, Behaviour behaviour) {
@@ -61,5 +50,13 @@ public abstract class NPC extends Actor {
         return new DoNothingAction();
     }
 
-    public abstract String sayDialogue(Actor actor, GameMap map);
+    public List<Monologue> sayMonologue(Actor actor, GameMap map){
+        List<Monologue> availableMonologues = new ArrayList<>();
+        for (Monologue monologue : this.monologuePool) {
+            if (monologue.canListen(actor, map)) {
+                availableMonologues.add(monologue);
+            }
+        }
+        return availableMonologues;
+    }
 }
