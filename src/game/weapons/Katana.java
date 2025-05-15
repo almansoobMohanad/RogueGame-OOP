@@ -20,7 +20,7 @@ public class Katana extends WeaponItem implements Buyable {
 
     public Katana() {
 
-        super("Katana", 'j', 50, "delivers", 60);
+        this(500, new EffectsList());
 
     }
 

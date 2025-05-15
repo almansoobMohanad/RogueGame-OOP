@@ -19,7 +19,7 @@ public class BroadSword extends WeaponItem implements Buyable {
     }
 
     public BroadSword(){
-        super("Broadsword", 'b', 30, "slashes", 50);
+        this(100, new EffectsList());
     }
 
 
