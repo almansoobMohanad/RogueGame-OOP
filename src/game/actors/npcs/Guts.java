@@ -7,6 +7,8 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.ListenAction;
+import game.actors.monologues.BasicMonologue;
+import game.actors.monologues.LowHealthCondition;
 import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.weapons.BareFist;
@@ -22,8 +24,11 @@ public class Guts extends NPC {
         this.setIntrinsicWeapon(new BareFist());
         this.addBehaviour(0, new AttackBehaviour(50));
         this.addBehaviour(1, new WanderBehaviour());
-        this.addIntoMonologuePool(GUTS1.getMessage());
-        this.addIntoMonologuePool(GUTS2.getMessage());
+//        this.addIntoMonologuePool(GUTS1.getMessage());
+//        this.addIntoMonologuePool(GUTS2.getMessage());
+        this.addMonologue(new BasicMonologue(GUTS1.getMessage()));
+        this.addMonologue(new BasicMonologue(GUTS2.getMessage()));
+        this.addMonologue(new LowHealthCondition(GUTS_WEAK.getMessage(), 50));
     }
 
     @Override

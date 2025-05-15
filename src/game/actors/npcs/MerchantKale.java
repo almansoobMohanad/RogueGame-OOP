@@ -7,6 +7,10 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.ListenAction;
+import game.actors.monologues.BasicMonologue;
+import game.actors.monologues.EmptyInventoryCondition;
+import game.actors.monologues.LowMoneyCondition;
+import game.actors.monologues.NearCurseCondition;
 import game.behaviours.WanderBehaviour;
 import game.grounds.GroundStatus;
 
@@ -21,7 +25,11 @@ public class MerchantKale extends NPC {
     public MerchantKale() {
         super("Merchant Kale", 'k', 200);
         this.addBehaviour(0, new WanderBehaviour());
-        this.addIntoMonologuePool(KALE_DEFAULT.getMessage());
+//        this.addIntoMonologuePool(KALE_DEFAULT.getMessage());
+        this.addMonologue(new BasicMonologue(KALE_DEFAULT.getMessage()));
+        this.addMonologue(new EmptyInventoryCondition(KALE_EMPTY.getMessage()));
+        this.addMonologue(new LowMoneyCondition(KALE_LESS.getMessage(), 500));
+        this.addMonologue(new NearCurseCondition(KALE_CURSED.getMessage(), this));
     }
 
     @Override

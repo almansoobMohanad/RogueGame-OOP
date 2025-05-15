@@ -15,8 +15,10 @@ public class ListenAction extends Action {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        return this.npc.sayDialogue(actor, map);
+//        return this.npc.sayDialogue(actor, map);
+        return this.npc.sayMonologue(actor, map);
     }
+
 
     @Override
     public String menuDescription(Actor actor) {

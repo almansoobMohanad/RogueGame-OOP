@@ -7,18 +7,18 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actors.monologues.Monologue;
+import game.actors.monologues.MonologuePool;
 import game.behaviours.WanderBehaviour;
 
 import java.util.*;
 
 public abstract class NPC extends Actor {
 
-    private List<String> monologuePool;
-    private Map<Integer, Behaviour> behaviours;
-    private Random random;
     private final List<String> monologuePool;
     private final Map<Integer, Behaviour> behaviours;
     private final Random random;
+    private final MonologuePool monologuePool1;
 
     /**
      * The constructor of the Actor class.
@@ -32,6 +32,11 @@ public abstract class NPC extends Actor {
         this.behaviours = new TreeMap<>();
         this.monologuePool = new ArrayList<>();
         this.random = new Random();
+        this.monologuePool1 = new MonologuePool();
+    }
+
+    public void addMonologue(Monologue dialogue) {
+        monologuePool1.addMonologue(dialogue);
     }
 
     public void addIntoMonologuePool(String dialogue) {
@@ -61,6 +66,10 @@ public abstract class NPC extends Actor {
         }
 
         return new DoNothingAction();
+    }
+
+    public String sayMonologue(Actor actor, GameMap map) {
+        return monologuePool1.listen(actor, map);
     }
 
     public abstract String sayDialogue(Actor actor, GameMap map);

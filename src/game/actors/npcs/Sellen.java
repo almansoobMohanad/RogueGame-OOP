@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.ListenAction;
+import game.actors.monologues.BasicMonologue;
 import game.behaviours.WanderBehaviour;
 
 import static game.actors.monologues.Monologues.SELLEN1;
@@ -18,8 +19,10 @@ public class Sellen extends NPC {
     public Sellen() {
         super("Sellen", 's', 150);
         this.addBehaviour(0, new WanderBehaviour());
-        this.addIntoMonologuePool(SELLEN1.getMessage());
-        this.addIntoMonologuePool(SELLEN2.getMessage());
+//        this.addIntoMonologuePool(SELLEN1.getMessage());
+//        this.addIntoMonologuePool(SELLEN2.getMessage());
+        this.addMonologue(new BasicMonologue(SELLEN1.getMessage()));
+        this.addMonologue(new BasicMonologue(SELLEN2.getMessage()));
     }
 
     @Override
