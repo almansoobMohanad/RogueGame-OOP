@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.ListenAction;
+import game.actors.creatures.GoldenBeetle;
 import game.actors.monologues.Monologue;
 import game.behaviours.WanderBehaviour;
 import game.actions.BuyAction;
@@ -46,7 +47,7 @@ public class Sellen extends NPC implements Merchant {
 
         EffectsList dragonslayerGreatswordEffects = new EffectsList();
         // this should be GoldenBeetle
-        dragonslayerGreatswordEffects.addEffect(new SpawnActorEffect(new SpiritGoat(), null));
+        dragonslayerGreatswordEffects.addEffect(new SpawnActorEffect(new GoldenBeetle(), null));
         sellItems.add(new DragonslayerGreatsword(1500, dragonslayerGreatswordEffects));
 
         EffectsList katanaEffects = new EffectsList();
