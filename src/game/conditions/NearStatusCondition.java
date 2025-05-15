@@ -1,6 +1,7 @@
 package game.conditions;
 
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
@@ -19,7 +20,19 @@ public class NearStatusCondition implements Condition {
         Location location = map.locationOf(this.actor);
 
         for (Exit exit : location.getExits()) {
-            if (exit.getDestination().getGround().hasCapability(this.status)) {
+            Location point = exit.getDestination();
+
+            if (point.getGround().hasCapability(this.status)) {
+                return true;
+            }
+
+            for (Item item : point.getItems()) {
+                if (item.hasCapability(this.status)) {
+                    return true;
+                }
+            }
+
+            if (point.containsAnActor() && point.getActor().hasCapability(this.status)) {
                 return true;
             }
         }
