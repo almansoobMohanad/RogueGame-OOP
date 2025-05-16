@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.monologues.Monologue;
 import game.behaviours.WanderBehaviour;
 import game.actions.BuyAction;
 import game.actors.Merchant;
@@ -18,8 +17,6 @@ import game.effects.MaxAttributeEffect;
 import game.effects.SpawnActorEffect;
 import game.weapons.*;
 
-import static game.actors.monologues.Monologues.SELLEN1;
-import static game.actors.monologues.Monologues.SELLEN2;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +30,8 @@ public class Sellen extends NPC implements Merchant {
     public Sellen() {
         super("Sellen", 's', 150);
         this.addBehaviour(0, new WanderBehaviour());
-        this.addIntoMonologuePool(new Monologue(SELLEN1.getMessage()));
-        this.addIntoMonologuePool(new Monologue(SELLEN2.getMessage()));
+        this.addIntoMonologuePool(new Monologue("The academy casts out those it fears. Yet knowledge, like the stars, cannot be bound forever"));
+        this.addIntoMonologuePool(new Monologue("You sense it too, don’t you? The Glintstone hums, even now."));
 
 
         EffectsList broadSwordEffects = new EffectsList();
