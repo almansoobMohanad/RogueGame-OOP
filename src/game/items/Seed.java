@@ -23,6 +23,7 @@ import game.grounds.plants.Plant;
  * </p>
  *
  * @author Mohanad Al-Mansoob
+ * Modified by Adji Ilhamhafiz Sarie Hakim
  */
 public class Seed extends Item {
 
@@ -37,11 +38,12 @@ public class Seed extends Item {
      * </p>
      *
      * @param name the name of the seed
-     * @param displayChar the character used to represent the seed in the game map
+     * @param plant the plant that will grow from this seed
+     * @param staminaCost the stamina cost to plant this seed
      */
-    public Seed(String name, char displayChar, Plant plant, int staminaCost) {
+    public Seed(String name, Plant plant, int staminaCost) {
 
-        super(name, displayChar, true);
+        super(name, '*', true);
         this.plant = plant;
         this.staminaCost = staminaCost;
     }

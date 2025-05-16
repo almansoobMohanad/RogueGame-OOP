@@ -15,6 +15,7 @@ import edu.monash.fit2099.engine.positions.Location;
  * functionality in the game.</p>
  *
  * @author Mohanad Al-Mansoob
+ * Modified by Adji Ilhamhafiz Sarie Hakim
  */
 public abstract class Plant extends Ground {
 

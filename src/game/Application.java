@@ -66,8 +66,8 @@ public class Application {
 
         Player player = new Player("Farmer", '@', 100, 200);
         player.hurt(20);
-        player.addItemToInventory(new Seed("Bloodrose Seed", '*', new Bloodrose(), 75));
-        player.addItemToInventory(new Seed("Inheritree Seed", '*', new Inheritree(), 25));
+        player.addItemToInventory(new Seed("Bloodrose Seed", new Bloodrose(), 75));
+        player.addItemToInventory(new Seed("Inheritree Seed", new Inheritree(), 25));
         world.addPlayer(player, gameMap.at(23, 10));
 
         // game setup

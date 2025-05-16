@@ -16,6 +16,7 @@ import edu.monash.fit2099.engine.positions.Location;
  * the need for any direct action from the player or other actors.</p>
  *
  * @author Mohanad Al-Mansoob
+ * Modified by Adji Ilhamhafiz Sarie Hakim
  */
 public class Bloodrose extends Plant {
 
