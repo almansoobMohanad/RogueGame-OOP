@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.Player;
+import game.actors.creatures.GoldenBeetle;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
 import game.grounds.Blight;
@@ -15,6 +16,7 @@ import game.grounds.Floor;
 import game.grounds.Soil;
 import game.grounds.Wall;
 import game.items.Talisman;
+import game.items.eggs.GoldenEgg;
 import game.items.seeds.BloodroseSeed;
 import game.items.seeds.InheritreeSeed;
 
@@ -65,13 +67,14 @@ public class Application {
         player.hurt(20);
         player.addItemToInventory(new InheritreeSeed());
         player.addItemToInventory(new BloodroseSeed());
-        world.addPlayer(player, gameMap.at(23, 10));
+        player.addItemToInventory(new GoldenEgg());
+        world.addPlayer(player, gameMap.at(20, 11));
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
         gameMap.at(20, 14).addActor(new SpiritGoat());
-        gameMap.at(35, 14).addActor(new OmenSheep());
-
+        gameMap.at(8, 7).addActor(new OmenSheep());
+        gameMap.at(20, 12).addActor(new GoldenBeetle());
         world.run();
 
         for (String line : FancyMessage.YOU_DIED.split("\n")) {
