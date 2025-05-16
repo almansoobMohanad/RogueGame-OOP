@@ -73,4 +73,9 @@ public class Bloodrose extends Plant {
         }
 
     }
+
+    @Override
+    public void plantEffect(Actor actor, Location location) {
+        actor.hurt(5);
+    }
 }

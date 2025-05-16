@@ -4,7 +4,7 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.items.seeds.Seed;
+import game.items.Seed;
 
 /**
  * An action that allows an actor to plant a {@link Seed} at a specified location.
@@ -22,12 +22,12 @@ public class PlantAction extends Action {
     /**
      * The seed to be planted.
      */
-    private Seed seed;
+    private final Seed seed;
 
     /**
      * The location where the seed will be planted.
      */
-    private Location location;
+    private final Location location;
 
     /**
      * Constructor to create a PlantAction.

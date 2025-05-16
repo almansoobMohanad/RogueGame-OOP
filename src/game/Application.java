@@ -12,16 +12,14 @@ import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
 import game.actors.npcs.MerchantKale;
 import game.actors.npcs.Sellen;
-import game.actors.npcs.Guts;
-import game.actors.npcs.MerchantKale;
-import game.actors.npcs.Sellen;
 import game.grounds.Blight;
 import game.grounds.Floor;
 import game.grounds.Soil;
 import game.grounds.Wall;
+import game.grounds.plants.Bloodrose;
+import game.grounds.plants.Inheritree;
 import game.items.Talisman;
-import game.items.seeds.BloodroseSeed;
-import game.items.seeds.InheritreeSeed;
+import game.items.Seed;
 
 /**
  * The main class to setup and run the game.
@@ -68,8 +66,8 @@ public class Application {
 
         Player player = new Player("Farmer", '@', 100, 200);
         player.hurt(20);
-        player.addItemToInventory(new InheritreeSeed());
-        player.addItemToInventory(new BloodroseSeed());
+        player.addItemToInventory(new Seed("Bloodrose Seed", '*', new Bloodrose(), 75));
+        player.addItemToInventory(new Seed("Inheritree Seed", '*', new Inheritree(), 25));
         world.addPlayer(player, gameMap.at(23, 10));
 
         // game setup
