@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.CureAction;
 import game.actions.EatAction;
@@ -18,9 +19,12 @@ import game.actors.Ability;
 import game.behaviours.FollowBehaviour;
 import game.behaviours.ReproduceBehaviour;
 import game.behaviours.WanderBehaviour;
+import game.conditions.NearStatusCondition;
+import game.conditions.TurnCounterCondition;
+import game.effects.AttributeEffect;
+import game.grounds.GroundStatus;
 import game.items.eggs.Edible;
-import game.items.eggs.GoldenEgg;
-import game.items.eggs.OmenSheepEgg;
+import game.items.eggs.Egg;
 
 public class GoldenBeetle extends Creature implements Reproductive, Edible {
 
@@ -34,21 +38,36 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
         addBehaviour(2, new WanderBehaviour());
     }
 
-    /**
-     * Lays a new Golden Beetle Egg when the counter reaches threshold.
-     *
-     * @param map the game map of Omen Sheep
-     * @param location the location of Omen Sheep on the map
-     */
-    @Override
-    public void reproduce(GameMap map,Location location) {
-        eggLayCounter++;
-        if (eggLayCounter >= 5) {
-            location.addItem(new GoldenEgg());
-            eggLayCounter = 0;
 
+//    @Override
+//    public void reproduce(GameMap map,Location location) {
+//        eggLayCounter++;
+//        if (eggLayCounter >= 5) {
+//            location.addItem(new GoldenEgg());
+//            eggLayCounter = 0;
+//
+//        }
+//    }
+
+    @Override
+    public void reproduce(GameMap map, Location location) {
+        eggLayCounter++;
+
+        if (eggLayCounter >= 5) {
+            Egg egg = new Egg(
+                    "Golden Egg",
+                    '0',
+                    new GoldenBeetle(),
+                    new NearStatusCondition(location, GroundStatus.CURSED),
+                    new AttributeEffect(BaseActorAttributes.STAMINA, 20));
+
+                    location.addItem(egg);
+            System.out.println("Golden Beetle laid an egg at " + location);
+            eggLayCounter = 0;
         }
     }
+
+
 
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
