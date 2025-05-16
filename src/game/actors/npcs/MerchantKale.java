@@ -7,8 +7,7 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.behaviours.WanderBehaviour;
-import game.conditions.InvConditions;
-import game.conditions.InventoryCondition;
+import game.conditions.EmptyInventoryCondition;
 import game.conditions.MoneyCondition;
 import game.conditions.NearStatusCondition;
 import game.actions.BuyAction;
@@ -36,7 +35,7 @@ public class MerchantKale extends NPC implements Merchant {
         this.addBehaviour(0, new WanderBehaviour());
         this.addIntoMonologuePool(new Monologue("A merchant’s life is a lonely one. But the roads… they whisper secrets to those who listen."));
         this.addIntoMonologuePool(new Monologue(new NearStatusCondition(this, GroundStatus.CURSED), "Rest by the flame when you can, friend. These lands will wear you thin."));
-        this.addIntoMonologuePool(new Monologue(new InventoryCondition(InvConditions.EMPTY), "Not a scrap to your name? Even a farmer should carry a trinket or two."));
+        this.addIntoMonologuePool(new Monologue(new EmptyInventoryCondition(), "Not a scrap to your name? Even a farmer should carry a trinket or two."));
         this.addIntoMonologuePool(new Monologue(new MoneyCondition(500, false), "Ah, hard times, I see. Keep your head low and your blade sharp."));
 
 
