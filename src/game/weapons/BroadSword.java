@@ -18,6 +18,11 @@ public class BroadSword extends WeaponItem implements Buyable {
 
     }
 
+    public BroadSword(){
+        this(100, new EffectsList());
+    }
+
+
     @Override
     public int getCost() {
         return cost;

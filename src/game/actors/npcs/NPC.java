@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.ListenAction;
+import game.actions.AttackAction;
 
 import java.util.*;
 
@@ -54,6 +55,7 @@ public abstract class NPC extends Actor {
     public ActionList allowableActions(Actor actor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(actor, direction, map);
         actions.add(new ListenAction(this));
+        actions.add(new AttackAction(this, direction));
         return actions;
     }
 

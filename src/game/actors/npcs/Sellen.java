@@ -6,11 +6,11 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actors.creatures.GoldenBeetle;
 import game.behaviours.WanderBehaviour;
 import game.actions.BuyAction;
 import game.actors.Merchant;
 import game.actors.creatures.OmenSheep;
-import game.actors.creatures.SpiritGoat;
 import game.effects.AttributeEffect;
 import game.effects.EffectsList;
 import game.effects.MaxAttributeEffect;
@@ -39,8 +39,7 @@ public class Sellen extends NPC implements Merchant {
         sellItems.add(new BroadSword(100, broadSwordEffects));
 
         EffectsList dragonslayerGreatswordEffects = new EffectsList();
-        // this should be GoldenBeetle
-        dragonslayerGreatswordEffects.addEffect(new SpawnActorEffect(new SpiritGoat(), null));
+        dragonslayerGreatswordEffects.addEffect(new SpawnActorEffect(new GoldenBeetle(), null));
         sellItems.add(new DragonslayerGreatsword(1500, dragonslayerGreatswordEffects));
 
         EffectsList katanaEffects = new EffectsList();

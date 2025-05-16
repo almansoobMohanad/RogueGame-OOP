@@ -20,6 +20,10 @@ public class DragonslayerGreatsword extends WeaponItem implements Buyable {
 
     }
 
+    public DragonslayerGreatsword() {
+        this(1500, new EffectsList());
+    }
+
     @Override
     public int getCost() {
         return cost;

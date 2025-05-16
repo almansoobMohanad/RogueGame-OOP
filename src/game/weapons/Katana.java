@@ -18,6 +18,12 @@ public class Katana extends WeaponItem implements Buyable {
 
     }
 
+    public Katana() {
+
+        this(500, new EffectsList());
+
+    }
+
     @Override
     public int getCost() {
         return cost;
