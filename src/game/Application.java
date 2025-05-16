@@ -21,7 +21,6 @@ import game.grounds.plants.Bloodrose;
 import game.grounds.plants.Inheritree;
 import game.items.Talisman;
 import game.items.Seed;
-import game.items.eggs.GoldenEgg;
 
 /**
  * The main class to setup and run the game.
@@ -70,7 +69,6 @@ public class Application {
         player.hurt(20);
         player.addItemToInventory(new Seed("Bloodrose Seed", new Bloodrose(), 75));
         player.addItemToInventory(new Seed("Inheritree Seed", new Inheritree(), 25));
-        player.addItemToInventory(new GoldenEgg());
         world.addPlayer(player, gameMap.at(23, 10));
 
         // game setup
