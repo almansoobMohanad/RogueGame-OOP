@@ -89,14 +89,13 @@ public class Egg extends Item implements Edible {
     /**
      * Only allows EatAction if this egg is currently held in the actor's inventory.
      *
-     * @param actor actor performing the action
-     * @param location current location
+     * @param owner actor performing the action
+     * @param map the map where the actor is performing the action on
      * @return list of actions
      */
     @Override
-    public ActionList allowableActions(Actor actor, Location location) {
-        ActionList actions = super.allowableActions(actor, location);
-
+    public ActionList allowableActions(Actor owner, GameMap map) {
+        ActionList actions = super.allowableActions(owner, map);
 
         actions.add(new EatAction(this));
 
