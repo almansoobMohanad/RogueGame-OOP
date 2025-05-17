@@ -6,6 +6,8 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.EatAction;
+import game.conditions.Condition;
+import game.effects.Effect;
 
 
 /**
@@ -19,14 +21,17 @@ import game.actions.EatAction;
  *
  * @author Arielle Ocampo
  */
-public abstract class Egg extends Item implements Edible {
+public class Egg extends Item implements Edible {
 
     /**
      * Counts the number of consecutive turns egg has spent
      * on the ground (upon being laid/dropped).
      *
      */
-    protected int hatchCounter = 0;
+    private int hatchCounter = 0;
+    private final Actor hatchling;
+    private Condition hatchCondition;
+    private final Effect eatEffect;
 
     /**
      * Constructs a new Egg.
@@ -34,8 +39,16 @@ public abstract class Egg extends Item implements Edible {
      * @param name the name to display for egg
      * @param displayChar the character to represent egg on map
      */
-    public Egg(String name, char displayChar) {
+    public Egg(String name, char displayChar, Actor hatchling,
+               Condition hatchCondition, Effect eatEffect) {
         super(name, displayChar, true);
+        this.hatchling = hatchling;
+        this.hatchCondition = hatchCondition;
+        this.eatEffect = eatEffect;
+    }
+
+    public void setHatchCondition(Condition condition) {
+        this.hatchCondition = condition;
     }
 
     /**
@@ -47,27 +60,16 @@ public abstract class Egg extends Item implements Edible {
     @Override
     public void tick(Location location) {
             hatchCounter++;
-            if (canHatch(location)) {
-                hatch(location.map(), location);
+
+        if (hatchCondition.isSatisfied(null, location.map()) && !location.containsAnActor()) {
+                location.addActor(hatchling);
                 location.removeItem(this);
             }
         }
 
-    /**
-     * Checks if egg can hatch at current location.
-     *
-     * @param location location to check
-     * @return true if egg meets hatching conditions
-     */
-    public abstract boolean canHatch(Location location);
-
-    /**
-     * Executes hatching logic at current location.
-     *
-     * @param map game map where hatching occurs
-     * @param location location of the egg when hatching
-     */
-    public abstract void hatch(GameMap map, Location location);
+    public int getHatchCounter() {
+        return hatchCounter;
+    }
 
     /**
      * Called when an actor eats egg from its inventory.
@@ -77,7 +79,12 @@ public abstract class Egg extends Item implements Edible {
      * @param map game map context
      * @return description of the eating action
      */
-    public abstract String eat(Actor actor, GameMap map);
+    @Override
+    public String eat(Actor actor, GameMap map) {
+        eatEffect.apply(actor, map);
+        actor.removeItemFromInventory(this);
+        return actor + " eats the egg.";
+    }
 
     /**
      * Only allows EatAction if this egg is currently held in the actor's inventory.
@@ -89,6 +96,7 @@ public abstract class Egg extends Item implements Edible {
     @Override
     public ActionList allowableActions(Actor actor, Location location) {
         ActionList actions = super.allowableActions(actor, location);
+
         if (actor.getItemInventory().contains(this)) {
             actions.add(new EatAction(this));
         }
