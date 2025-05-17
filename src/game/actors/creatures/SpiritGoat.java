@@ -16,6 +16,8 @@ import game.actors.Ability;
 import game.actors.Status;
 import game.behaviours.ReproduceBehaviour;
 import game.behaviours.WanderBehaviour;
+import game.conditions.Condition;
+import game.conditions.NearStatusCondition;
 
 /**
  * A mystical creature that passively roams around the map.
@@ -113,32 +115,21 @@ public class SpiritGoat extends Creature implements Curable, Reproductive {
      */
     @Override
     public void reproduce(GameMap map, Location location) {
-        boolean nearBlessed = false;
+        Condition nearBlessed = new NearStatusCondition(this, Status.BLESSED_BY_GRACE);
+
+        if (!nearBlessed.isSatisfied(this, map)) {
+            return;
+        }
 
         for (Exit exit : location.getExits()) {
             Location adjacent = exit.getDestination();
 
-            // Check for blessed ground
-            if (adjacent.getGround().hasCapability(Status.BLESSED_BY_GRACE)) {
-                nearBlessed = true;
+            if (!adjacent.containsAnActor()) {
+                adjacent.addActor(new SpiritGoat());
                 break;
             }
 
-            // We can check for other blessed entities too (haven't implemented this yet)
-
         }
-
-        if (!nearBlessed) return;
-
-        // Spawn SpiritGoat in available adjacent tile
-        for (Exit exit : location.getExits()) {
-            Location spawnLocation = exit.getDestination();
-            if (!spawnLocation.containsAnActor()) {
-                map.at(spawnLocation.x(), spawnLocation.y()).addActor(new SpiritGoat());
-                break;
-            }
-        }
-
     }
 
     /**
