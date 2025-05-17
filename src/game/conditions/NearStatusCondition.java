@@ -3,7 +3,6 @@ package game.conditions;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 
 public class NearStatusCondition implements Condition {
@@ -24,14 +23,7 @@ public class NearStatusCondition implements Condition {
     }
 
     @Override
-    public boolean isSatisfied(Actor actor, GameMap map) {
-        Location location;
-
-        if (this.actor != null) {
-            location = map.locationOf(this.actor);
-        } else {
-            location = this.itemLocation;
-        }
+    public boolean isSatisfied(Actor actor, Location location) {
 
         assert location != null;
 

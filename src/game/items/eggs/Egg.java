@@ -61,7 +61,7 @@ public class Egg extends Item implements Edible {
     public void tick(Location location) {
             hatchCounter++;
 
-        if (hatchCondition.isSatisfied(null, location.map()) && !location.containsAnActor()) {
+        if (hatchCondition.isSatisfied(null, location) && !location.containsAnActor()) {
                 location.addActor(hatchling);
                 location.removeItem(this);
             }

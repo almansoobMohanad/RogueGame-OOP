@@ -117,7 +117,7 @@ public class SpiritGoat extends Creature implements Curable, Reproductive {
     public void reproduce(GameMap map, Location location) {
         Condition nearBlessed = new NearStatusCondition(this, Status.BLESSED_BY_GRACE);
 
-        if (!nearBlessed.isSatisfied(this, map)) {
+        if (!nearBlessed.isSatisfied(this, location)) {
             return;
         }
 

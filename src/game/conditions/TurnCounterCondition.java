@@ -1,7 +1,7 @@
 package game.conditions;
 
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import game.items.eggs.Egg;
 
 public class TurnCounterCondition implements Condition {
@@ -16,7 +16,7 @@ public class TurnCounterCondition implements Condition {
     }
 
     @Override
-    public boolean isSatisfied(Actor actor, GameMap map) {
+    public boolean isSatisfied(Actor actor, Location location) {
         return egg.getHatchCounter() >= turnThreshold;
     }
 }

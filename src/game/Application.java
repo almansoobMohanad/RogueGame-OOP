@@ -11,6 +11,7 @@ import game.actors.Player;
 import game.actors.creatures.GoldenBeetle;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
+import game.actors.npcs.Guts;
 import game.actors.npcs.MerchantKale;
 import game.actors.npcs.Sellen;
 import game.grounds.Blight;
@@ -75,9 +76,9 @@ public class Application {
         gameMap.at(24, 11).addItem(new Talisman());
         gameMap.at(20, 14).addActor(new SpiritGoat());
         gameMap.at(35, 14).addActor(new OmenSheep());
-        gameMap.at(14, 14).addActor(new Sellen());
-        gameMap.at(16, 14).addActor(new MerchantKale());
-
+        gameMap.at(20, 4).addActor(new Sellen());
+        gameMap.at(20, 6).addActor(new MerchantKale());
+        gameMap.at(21,5).addActor(new Guts());
 
         gameMap.at(8, 7).addActor(new OmenSheep());
         gameMap.at(20, 12).addActor(new GoldenBeetle());

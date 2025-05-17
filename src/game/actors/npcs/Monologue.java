@@ -22,7 +22,7 @@ public class Monologue {
         if (this.condition == null) {
             return true;
         }
-        return this.condition.isSatisfied(actor, map);
+        return this.condition.isSatisfied(actor, map.locationOf(actor));
     }
 
     public String listen() {
