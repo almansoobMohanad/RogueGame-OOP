@@ -33,6 +33,7 @@ public class BroadSword extends WeaponItem implements Buyable {
 
         buyer.heal(10);
         effectsList.apply(buyer, gameMap);
+        buyer.addItemToInventory(this);
 
     }
 }

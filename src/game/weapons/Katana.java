@@ -33,5 +33,6 @@ public class Katana extends WeaponItem implements Buyable {
     public void onPurchase(Actor buyer, Merchant merchant, GameMap gameMap) {
         buyer.hurt(25);
         effectsList.apply(buyer, gameMap);
+        buyer.addItemToInventory(this);
     }
 }

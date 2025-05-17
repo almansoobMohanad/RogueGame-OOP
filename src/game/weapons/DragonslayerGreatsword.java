@@ -34,6 +34,7 @@ public class DragonslayerGreatsword extends WeaponItem implements Buyable {
 
         buyer.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 15);
         effectsList.apply(buyer, gameMap);
+        buyer.addItemToInventory(this);
 
     }
 }
