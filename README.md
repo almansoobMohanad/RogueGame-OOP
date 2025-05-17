@@ -12,3 +12,6 @@
 
 ## Contribution Log
 [Click here to view our team’s contribution log](https://docs.google.com/spreadsheets/d/15pBS-c5y_sP5OufPUacZMtytC-JItUy2VWfKs9Dc9F0/edit?usp=sharing)
+
+## Important Note:
+- ahak0006 forgot to update his Git Account when pushing which caused his commits to be attributed to his personal account which is A.I.Hunter

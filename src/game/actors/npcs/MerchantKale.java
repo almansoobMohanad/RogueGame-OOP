@@ -3,30 +3,23 @@ package game.actors.npcs;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actions.ListenAction;
-import game.actors.monologues.*;
 import game.behaviours.WanderBehaviour;
-import game.conditions.InvConditions;
-import game.conditions.InventoryCondition;
+import game.conditions.EmptyInventoryCondition;
 import game.conditions.MoneyCondition;
 import game.conditions.NearStatusCondition;
 import game.actions.BuyAction;
 import game.actors.Merchant;
-import game.actors.creatures.SpiritGoat;
 import game.effects.AttributeEffect;
 import game.effects.EffectsList;
 import game.effects.MaxAttributeEffect;
-import game.effects.SpawnActorEffect;
 import game.grounds.GroundStatus;
 import game.weapons.BroadSword;
 import game.weapons.Buyable;
 import game.weapons.DragonslayerGreatsword;
 
-import static game.actors.monologues.Monologues.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,10 +33,10 @@ public class MerchantKale extends NPC implements Merchant {
     public MerchantKale() {
         super("Merchant Kale", 'k', 200);
         this.addBehaviour(0, new WanderBehaviour());
-        this.addIntoMonologuePool(new Monologue(KALE_DEFAULT.getMessage()));
-        this.addIntoMonologuePool(new Monologue(new NearStatusCondition(this, GroundStatus.CURSED), KALE_CURSED.getMessage()));
-        this.addIntoMonologuePool(new Monologue(new InventoryCondition(InvConditions.EMPTY), KALE_EMPTY.getMessage()));
-        this.addIntoMonologuePool(new Monologue(new MoneyCondition(500, false), KALE_LESS.getMessage()));
+        this.addIntoMonologuePool(new Monologue("A merchant’s life is a lonely one. But the roads… they whisper secrets to those who listen."));
+        this.addIntoMonologuePool(new Monologue(new NearStatusCondition(this, GroundStatus.CURSED), "Rest by the flame when you can, friend. These lands will wear you thin."));
+        this.addIntoMonologuePool(new Monologue(new EmptyInventoryCondition(), "Not a scrap to your name? Even a farmer should carry a trinket or two."));
+        this.addIntoMonologuePool(new Monologue(new MoneyCondition(500, false), "Ah, hard times, I see. Keep your head low and your blade sharp."));
 
 
         EffectsList broadSwordEffects = new EffectsList();
@@ -85,7 +78,6 @@ public class MerchantKale extends NPC implements Merchant {
         ActionList actionList = super.allowableActions(otherActor, direction, map);
 
         actionList.add(getSellActions());
-        actionList.add(new ListenAction(this));
 
         return actionList;
     }
