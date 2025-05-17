@@ -5,60 +5,73 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 
+import java.util.function.Supplier;
+
 /**
- * An {@link Effect} that spawns a specified {@link Actor} near another reference actor.
+ * An {@link Effect} that spawns a new instance of an {@link Actor} near a reference actor.
  * <p>
- * The reference actor can be explicitly provided, or defaults to the buyer actor if null.
- * The actor will be spawned in a neighboring location that can accommodate it.
+ * This effect uses a {@link Supplier} to generate a fresh instance of the actor to avoid
+ * reusing the same object multiple times. The actor will be spawned in an adjacent location
+ * around the reference actor (or the acting actor if reference actor is not provided).
+ * </p>
+ * <p>
+ * This ensures that the spawned actor is always a new instance, preventing illegal state exceptions.
  * </p>
  *
- * @author Mohanad Al-Mansoob
+ * Example usage:
+ * <pre>
+ *     SpawnActorEffect effect = new SpawnActorEffect(() -> new OmenSheep(), null);
+ * </pre>
+ *
+ * @author Mohanad
  */
 public class SpawnActorEffect implements Effect {
 
     /**
-     * The actor to be spawned on the map.
+     * A factory that supplies a fresh instance of the actor to spawn.
      */
-    private final Actor actorToSpawn;
+    private final Supplier<Actor> actorFactory;
 
     /**
-     * The reference actor near which the new actor will spawn.
-     * If null, the actor who performed the action is used as reference.
+     * The actor near which the new actor should be spawned.
+     * If {@code null}, the actor who applies the effect will be used as the reference.
      */
-    private final Actor referenceActor; // null = near buyer
+    private final Actor referenceActor;
 
     /**
-     * Constructor to create a SpawnActorEffect.
+     * Constructs a {@code SpawnActorEffect}.
      *
-     * @param actorToSpawn the actor to spawn
-     * @param referenceActor the actor to spawn near (null to default to the actor who performed the action)
+     * @param actorFactory   a {@link Supplier} that provides a fresh {@link Actor} instance
+     * @param referenceActor the actor to spawn near (can be {@code null} to default to the acting actor)
      */
-    public SpawnActorEffect(Actor actorToSpawn, Actor referenceActor) {
-        this.actorToSpawn = actorToSpawn;
+    public SpawnActorEffect(Supplier<Actor> actorFactory, Actor referenceActor) {
+        this.actorFactory = actorFactory;
         this.referenceActor = referenceActor;
     }
 
     /**
-     * Applies the effect by spawning the actor near the reference actor.
+     * Applies the spawn effect by creating a new actor instance and placing it
+     * in a nearby available location.
      *
-     * @param actor the actor (used as default reference if referenceActor is null)
+     * @param actor   the actor applying the effect (used as reference if {@code referenceActor} is null)
      * @param gameMap the game map where the actor will be spawned
      */
     @Override
     public void apply(Actor actor, GameMap gameMap) {
         Actor reference = (referenceActor != null) ? referenceActor : actor;
-
         Location locationReference = gameMap.locationOf(reference);
 
+        Actor newActor = actorFactory.get(); // create a fresh instance
+
         for (Exit exit : locationReference.getExits()) {
-            if (exit.getDestination().canActorEnter(actorToSpawn)) {
-                gameMap.addActor(actorToSpawn, exit.getDestination());
+            if (exit.getDestination().canActorEnter(newActor)) {
+                gameMap.addActor(newActor, exit.getDestination());
+                System.out.println(newActor + " spawns near " + reference);
                 break;
             }
         }
-
-        System.out.println(actorToSpawn + " spawns near " + reference);
-
     }
 }
+
+
 
