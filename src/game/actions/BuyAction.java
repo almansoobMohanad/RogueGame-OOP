@@ -26,7 +26,6 @@ public class BuyAction extends Action {
             return actor + " does not have enough Runes to buy " + item;
         }
 
-        actor.addItemToInventory((Item) item);
         item.onPurchase(actor, merchant, map);
         actor.deductBalance(cost);
 
