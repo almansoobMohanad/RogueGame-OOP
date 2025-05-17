@@ -58,7 +58,7 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
                     "Golden Egg",
                     '0',
                     new GoldenBeetle(),
-                    new NearStatusCondition(location, GroundStatus.CURSED),
+                    new NearStatusCondition(GroundStatus.CURSED),
                     new AttributeEffect(BaseActorAttributes.STAMINA, 20));
 
                     location.addItem(egg);
