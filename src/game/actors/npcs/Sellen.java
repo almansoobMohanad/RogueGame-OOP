@@ -39,11 +39,11 @@ public class Sellen extends NPC implements Merchant {
         sellItems.add(new BroadSword(100, broadSwordEffects));
 
         EffectsList dragonslayerGreatswordEffects = new EffectsList();
-        dragonslayerGreatswordEffects.addEffect(new SpawnActorEffect(new GoldenBeetle(), null));
+        dragonslayerGreatswordEffects.addEffect(new SpawnActorEffect(GoldenBeetle::new, null));
         sellItems.add(new DragonslayerGreatsword(1500, dragonslayerGreatswordEffects));
 
         EffectsList katanaEffects = new EffectsList();
-        katanaEffects.addEffect(new SpawnActorEffect(new OmenSheep(), this));
+        katanaEffects.addEffect(new SpawnActorEffect(OmenSheep::new, this));
         katanaEffects.addEffect(new AttributeEffect(BaseActorAttributes.HEALTH, 10));
         katanaEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.STAMINA, 20));
         sellItems.add(new Katana(500, katanaEffects));
