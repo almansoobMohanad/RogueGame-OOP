@@ -1,13 +1,16 @@
-package game.items.seeds;
+package game.items;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.PlantAction;
 import game.grounds.GroundStatus;
+import game.grounds.plants.Plant;
 
 
 /**
@@ -20,9 +23,12 @@ import game.grounds.GroundStatus;
  * </p>
  *
  * @author Mohanad Al-Mansoob
+ * Modified by Adji Ilhamhafiz Sarie Hakim
  */
-public abstract class
-Seed extends Item {
+public class Seed extends Item {
+
+    private final Plant plant;
+    private final int staminaCost;
 
     /**
      * Constructor for creating a Seed object.
@@ -32,12 +38,14 @@ Seed extends Item {
      * </p>
      *
      * @param name the name of the seed
-     * @param displayChar the character used to represent the seed in the game map
+     * @param plant the plant that will grow from this seed
+     * @param staminaCost the stamina cost to plant this seed
      */
-    public Seed(String name, char displayChar) {
+    public Seed(String name, Plant plant, int staminaCost) {
 
-        super(name, displayChar, true);
-
+        super(name, '*', true);
+        this.plant = plant;
+        this.staminaCost = staminaCost;
     }
 
     /**
@@ -50,7 +58,11 @@ Seed extends Item {
      * @param actor the actor who is planting the seed
      * @param location the location where the seed is being planted
      */
-    public abstract void plant(Actor actor, Location location);
+    public void plant(Actor actor, Location location) {
+        location.setGround(plant);
+        this.plant.plantEffect(actor, location);
+        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+    }
 
     /**
      * Returns a list of actions that an actor can perform with this seed.

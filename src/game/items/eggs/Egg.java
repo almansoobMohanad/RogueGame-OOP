@@ -97,9 +97,9 @@ public class Egg extends Item implements Edible {
     public ActionList allowableActions(Actor actor, Location location) {
         ActionList actions = super.allowableActions(actor, location);
 
-        if (actor.getItemInventory().contains(this)) {
-            actions.add(new EatAction(this));
-        }
+
+        actions.add(new EatAction(this));
+
         return actions;
     }
 }
