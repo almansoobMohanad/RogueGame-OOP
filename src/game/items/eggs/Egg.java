@@ -3,6 +3,7 @@ package game.items.eggs;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.EatAction;
@@ -59,13 +60,32 @@ public class Egg extends Item implements Edible {
      */
     @Override
     public void tick(Location location) {
-            hatchCounter++;
+        hatchCounter++;
 
-        if (hatchCondition.isSatisfied(null, location) && !location.containsAnActor()) {
+        // Check if the condition is satisfied
+        if (hatchCondition.isSatisfied(null, location)) {
+
+            // try to hatch in current location if it's empty
+            if (!location.containsAnActor()) {
                 location.addActor(hatchling);
                 location.removeItem(this);
+                return;
             }
+
+            // otherwise look for the first adjacent empty location
+            for (Exit exit : location.getExits()) {
+                Location adjacent = exit.getDestination();
+                if (!adjacent.containsAnActor()) {
+                    adjacent.addActor(hatchling);
+                    location.removeItem(this);
+                    return;
+                }
+            }
+
+            // If no empty adjacent tile, do nothing
         }
+    }
+
 
     public int getHatchCounter() {
         return hatchCounter;
