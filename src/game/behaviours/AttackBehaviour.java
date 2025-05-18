@@ -11,21 +11,43 @@ import game.actions.AttackAction;
 
 import java.util.ArrayList;
 
+/**
+ * A behaviour that allows an Actor to attack nearby Actors
+ * if their health is above a specified threshold.
+ *
+ * @author Adji Ilhamhafiz Sarie Hakim
+ */
 public class AttackBehaviour implements Behaviour {
 
-    private int health;
+    /**
+     * The health threshold used to determine whether an Actor should be attacked.
+     */
+    private final int health;
 
+    /**
+     * Constructor for {@code AttackBehaviour}.
+     *
+     * @param health The minimum health an adjacent Actor must have
+     *               for this Actor to consider attacking.
+     */
     public AttackBehaviour(int health) {
         this.health = health;
     }
 
+    /**
+     * Scans adjacent tiles for Actors whose health is greater than the defined threshold
+     * and returns an {@link AttackAction} against the first such Actor found.
+     *
+     * @param actor The actor performing the action.
+     * @param map   The map the actor is on.
+     * @return An {@link AttackAction} if a valid target is found; otherwise {@code null}.
+     */
     @Override
     public Action getAction(Actor actor, GameMap map) {
 
         ArrayList<Action> actions = new ArrayList<>();
 
         for (Exit exit : map.locationOf(actor).getExits()) {
-
             Location targetLoc = exit.getDestination();
             if (targetLoc.containsAnActor()) {
                 Actor target = targetLoc.getActor();
@@ -36,9 +58,9 @@ public class AttackBehaviour implements Behaviour {
         }
 
         if (!actions.isEmpty()) {
-            return actions.get(0); // Return the first attack action found
+            return actions.get(0);
         } else {
-            return null; // No attack action available
+            return null;
         }
     }
 }
