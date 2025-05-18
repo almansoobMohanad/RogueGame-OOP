@@ -40,6 +40,15 @@ public class OmenSheep extends Creature implements Curable, Reproductive {
      */
     private int eggLayCounter = 0;
 
+    /** Maximum number of turns before the beetle lays another egg. */
+    private final int MAX_EGG_COUNTER = 7;
+
+    /** Max number of turns before egg hatches*/
+    private final int TURN_THRESHOLD = 3;
+
+    /** Amount of health increased when the omenSheep egg is eaten. */
+    private final int HEALING_AMOUNT = 10;
+
     /**
      * Constructor for the Omen Sheep.
      * <p>Initializes the Omen Sheep with a name, display character, hit points,
@@ -135,15 +144,15 @@ public class OmenSheep extends Creature implements Curable, Reproductive {
     public void reproduce(GameMap map,Location location) {
         eggLayCounter++;
 
-        if (eggLayCounter >= 7) {
+        if (eggLayCounter >= MAX_EGG_COUNTER) {
             Egg egg = new Egg(
                     "Omen Sheep Egg", '0',
                     new OmenSheep(),
                     null,
-                    new MaxAttributeEffect(BaseActorAttributes.HEALTH, 10)
+                    new MaxAttributeEffect(BaseActorAttributes.HEALTH, HEALING_AMOUNT)
             );
 
-            egg.setHatchCondition(new TurnCounterCondition(egg, 3));
+            egg.setHatchCondition(new TurnCounterCondition(egg, TURN_THRESHOLD));
 
             location.addItem(egg);
             System.out.println("Omen Sheep laid an egg at " + location);
