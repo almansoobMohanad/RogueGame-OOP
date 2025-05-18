@@ -49,6 +49,13 @@ public class Egg extends Item implements Edible {
         this.eatEffect = eatEffect;
     }
 
+
+    /**
+     * Sets or replaces the condition used to determine whether this egg should hatch.
+     *
+     * @param condition the new hatching Condition
+     *
+     */
     public void setHatchCondition(Condition condition) {
         this.hatchCondition = condition;
     }
@@ -87,7 +94,12 @@ public class Egg extends Item implements Edible {
         }
     }
 
-
+    /**
+     * Returns the number of consecutive turns egg has spent on ground
+     * since it was laid or dropped.
+     *
+     * @return current hatch counter value
+     */
     public int getHatchCounter() {
         return hatchCounter;
     }
