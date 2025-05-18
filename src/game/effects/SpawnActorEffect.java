@@ -66,7 +66,6 @@ public class SpawnActorEffect implements Effect {
         for (Exit exit : locationReference.getExits()) {
             if (exit.getDestination().canActorEnter(newActor)) {
                 gameMap.addActor(newActor, exit.getDestination());
-                System.out.println(newActor + " spawns near " + reference);
                 break;
             }
         }
