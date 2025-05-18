@@ -9,18 +9,9 @@ import java.util.Random;
 
 /**
  * An action that allows an {@link Actor} to listen to a monologue from an {@link NPC}.
- * <p>
  * When executed, this action retrieves a random line from the NPC's monologue and returns it.
- * </p>
  *
- * Example usage:
- * <pre>
- *     new ListenAction(fingerReaderEnia);
- * </pre>
- *
- * This adds immersion and character interaction to the game.
- *
- * @author Adji
+ * @author Adji Ilhamhafiz Sarie Hakim
  */
 public class ListenAction extends Action {
 
