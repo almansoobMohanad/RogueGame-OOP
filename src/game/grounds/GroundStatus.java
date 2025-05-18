@@ -9,11 +9,11 @@ package game.grounds;
  * The two possible states are:
  * <ul>
  *     <li>{@link #PLANTABLE} - The ground is suitable for planting.</li>
- *     <li>{@link #CURSED} - The ground is in a cursed state, which might have negative effects on actors or the environment.</li>
+ *
  * </ul>
  * </p>
  */
 public enum GroundStatus {
     PLANTABLE,
-    CURSED
+
 }
