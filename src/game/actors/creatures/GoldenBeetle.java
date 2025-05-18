@@ -45,7 +45,8 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
     private final int BALANCE_REWARD = 1000;
     /** Actor that the beetle will follow if found. */
     private Actor followTarget = null;
-
+    /** the stamina to be incremented*/
+    private final int STAMINA = 20;
 
     /**
      * Constructs a Golden Beetle with initial behaviours.
@@ -75,7 +76,7 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
                     '0',
                     new GoldenBeetle(),
                     new NearStatusCondition(Status.CURSED),
-                    new AttributeEffect(BaseActorAttributes.STAMINA, 20));
+                    new AttributeEffect(BaseActorAttributes.STAMINA, STAMINA));
 
                     location.addItem(egg);
             System.out.println("Golden Beetle laid an egg at " + location);
