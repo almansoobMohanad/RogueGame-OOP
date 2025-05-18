@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.EatAction;
+import game.actors.creatures.Creature;
 import game.conditions.Condition;
 import game.effects.Effect;
 
@@ -30,7 +31,7 @@ public class Egg extends Item implements Edible {
      *
      */
     private int hatchCounter = 0;
-    private final Actor hatchling;
+    private final Creature hatchling;
     private Condition hatchCondition;
     private final Effect eatEffect;
 
@@ -40,7 +41,7 @@ public class Egg extends Item implements Edible {
      * @param name the name to display for egg
      * @param displayChar the character to represent egg on map
      */
-    public Egg(String name, char displayChar, Actor hatchling,
+    public Egg(String name, char displayChar, Creature hatchling,
                Condition hatchCondition, Effect eatEffect) {
         super(name, displayChar, true);
         this.hatchling = hatchling;
