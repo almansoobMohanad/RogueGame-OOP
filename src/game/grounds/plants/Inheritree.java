@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.Status;
 import game.grounds.GroundStatus;
 import game.grounds.Soil;
 
@@ -65,7 +66,7 @@ public class Inheritree extends Plant {
 
             Location adjacent = exit.getDestination();
 
-            if (adjacent.getGround().hasCapability(GroundStatus.CURSED)){
+            if (adjacent.getGround().hasCapability(Status.CURSED)){
                 adjacent.setGround(new Soil());
             }
 
