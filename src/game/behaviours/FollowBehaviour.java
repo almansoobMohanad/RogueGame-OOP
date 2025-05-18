@@ -16,7 +16,7 @@ import game.actors.Ability;
  *
  * Created by:
  * @author Riordan D. Alfredo
- * Modified by:
+ * Modified by: Anfal Ahsan
  *
  */
 public class FollowBehaviour implements Behaviour {
