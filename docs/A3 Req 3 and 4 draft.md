@@ -1,17 +1,23 @@
-Requirement 3:
-    - Day/Night cycle system
-        - Creatures become aggressive 
-        - The Mob (NPC) appears only at night
-        - At night other npcs other than the Night NPC, when they sell stuff they have 50% chance of scamming you.
-        - Merchants could sell a special item (healing potion or buff spell) at night
-        - Sleep behaviour
+REQ 3: Day/Night System
 
-Scenario:
+At the start of the game, the TimeTracker is set to DAY.
 
-All creatures in the valley becomes aggressive towards each other. If they are not aggressive then they are asleep. The Mob (NPC) is a guy who likes darkness. He is a merchant who only appears at
-and sells items for cheap prices. Sellen and Merchant Kale do not trust anyone at night. If you buy anything from them there is a 50% chance 
-that they will scam you and runaway (runaway behaviour). (MAAAYBE Merchants can also sell healing potion or buff spell)
+As the game progresses, TimeTracker advances time and alternates between DAY and
+NIGHT.
 
+At night:
+
+● MerchantMob appears on the map, offering items at discounted prices (but has a 50%
+chance to scam the player and runaway).
+● A HP potion appears randomly on the ground, and when the farmer picks one up and
+uses it, it increases the farmer’s maximum HP.
+● Aggressive zombies rise from cursed ground and wander the map.
+
+In the day:
+
+●  MerchantMob disappears
+●  HP Potion vanishes
+●  Zombies lose their HP turn by turn and die
 
 
 
