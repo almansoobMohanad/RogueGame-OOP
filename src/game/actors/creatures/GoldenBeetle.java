@@ -17,9 +17,7 @@ import game.actions.CureAction;
 import game.actions.EatAction;
 import game.actors.Ability;
 import game.actors.Status;
-import game.behaviours.FollowBehaviour;
-import game.behaviours.ReproduceBehaviour;
-import game.behaviours.WanderBehaviour;
+import game.behaviours.*;
 import game.conditions.NearStatusCondition;
 import game.conditions.TurnCounterCondition;
 import game.effects.AttributeEffect;
@@ -52,8 +50,8 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
      * Constructs a Golden Beetle with initial behaviours.
      * It can reproduce and wander.
      */
-    public GoldenBeetle() {
-        super("Golden Beetle", 'b', 25);
+    public GoldenBeetle(NPCController controller) {
+        super("Golden Beetle", 'b', 25, controller);
         addBehaviour(0, new ReproduceBehaviour(this));
         addBehaviour(2, new WanderBehaviour());
     }
@@ -74,7 +72,7 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
             Egg egg = new Egg(
                     "Golden Egg",
                     '0',
-                    new GoldenBeetle(),
+                    new GoldenBeetle(new StandardNPCController()),
                     new NearStatusCondition(Status.CURSED),
                     new AttributeEffect(BaseActorAttributes.STAMINA, STAMINA));
 

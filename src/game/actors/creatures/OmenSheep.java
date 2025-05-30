@@ -14,7 +14,9 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
+import game.behaviours.NPCController;
 import game.behaviours.ReproduceBehaviour;
+import game.behaviours.StandardNPCController;
 import game.behaviours.WanderBehaviour;
 import game.conditions.TurnCounterCondition;
 import game.effects.MaxAttributeEffect;
@@ -54,8 +56,8 @@ public class OmenSheep extends Creature implements Curable, Reproductive {
      * <p>Initializes the Omen Sheep with a name, display character, hit points,
      * wandering behaviour, and a rot countdown attribute.</p>
      */
-    public OmenSheep() {
-        super("Omen Sheep", 'm', 75);
+    public OmenSheep(NPCController controller) {
+        super("Omen Sheep", 'm', 75, controller);
         addBehaviour(0, new ReproduceBehaviour(this));
         addBehaviour(2, new WanderBehaviour());
         addAttribute(CreatureAttributes.ROT_COUNTDOWN, new BaseActorAttribute(15));
@@ -147,7 +149,7 @@ public class OmenSheep extends Creature implements Curable, Reproductive {
         if (eggLayCounter >= MAX_EGG_COUNTER) {
             Egg egg = new Egg(
                     "Omen Sheep Egg", '0',
-                    new OmenSheep(),
+                    new OmenSheep(new StandardNPCController()),
                     null,
                     new MaxAttributeEffect(BaseActorAttributes.HEALTH, HEALING_AMOUNT)
             );

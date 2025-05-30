@@ -14,7 +14,9 @@ import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
 import game.actors.Status;
+import game.behaviours.NPCController;
 import game.behaviours.ReproduceBehaviour;
+import game.behaviours.StandardNPCController;
 import game.behaviours.WanderBehaviour;
 import game.conditions.Condition;
 import game.conditions.NearStatusCondition;
@@ -38,9 +40,9 @@ public class SpiritGoat extends Creature implements Curable, Reproductive {
      * <p>Initializes the Spirit Goat with a name, display character, hit points,
      * wandering behaviour, and a rot countdown attribute.</p>
      */
-    public SpiritGoat() {
+    public SpiritGoat(NPCController controller) {
 
-        super("Spirit Goat", 'y', 50);
+        super("Spirit Goat", 'y', 50, controller);
         addBehaviour(0, new ReproduceBehaviour(this));
         addBehaviour(2, new WanderBehaviour());
         addAttribute(CreatureAttributes.ROT_COUNTDOWN, new BaseActorAttribute(10));
@@ -125,7 +127,7 @@ public class SpiritGoat extends Creature implements Curable, Reproductive {
             Location adjacent = exit.getDestination();
 
             if (!adjacent.containsAnActor()) {
-                adjacent.addActor(new SpiritGoat());
+                adjacent.addActor(new SpiritGoat(new StandardNPCController()));
                 break;
             }
 
