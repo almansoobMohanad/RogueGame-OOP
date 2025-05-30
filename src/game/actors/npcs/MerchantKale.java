@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actors.Status;
+import game.behaviours.NPCController;
 import game.behaviours.WanderBehaviour;
 import game.conditions.EmptyInventoryCondition;
 import game.conditions.MoneyCondition;
@@ -45,8 +46,8 @@ public class MerchantKale extends NPC implements Merchant {
     /**
      * Constructs a new instance of Merchant Kale, initializing monologues, behaviors, and merchandise.
      */
-    public MerchantKale() {
-        super("Merchant Kale", 'k', 200);
+    public MerchantKale(NPCController controller) {
+        super("Merchant Kale", 'k', 200, controller);
         this.addBehaviour(0, new WanderBehaviour());
 
         // Adding monologues to the pool

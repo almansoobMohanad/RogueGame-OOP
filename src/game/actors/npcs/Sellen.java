@@ -7,6 +7,8 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actors.creatures.GoldenBeetle;
+import game.behaviours.NPCController;
+import game.behaviours.StandardNPCController;
 import game.behaviours.WanderBehaviour;
 import game.actions.BuyAction;
 import game.actors.Merchant;
@@ -41,8 +43,8 @@ public class Sellen extends NPC implements Merchant {
     /**
      * Constructs a new instance of Sellen, initializing monologues, behavior, and items for sale.
      */
-    public Sellen() {
-        super("Sellen", 's', 150);
+    public Sellen(NPCController controller) {
+        super("Sellen", 's', 150, controller);
         this.addBehaviour(0, new WanderBehaviour());
 
         // Adding monologues to the pool
@@ -55,11 +57,11 @@ public class Sellen extends NPC implements Merchant {
         sellItems.add(new BroadSword(100, broadSwordEffects));
 
         EffectsList dragonslayerGreatswordEffects = new EffectsList();
-        dragonslayerGreatswordEffects.addEffect(new SpawnActorEffect(GoldenBeetle::new, null));
+        dragonslayerGreatswordEffects.addEffect(new SpawnActorEffect(() -> new GoldenBeetle(new StandardNPCController()), null));
         sellItems.add(new DragonslayerGreatsword(1500, dragonslayerGreatswordEffects));
 
         EffectsList katanaEffects = new EffectsList();
-        katanaEffects.addEffect(new SpawnActorEffect(OmenSheep::new, this));
+        katanaEffects.addEffect(new SpawnActorEffect(() -> new OmenSheep(new StandardNPCController()), this));
         katanaEffects.addEffect(new AttributeEffect(BaseActorAttributes.HEALTH, 10));
         katanaEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.STAMINA, 20));
         sellItems.add(new Katana(500, katanaEffects));

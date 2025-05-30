@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.behaviours.AttackBehaviour;
+import game.behaviours.NPCController;
 import game.behaviours.WanderBehaviour;
 import game.conditions.HealthCondition;
 import game.weapons.BareFist;
@@ -24,8 +25,8 @@ public class Guts extends NPC {
     /**
      * Constructs a new instance of Guts, initializing monologues and behaviours.
      */
-    public Guts() {
-        super("Guts", 'g', 500);
+    public Guts(NPCController controller) {
+        super("Guts", 'g', 500, controller);
         this.setIntrinsicWeapon(new BareFist());
         this.addBehaviour(0, new AttackBehaviour(50));
         this.addBehaviour(1, new WanderBehaviour());
