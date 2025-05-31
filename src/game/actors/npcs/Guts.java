@@ -22,17 +22,22 @@ import game.weapons.BareFist;
  * @author Adji Ilhamhafiz Sarie Hakim
  */
 public class Guts extends NPC {
+
+    private final static int GUTS_HIT_POINTS = 500;
+    private final static int ATTACK_BEHAVIOUR_DAMAGE = 50;
+    private static final int MONOLOGUE_HEALTH_THRESHOLD = 50;
+
     /**
      * Constructs a new instance of Guts, initializing monologues and behaviours.
      */
     public Guts(NPCController controller) {
-        super("Guts", 'g', 500, controller);
+        super("Guts", 'g', GUTS_HIT_POINTS, controller);
         this.setIntrinsicWeapon(new BareFist());
-        this.addBehaviour(0, new AttackBehaviour(50));
+        this.addBehaviour(0, new AttackBehaviour(ATTACK_BEHAVIOUR_DAMAGE));
         this.addBehaviour(1, new WanderBehaviour());
         this.addIntoMonologuePool(new Monologue("RAAAAGH!"));
         this.addIntoMonologuePool(new Monologue("I’LL CRUSH YOU ALL!"));
-        this.addIntoMonologuePool(new Monologue(new HealthCondition(50, false), "WEAK! TOO WEAK TO FIGHT ME!"));
+        this.addIntoMonologuePool(new Monologue(new HealthCondition(MONOLOGUE_HEALTH_THRESHOLD, false), "WEAK! TOO WEAK TO FIGHT ME!"));
     }
 
     /**
