@@ -40,8 +40,8 @@ This feature introduces a **dynamic Day/Night system** that changes gameplay beh
     - Spawns on the map offering items at **discounted prices**.
     - Has a **50% chance to scam** the player and **run away** after the interaction.
 
-- **HP Potion Spawns**
-    - A magical **HP potion appears randomly** on the ground.
+- **Health Berry Spawns**
+    - A magical **Health berry grows** on blessed ground randomly.
     - When picked up and used, it **increases the farmer’s max HP**.
 
 - **Zombies Emerge**
@@ -55,8 +55,9 @@ This feature introduces a **dynamic Day/Night system** that changes gameplay beh
 - **MerchantMob Disappears**
     - The night merchant leaves the map at dawn.
 
-- **HP Potion Vanishes**
-    - Any uncollected night-time HP potion is **removed** from the map.
+- **Health Berry**
+    - Any uncollected night-time Health Berry is **removed** from the map.
+    - Stays in the inventory if collected
 
 - **Zombies Decay**
     - Zombies that spawned during the night begin to **lose HP every turn**.
