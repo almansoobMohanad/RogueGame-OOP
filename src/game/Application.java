@@ -73,14 +73,15 @@ public class Application {
         player.addItemToInventory(new Seed("Bloodrose Seed", new Bloodrose(), 75));
         player.addItemToInventory(new Seed("Inheritree Seed", new Inheritree(), 25));
         world.addPlayer(player, gameMap.at(23, 10));
+        player.addBalance(20000);
 
         NPCController standardController = new StandardNPCController();
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
-        gameMap.at(20, 14).addActor(new SpiritGoat(standardController));
+        gameMap.at(20, 1).addActor(new SpiritGoat(standardController));
         gameMap.at(35, 14).addActor(new OmenSheep(standardController));
-        gameMap.at(20, 4).addActor(new Sellen(standardController));
+        gameMap.at(20, 14).addActor(new Sellen(standardController));
         gameMap.at(20, 6).addActor(new MerchantKale(standardController));
         gameMap.at(21,5).addActor(new Guts(standardController));
 

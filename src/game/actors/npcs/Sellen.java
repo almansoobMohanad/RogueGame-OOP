@@ -35,6 +35,18 @@ import java.util.List;
  */
 public class Sellen extends NPC implements Merchant {
 
+    private static final int SELLEN_HIT_POINTS = 150;
+
+    // Weapon prices
+    private static final int BROAD_SWORD_PRICE = 100;
+    private static final int DRAGONSLAYER_GREATSWORD_PRICE = 1500;
+    private static final int KATANA_PRICE = 500;
+
+    // Attribute effects
+    private static final int BROAD_SWORD_HEALTH_BOOST = 20;
+    private static final int KATANA_HEALTH_BOOST = 10;
+    private static final int KATANA_STAMINA_MAX_BOOST = 20;
+
     /**
      * List of items available for purchase from Sellen.
      */
@@ -44,7 +56,7 @@ public class Sellen extends NPC implements Merchant {
      * Constructs a new instance of Sellen, initializing monologues, behavior, and items for sale.
      */
     public Sellen(NPCController controller) {
-        super("Sellen", 's', 150, controller);
+        super("Sellen", 's', SELLEN_HIT_POINTS, controller);
         this.addBehaviour(0, new WanderBehaviour());
 
         // Adding monologues to the pool
@@ -59,17 +71,17 @@ public class Sellen extends NPC implements Merchant {
     private void initializeSellItems() {
 
         EffectsList broadSwordEffects = new EffectsList();
-        broadSwordEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.HEALTH, 20));
-        sellItems.add(new BroadSword(100, broadSwordEffects));
+        broadSwordEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.HEALTH, BROAD_SWORD_HEALTH_BOOST));
+        sellItems.add(new BroadSword(BROAD_SWORD_PRICE, broadSwordEffects));
 
         EffectsList dragonslayerGreatswordEffects = new EffectsList();
         dragonslayerGreatswordEffects.addEffect(new SpawnActorEffect(() -> new GoldenBeetle(new StandardNPCController()), null));
-        sellItems.add(new DragonslayerGreatsword(1500, dragonslayerGreatswordEffects));
+        sellItems.add(new DragonslayerGreatsword(DRAGONSLAYER_GREATSWORD_PRICE, dragonslayerGreatswordEffects));
 
         EffectsList katanaEffects = new EffectsList();
         katanaEffects.addEffect(new SpawnActorEffect(() -> new OmenSheep(new StandardNPCController()), this));
-        katanaEffects.addEffect(new AttributeEffect(BaseActorAttributes.HEALTH, 10));
-        katanaEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.STAMINA, 20));
+        katanaEffects.addEffect(new AttributeEffect(BaseActorAttributes.HEALTH, KATANA_HEALTH_BOOST));
+        katanaEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.STAMINA, KATANA_STAMINA_MAX_BOOST));
         sellItems.add(new Katana(500, katanaEffects));
 
     }
