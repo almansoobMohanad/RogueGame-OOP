@@ -56,7 +56,13 @@ public class MerchantKale extends NPC implements Merchant {
         this.addIntoMonologuePool(new Monologue(new EmptyInventoryCondition(), "Not a scrap to your name? Even a farmer should carry a trinket or two."));
         this.addIntoMonologuePool(new Monologue(new MoneyCondition(500, false), "Ah, hard times, I see. Keep your head low and your blade sharp."));
 
-        // Adding items to the sellItems list
+        // setup sellItems
+        initializeSellItems();
+
+    }
+
+    private void initializeSellItems() {
+
         EffectsList broadSwordEffects = new EffectsList();
         broadSwordEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.STAMINA, 30));
         sellItems.add(new BroadSword(150, broadSwordEffects));
@@ -64,6 +70,7 @@ public class MerchantKale extends NPC implements Merchant {
         EffectsList dragonslayerGreatswordEffects = new EffectsList();
         dragonslayerGreatswordEffects.addEffect(new AttributeEffect(BaseActorAttributes.STAMINA, 20));
         sellItems.add(new DragonslayerGreatsword(1700, dragonslayerGreatswordEffects));
+
     }
 
     /**

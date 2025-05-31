@@ -51,7 +51,13 @@ public class Sellen extends NPC implements Merchant {
         this.addIntoMonologuePool(new Monologue("The academy casts out those it fears. Yet knowledge, like the stars, cannot be bound forever"));
         this.addIntoMonologuePool(new Monologue("You sense it too, don’t you? The Glintstone hums, even now."));
 
-        // Adding items to the sellItems list
+        // Setup Sellable items
+        initializeSellItems();
+
+    }
+
+    private void initializeSellItems() {
+
         EffectsList broadSwordEffects = new EffectsList();
         broadSwordEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.HEALTH, 20));
         sellItems.add(new BroadSword(100, broadSwordEffects));
@@ -65,6 +71,7 @@ public class Sellen extends NPC implements Merchant {
         katanaEffects.addEffect(new AttributeEffect(BaseActorAttributes.HEALTH, 10));
         katanaEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.STAMINA, 20));
         sellItems.add(new Katana(500, katanaEffects));
+
     }
 
     /**
