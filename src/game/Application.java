@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
+import game.LLM.GeminiService;
 import game.actors.Player;
 import game.actors.creatures.GoldenBeetle;
 import game.actors.creatures.OmenSheep;
@@ -32,6 +33,9 @@ import game.items.Seed;
 public class Application {
 
     public static void main(String[] args) {
+
+        GeminiService gemini = new GeminiService();
+        System.out.println(gemini.callGemini("WHAT IS THE TALLEST BUILDING IN THE WORLD?"));
 
         World world = new World(new Display());
 
