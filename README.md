@@ -40,9 +40,11 @@ This feature introduces a **dynamic Day/Night system** that changes gameplay beh
     - Spawns on the map offering items at **discounted prices**.
     - Has a **50% chance to scam** the player and **run away** after the interaction.
 
-- **Health Berry Spawns**
-    - A magical **Health berry grows** on blessed ground randomly.
-    - When picked up and used, it **increases the farmer’s max HP**.
+- **Buff Berry Spawns**
+    - A magical **Buff berry grows** on blessed ground randomly.
+    - Can be picked up by the player.
+    - When consumed **it increases the damage multiplier for farmer's intrinsic weapon by 2.5**.
+    - When consumed **it health the farmer by 10 HP**.
 
 - **Zombies Emerge**
     - **Aggressive zombies rise** from cursed ground and begin **wandering the map**.
@@ -55,8 +57,8 @@ This feature introduces a **dynamic Day/Night system** that changes gameplay beh
 - **MerchantMob Disappears**
     - The night merchant leaves the map at dawn.
 
-- **Health Berry**
-    - Any uncollected night-time Health Berry is **removed** from the map.
+- **Buff Berry**
+    - Any uncollected night-time Buff Berry is **removed** from the map.
     - Stays in the inventory if collected
 
 - **Zombies Decay**
@@ -69,7 +71,7 @@ This feature introduces a **dynamic Day/Night system** that changes gameplay beh
 # REQ 4: LLM-Powered NPC Dialogue System (API Integration)
 
 ## Overview
-This feature introduces **dynamic conversations with three unique NPCs (**Shabiri**, **The Narrator**, and **The Explorer**) using an **LLM API**. The API returns JSON-formatted dialogue responses based on player interaction.
+This feature introduces **dynamic conversations** with three unique NPCs (**Shabiri**, **The Narrator**, and **The Explorer**) using an **LLM API**. The API returns JSON-formatted dialogue responses based on player interaction.
 
 ---
 
