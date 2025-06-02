@@ -44,7 +44,7 @@ This feature introduces a **dynamic Day/Night system** that changes gameplay beh
     - A magical **Buff berry grows** on blessed ground randomly.
     - Can be picked up by the player.
     - When consumed **it increases the damage multiplier for farmer's intrinsic weapon by 2.5**.
-    - When consumed **it health the farmer by 10 HP**.
+    - When consumed **it heals the farmer by 10 HP**.
 
 - **Zombies Emerge**
     - **Aggressive zombies rise** from cursed ground and begin **wandering the map**.
