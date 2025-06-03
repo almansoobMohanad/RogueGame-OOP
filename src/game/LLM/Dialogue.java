@@ -1,0 +1,44 @@
+package game.LLM;
+
+import java.util.List;
+
+public class Dialogue {
+
+    private final String greeting;
+    private final List<List<String>> options;   // Player options per round
+    private final List<List<String>> responses; // NPC responses per round
+    private int roundIndex = 0;
+
+    public Dialogue(String greeting, List<List<String>> options, List<List<String>> responses) {
+        this.greeting = greeting;
+        this.options = options;
+        this.responses = responses;
+    }
+
+    public String getGreeting() {
+        return greeting;
+    }
+
+    public List<String> getCurrentOptions() {
+        if (roundIndex < options.size()) {
+            return options.get(roundIndex);
+        }
+        return List.of(); // No more options
+    }
+
+    public String getResponseFor(int optionIndex) {
+        if (roundIndex < responses.size() && optionIndex < responses.get(roundIndex).size()) {
+            return responses.get(roundIndex).get(optionIndex);
+        }
+        return "Shhh... the story has ended.";
+    }
+
+    public void nextRound() {
+        roundIndex++;
+    }
+
+    public boolean isFinished() {
+        return roundIndex >= options.size();
+    }
+}
+
