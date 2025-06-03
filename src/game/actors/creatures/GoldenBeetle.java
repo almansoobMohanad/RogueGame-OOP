@@ -2,28 +2,20 @@ package game.actors.creatures;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
-import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.Behaviour;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.CureAction;
 import game.actions.EatAction;
 import game.actors.Ability;
 import game.actors.Status;
 import game.behaviours.*;
 import game.conditions.NearStatusCondition;
-import game.conditions.TurnCounterCondition;
 import game.effects.AttributeEffect;
-import game.grounds.GroundStatus;
-import game.items.eggs.Edible;
-import game.items.eggs.Egg;
+import game.items.edibles.Edible;
+import game.items.edibles.Egg;
 
 /**
  * Represents a Golden Beetle creature in the game.

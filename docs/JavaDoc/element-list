@@ -26,5 +26,5 @@ game.effects
 game.grounds
 game.grounds.plants
 game.items
-game.items.eggs
+game.items.edibles
 game.weapons

@@ -1,4 +1,4 @@
-package game.items;
+package game.items.edibles;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -10,7 +10,7 @@ import game.actions.EatAction;
 import game.effects.AttributeEffect;
 import game.effects.EffectsList;
 import game.effects.MultiplierEffect;
-import game.items.eggs.Edible;
+import game.items.edibles.Edible;
 import game.timemanagement.Phases;
 import game.timemanagement.TimeAware;
 

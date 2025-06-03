@@ -2,7 +2,7 @@ package game.grounds;
 
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import game.items.NightingaleBerry;
+import game.items.edibles.NightingaleBerry;
 import game.timemanagement.Phases;
 import game.timemanagement.TimeAware;
 

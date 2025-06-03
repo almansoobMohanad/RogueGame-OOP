@@ -21,7 +21,7 @@ import game.behaviours.WanderBehaviour;
 import game.conditions.TurnCounterCondition;
 import game.effects.MaxAttributeEffect;
 import game.grounds.plants.Inheritree;
-import game.items.eggs.Egg;
+import game.items.edibles.Egg;
 
 /**
  * A passive creature that wanders around the map.
