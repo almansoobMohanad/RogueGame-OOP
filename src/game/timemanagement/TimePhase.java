@@ -1,6 +1,6 @@
 package game.timemanagement;
 
-public enum TimePhase {
-    DAY,
-    NIGHT
+public interface TimePhase {
+    Phase getTimePhase();
+    TimePhase nextPhase();
 }

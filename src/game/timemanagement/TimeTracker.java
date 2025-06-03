@@ -11,7 +11,7 @@ public class TimeTracker{
 
     public TimeTracker() {
         this.timeAwareObjects = new ArrayList<>();
-        this.currentPhase = TimePhase.DAY;
+        this.currentPhase = new DayPhase();
         this.turnCount = 0;
     }
 
@@ -22,14 +22,14 @@ public class TimeTracker{
     public void tick() {
         turnCount++;
         if (turnCount % TURNS_PER_DAY == 0) {
-            currentPhase = (currentPhase == TimePhase.DAY) ? TimePhase.NIGHT : TimePhase.DAY;
+            currentPhase = currentPhase.nextPhase();
             notifyTimeChange();
         }
     }
 
     private void notifyTimeChange() {
         for (TimeAware timeAware : timeAwareObjects) {
-            timeAware.onTimeChange(currentPhase);
+            timeAware.onTimeChange(currentPhase.getTimePhase());
         }
     }
 }
