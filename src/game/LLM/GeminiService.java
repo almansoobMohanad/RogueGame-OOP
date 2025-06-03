@@ -7,23 +7,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-
 import org.json.JSONObject;
 
-
 public class GeminiService {
+    private final String apiKey;
+    private final String baseUrl;
 
-    private static final String API_KEY = "AIzaSyCTyI4LtvWd3ehYv586g-Sk38eDtBel30E"; // Replace this!
-    private static final String REQUEST_URL =
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY;
+    public GeminiService(String apiKey) {
+        this.apiKey = apiKey;
+        this.baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
+    }
 
-    /**
-     * Sends a prompt to Gemini and returns the plain text response.
-     */
-    public String callGemini(String prompt) {
-        String result;
+    public JSONObject callGeminiJson(String prompt) {
         try {
-            URL url = new URL(REQUEST_URL);
+            URL url = new URL(baseUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("POST");
@@ -31,38 +28,71 @@ public class GeminiService {
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
 
-            String jsonInputString = "{\"contents\": [{\"parts\": [{\"text\": \"" + escapeJson(prompt) + "\"}]}]}";
+            // Add a clear instruction to reply only in JSON
+            String fullPrompt = "You must reply ONLY in valid JSON. Do not include any other text. " + prompt;
+
+            // Build the request body using org.json
+            JSONObject message = new JSONObject();
+            message.put("text", fullPrompt);
+
+            JSONObject part = new JSONObject();
+            part.put("parts", new org.json.JSONArray().put(message));
+
+            JSONObject content = new JSONObject();
+            content.put("contents", new org.json.JSONArray().put(part));
 
             try (OutputStream os = connection.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+                byte[] input = content.toString().getBytes(StandardCharsets.UTF_8);
                 os.write(input, 0, input.length);
             }
-
-            int code = connection.getResponseCode();
-            System.out.println("Response Code: " + code);
 
             try (BufferedReader br = new BufferedReader(
                     new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
                 StringBuilder response = new StringBuilder();
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
+                String line;
+                while ((line = br.readLine()) != null) {
+                    response.append(line.trim());
                 }
 
-                result = response.toString();
+                // Parse top-level response
+                JSONObject responseJson = new JSONObject(response.toString());
 
-                // Just return raw response for now
-                return result;
+                // Extract Gemini's actual JSON reply from its nested format
+                String replyText = responseJson
+                        .getJSONArray("candidates").getJSONObject(0)
+                        .getJSONObject("content").getJSONArray("parts")
+                        .getJSONObject(0).getString("text");
+
+                // Parse Gemini's JSON reply
+                return extractJsonObject(replyText);
             }
+
         } catch (Exception e) {
-            return "I am sorry, I cannot help you with that. Gemini offline at the moment.";
+            e.printStackTrace(); // Helpful for debugging
+            return new JSONObject().put("reply", "[Gemini offline]").put("options", new String[0]);
         }
     }
 
-    /**
-     * Escape quotes and backslashes for safe JSON insertion
-     */
-    private String escapeJson(String text) {
-        return text.replace("\\", "\\\\").replace("\"", "\\\"");
+    private JSONObject extractJsonObject(String responseText) {
+
+        System.out.println("RESPONSE");
+        System.out.println(responseText);
+        System.out.println("//////////////////////////////");
+
+        // Remove Markdown-style code block markers like ```json or '''json
+        String cleaned = responseText
+                .replaceAll("^\\s*[`']{3}json\\s*", "")  // remove opening ```json or '''json
+                .replaceAll("[`']{3}\\s*$", "")          // remove closing ``` or '''
+                .trim();
+
+        try {
+            return new JSONObject(cleaned);
+        } catch (Exception e) {
+            e.printStackTrace(); // helpful for debugging
+            return new JSONObject().put("reply", "[Invalid JSON returned]").put("raw", cleaned);
+        }
     }
+
+
+
 }
