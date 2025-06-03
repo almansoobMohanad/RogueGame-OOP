@@ -17,7 +17,6 @@
 - ahak0006 forgot to update his Git Account when pushing which caused his commits to be attributed to his personal account which is A.I.Hunter
 
 
-# UMLS for REQ3 and REQ4 are in docs
 
 # REQ 3: Day/Night System
 
