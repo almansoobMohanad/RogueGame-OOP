@@ -1,5 +1,5 @@
 package game.timemanagement;
 
 public interface TimeAware {
-    void onTimeChange(Phase newPhase);
+    void onTimeChange(Phases newPhase);
 }

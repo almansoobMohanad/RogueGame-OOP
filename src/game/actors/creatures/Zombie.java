@@ -1,7 +1,7 @@
 package game.actors.creatures;
 
 import game.behaviours.NPCController;
-import game.timemanagement.Phase;
+import game.timemanagement.Phases;
 import game.timemanagement.TimeAware;
 
 public class Zombie extends Creature implements TimeAware {
@@ -19,7 +19,7 @@ public class Zombie extends Creature implements TimeAware {
     }
 
     @Override
-    public void onTimeChange(Phase newPhase) {
+    public void onTimeChange(Phases newPhase) {
 
     }
 }

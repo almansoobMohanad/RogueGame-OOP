@@ -70,6 +70,7 @@ public class Inheritree extends Plant {
                 adjacent.setGround(new Soil());
             }
 
+            adjacent.getGround().addCapability(BLESSED_BY_GRACE);
         }
 
     }

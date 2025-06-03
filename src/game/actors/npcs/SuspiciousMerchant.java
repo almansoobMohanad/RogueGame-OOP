@@ -1,7 +1,7 @@
 package game.actors.npcs;
 
 import game.behaviours.NPCController;
-import game.timemanagement.Phase;
+import game.timemanagement.Phases;
 import game.timemanagement.TimeAware;
 
 public class SuspiciousMerchant extends NPC implements TimeAware {
@@ -19,7 +19,7 @@ public class SuspiciousMerchant extends NPC implements TimeAware {
     }
 
     @Override
-    public void onTimeChange(Phase newPhase) {
+    public void onTimeChange(Phases newPhase) {
 
     }
 }

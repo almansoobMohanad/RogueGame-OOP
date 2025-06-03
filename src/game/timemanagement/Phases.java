@@ -1,6 +1,6 @@
 package game.timemanagement;
 
-public enum Phase {
+public enum Phases {
     DAY,
     NIGHT
 }

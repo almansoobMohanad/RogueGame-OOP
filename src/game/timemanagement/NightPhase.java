@@ -3,8 +3,8 @@ package game.timemanagement;
 public class NightPhase implements TimePhase {
 
     @Override
-    public Phase getTimePhase() {
-        return Phase.NIGHT;
+    public Phases getTimePhase() {
+        return Phases.NIGHT;
     }
 
     @Override
