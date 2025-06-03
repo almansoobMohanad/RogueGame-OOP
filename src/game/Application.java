@@ -24,6 +24,7 @@ import game.grounds.plants.Bloodrose;
 import game.grounds.plants.Inheritree;
 import game.items.Talisman;
 import game.items.Seed;
+import game.timemanagement.TimeTracker;
 
 /**
  * The main class to setup and run the game.
@@ -55,7 +56,8 @@ public class Application {
                 "xxxxx..xxxxxxxxxxx.........xxxxx......xx",
                 "xxxxx..xxxxxxxxxxxx.......xxxxxx......xx");
 
-        GameMap gameMap = new GameMap("Valley of the Inheritree", groundFactory, map);
+        TimeTracker timeTracker = new TimeTracker();
+        GameMap gameMap = new EldenThingGameMap("Valley of the Inheritree", groundFactory, map, timeTracker);
         world.addGameMap(gameMap);
 
         // BEHOLD, ELDEN THING!
