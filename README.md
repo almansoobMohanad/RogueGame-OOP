@@ -67,6 +67,8 @@ This feature introduces a **dynamic Day/Night system** that changes gameplay beh
 
 ---
 
+![A3_REQ3_UML_Proposal.png](docs/A3_REQ3_UML_Proposal.png)
+
 
 # REQ 4: LLM-Powered NPC Dialogue System (API Integration)
 
@@ -133,4 +135,5 @@ This feature introduces **dynamic conversations** with three unique NPCs (**Shab
     ...
   ]
 }
-
+```
+![A3_REQ4_UML_PROPOSAL.png](docs/A3_REQ4_UML_PROPOSAL.png)
