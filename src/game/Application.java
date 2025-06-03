@@ -25,6 +25,7 @@ import game.grounds.plants.Bloodrose;
 import game.grounds.plants.Inheritree;
 import game.items.Talisman;
 import game.items.Seed;
+import org.json.JSONObject;
 
 /**
  * The main class to setup and run the game.
@@ -34,8 +35,47 @@ public class Application {
 
     public static void main(String[] args) {
 
-        GeminiService gemini = new GeminiService();
-        System.out.println(gemini.callGemini("WHAT IS THE TALLEST BUILDING IN THE WORLD?"));
+        String API_KEY = "AIzaSyCTyI4LtvWd3ehYv586g-Sk38eDtBel30E";
+
+        String prompt = """
+                You are playing the role of a mystical NPC named Shabiri who enjoys deep, philosophical conversations.\s
+                
+                I want you to generate a structured conversation as follows:
+                
+                - Start with this fixed greeting from the player: "Hello Shabiri"
+                - Shabiri replies with a mystical, thematic greeting.
+                - Then provide 3 options for the player to choose from (Q1 Option 1–3).
+                - For each of those options, write Shabiri’s distinct reply (Q1 Response 1–3).
+                - Then give another 3 options the player could reply with (Q2 Option 1–3).
+                - For each of those, write Shabiri’s reply again (Q2 Response 1–3).
+                - Finally, provide a last set of 3 player options (Q3 Option 1–3), and a final reply from Shabiri for each (Q3 Response 1–3).
+                
+                Output everything strictly in JSON format like this example:
+                
+                {
+                  "greeting": "Hello Shabiri",
+                  "shabiriResponse": "...",
+                
+                  "q1Options": ["...", "...", "..."],
+                  "q1Responses": ["...", "...", "..."],
+                
+                  "q2Options": ["...", "...", "..."],
+                  "q2Responses": ["...", "...", "..."],
+                
+                  "q3Options": ["...", "...", "..."],
+                  "q3Responses": ["...", "...", "..."]
+                }
+                
+                Keep Shabiri's tone mysterious, wise, and thought-provoking. Do not include anything outside this JSON.
+                
+        """;
+
+        GeminiService gemini = new GeminiService(API_KEY);
+
+        JSONObject response = gemini.callGeminiJson(prompt);
+
+        System.out.println(response.toString(2));
+
 
         World world = new World(new Display());
 
