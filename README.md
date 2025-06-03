@@ -136,3 +136,5 @@ This feature introduces **dynamic conversations** with three unique NPCs (**Shab
 }
 ```
 ![A3_REQ4_UML_PROPOSAL.png](docs/A3_REQ4_UML_PROPOSAL.png)
+
+Approved by TA
