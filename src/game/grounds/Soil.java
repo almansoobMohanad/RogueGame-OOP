@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.items.edibles.NightingaleBerry;
 import game.timemanagement.Phases;
+import game.timemanagement.ServiceLocator;
 import game.timemanagement.TimeAware;
 
 import java.util.Random;
@@ -24,20 +25,19 @@ public class Soil extends Ground implements TimeAware {
         super('.', "Soil");
         this.addCapability(GroundStatus.PLANTABLE);
         this.random = new Random();
+        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
     }
 
     @Override
     public void tick(Location location) {
         super.tick(location);
-        if (this.currentPhase == Phases.NIGHT){
-            if (random.nextInt(100) < NIGHTINGALE_BERRY_SPAWN_CHANCE) {
-                location.addItem(new NightingaleBerry());
-            }
+        if (this.currentPhase == Phases.NIGHT && random.nextInt(100) < NIGHTINGALE_BERRY_SPAWN_CHANCE){
+            this.onTimeChange(location);
         }
     }
 
     @Override
-    public void onTimeChange(Phases newPhase) {
-        currentPhase = newPhase;
+    public void onTimeChange(Location location) {
+        location.addItem(new NightingaleBerry());
     }
 }

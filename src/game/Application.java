@@ -24,6 +24,7 @@ import game.grounds.plants.Bloodrose;
 import game.grounds.plants.Inheritree;
 import game.items.Talisman;
 import game.items.Seed;
+import game.timemanagement.ServiceLocator;
 import game.timemanagement.TimeTracker;
 
 /**
@@ -57,6 +58,7 @@ public class Application {
                 "xxxxx..xxxxxxxxxxxx.......xxxxxx......xx");
 
         TimeTracker timeTracker = new TimeTracker();
+        ServiceLocator.registerTimeProvider(timeTracker);
         GameMap gameMap = new EldenThingGameMap("Valley of the Inheritree", groundFactory, map, timeTracker);
         world.addGameMap(gameMap);
 

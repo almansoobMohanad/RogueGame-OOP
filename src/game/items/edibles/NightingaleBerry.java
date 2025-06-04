@@ -10,8 +10,8 @@ import game.actions.EatAction;
 import game.effects.AttributeEffect;
 import game.effects.EffectsList;
 import game.effects.MultiplierEffect;
-import game.items.edibles.Edible;
 import game.timemanagement.Phases;
+import game.timemanagement.ServiceLocator;
 import game.timemanagement.TimeAware;
 
 public class NightingaleBerry extends Item implements TimeAware, Edible {
@@ -27,6 +27,7 @@ public class NightingaleBerry extends Item implements TimeAware, Edible {
         super("Nightingale Berry", '^', true);
         this.effectsList = new EffectsList();
         this.saturateEffectsList();
+        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
     }
 
     private void saturateEffectsList(){
@@ -35,15 +36,15 @@ public class NightingaleBerry extends Item implements TimeAware, Edible {
     }
 
     @Override
-    public void onTimeChange(Phases newPhase) {
-        this.currentPhase = newPhase;
+    public void onTimeChange(Location location) {
+        location.removeItem(this);
     }
 
     @Override
     public void tick(Location currentLocation) {
         super.tick(currentLocation);
         if (currentPhase == Phases.DAY){
-            currentLocation.removeItem(this);
+            this.onTimeChange(currentLocation);
         }
     }
 
