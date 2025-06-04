@@ -1,25 +1,20 @@
 package game.actors.npcs;
 
+import edu.monash.fit2099.engine.positions.Location;
 import game.behaviours.NPCController;
-import game.timemanagement.Phases;
 import game.timemanagement.TimeAware;
 
 public class SuspiciousMerchant extends NPC implements TimeAware {
     /**
      * The constructor of the Actor class.
-     *
-     * @param name        the name of the Actor
-     * @param displayChar the character that will represent the Actor in the display
-     * @param hitPoints   the Actor's starting hit points
      * @param controller
      */
-    public SuspiciousMerchant(String name, char displayChar, int hitPoints, NPCController controller) {
-        super(name, displayChar, hitPoints, controller);
+    public SuspiciousMerchant(NPCController controller) {
+        super("Suspicious Merchant", 'M', 100, controller);
 
     }
 
     @Override
-    public void onTimeChange(Phases newPhase) {
-
+    public void onTimeChange(Location location) {
     }
 }
