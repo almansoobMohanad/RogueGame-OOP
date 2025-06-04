@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.json.JSONObject;
 
-public class GeminiService {
+public class GeminiService implements LLMService {
     private final String apiKey;
     private final String baseUrl;
 
@@ -18,81 +18,82 @@ public class GeminiService {
         this.baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
     }
 
-    public JSONObject callGeminiJson(String prompt) {
+    /**
+     * Sends the prompt to Gemini and returns whatever Gemini replied (raw string).
+     */
+    @Override
+    public String generateText(String prompt) {
         try {
             URL url = new URL(baseUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
 
-            // Add a clear instruction to reply only in JSON
-            String fullPrompt = "You must reply ONLY in valid JSON. Do not include any other text. " + prompt;
+            // Build request body using org.json to ensure proper escaping.
+            JSONObject part       = new JSONObject().put("text", prompt);
+            JSONObject innerPart  = new JSONObject().put("parts", new org.json.JSONArray().put(part));
+            JSONObject outer      = new JSONObject().put("contents", new org.json.JSONArray().put(innerPart));
+            String     bodyString = outer.toString();
 
-            // Build the request body using org.json
-            JSONObject message = new JSONObject();
-            message.put("text", fullPrompt);
-
-            JSONObject part = new JSONObject();
-            part.put("parts", new org.json.JSONArray().put(message));
-
-            JSONObject content = new JSONObject();
-            content.put("contents", new org.json.JSONArray().put(part));
-
+            // Write body
             try (OutputStream os = connection.getOutputStream()) {
-                byte[] input = content.toString().getBytes(StandardCharsets.UTF_8);
+                byte[] input = bodyString.getBytes(StandardCharsets.UTF_8);
                 os.write(input, 0, input.length);
             }
 
-            try (BufferedReader br = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
-                StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = br.readLine()) != null) {
-                    response.append(line.trim());
-                }
-
-                // Parse top-level response
-                JSONObject responseJson = new JSONObject(response.toString());
-
-                // Extract Gemini's actual JSON reply from its nested format
-                String replyText = responseJson
-                        .getJSONArray("candidates").getJSONObject(0)
-                        .getJSONObject("content").getJSONArray("parts")
-                        .getJSONObject(0).getString("text");
-
-                // Parse Gemini's JSON reply
-                return extractJsonObject(replyText);
+            // Check HTTP status
+            int status = connection.getResponseCode();
+            BufferedReader reader;
+            if (status == HttpURLConnection.HTTP_OK) {
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+            } else {
+                // Read error details from error stream
+                reader = new BufferedReader(new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8));
             }
 
+            StringBuilder responseBuilder = new StringBuilder();
+            String        line;
+            while ((line = reader.readLine()) != null) {
+                responseBuilder.append(line.trim());
+            }
+            reader.close();
+
+            // If bad status, return the raw error JSON (so you can inspect it).
+            if (status != HttpURLConnection.HTTP_OK) {
+                return "[HTTP " + status + "] " + responseBuilder.toString();
+            }
+
+            // Otherwise, extract Gemini’s nested “text” field and return it raw.
+            return extractReplyText(responseBuilder.toString());
+
         } catch (Exception e) {
-            e.printStackTrace(); // Helpful for debugging
-            return new JSONObject().put("reply", "[Gemini offline]").put("options", new String[0]);
+            e.printStackTrace();
+            return "[GeminiService error: " + e.getMessage() + "]";
         }
     }
 
-    private JSONObject extractJsonObject(String responseText) {
-
-        System.out.println("RESPONSE");
-        System.out.println(responseText);
-        System.out.println("//////////////////////////////");
-
-        // Remove Markdown-style code block markers like ```json or '''json
-        String cleaned = responseText
-                .replaceAll("^\\s*[`']{3}json\\s*", "")  // remove opening ```json or '''json
-                .replaceAll("[`']{3}\\s*$", "")          // remove closing ``` or '''
-                .trim();
-
+    /**
+     * Given Gemini’s full JSON response, pull out the “text” from candidates[0].content.parts[0].text.
+     */
+    private String extractReplyText(String response) {
         try {
-            return new JSONObject(cleaned);
+            JSONObject json  = new JSONObject(response);
+            String     reply = json.getJSONArray("candidates")
+                    .getJSONObject(0)
+                    .getJSONObject("content")
+                    .getJSONArray("parts")
+                    .getJSONObject(0)
+                    .getString("text");
+            // Strip any triple‐backtick wrappers if present
+            return reply
+                    .replaceAll("^\\s*[`']{3}json\\s*", "")
+                    .replaceAll("[`']{3}\\s*$", "")
+                    .trim();
         } catch (Exception e) {
-            e.printStackTrace(); // helpful for debugging
-            return new JSONObject().put("reply", "[Invalid JSON returned]").put("raw", cleaned);
+            e.printStackTrace();
+            return "[Failed to extract reply text]";
         }
     }
-
-
-
 }
