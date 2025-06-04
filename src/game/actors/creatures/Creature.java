@@ -58,6 +58,10 @@ public abstract class Creature extends Actor {
 
     }
 
+    public Map<Integer, Behaviour> getBehaviours() {
+        return behaviours;
+    }
+
     /**
      * Selects the creature's action for the current turn by checking its behaviours in order of priority.
      *

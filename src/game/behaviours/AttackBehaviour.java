@@ -18,6 +18,7 @@ import java.util.ArrayList;
  * @author Adji Ilhamhafiz Sarie Hakim
  */
 public class AttackBehaviour implements Behaviour {
+    private static final int DEFAULT_HEALTH_THRESHOLD = 0;
 
     /**
      * The health threshold used to determine whether an Actor should be attacked.
@@ -32,6 +33,10 @@ public class AttackBehaviour implements Behaviour {
      */
     public AttackBehaviour(int health) {
         this.health = health;
+    }
+
+    public AttackBehaviour() {
+        this(DEFAULT_HEALTH_THRESHOLD); // Default threshold of 0, meaning any Actor with health > 0 can be attacked.
     }
 
     /**
