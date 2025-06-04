@@ -1,10 +1,7 @@
 package game.timemanagement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TimeTracker implements TimeProvider {
-    private final int TURNS_PER_DAY = 5;
+    private static final int TURNS_PER_DAY = 5;
     private TimePhase currentPhase;
     private int turnCount;
 

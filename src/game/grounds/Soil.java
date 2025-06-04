@@ -16,7 +16,7 @@ import java.util.Random;
  * Modified by Adji Ilhamhafiz Sarie Hakim
  */
 public class Soil extends Ground implements TimeAware {
-    private Phases currentPhase;
+    private final Phases currentPhase;
     private final Random random;
     private static final int NIGHTINGALE_BERRY_SPAWN_CHANCE = 25;
 

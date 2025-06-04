@@ -16,7 +16,7 @@ import game.timemanagement.TimeAware;
 
 public class NightingaleBerry extends Item implements TimeAware, Edible {
 
-    private Phases currentPhase;
+    private final Phases currentPhase;
     private final EffectsList effectsList;
     private static final int HEALTH_INCREASE_AMOUNT = 20;
     private static final float MULTIPLIER_UPDATED_VALUE = 1.5f;

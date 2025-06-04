@@ -1,11 +1,9 @@
 package game.grounds;
 
-import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Curable;
@@ -26,8 +24,8 @@ import java.util.Random;
  */
 public class Blight extends Ground implements Curable, TimeAware {
     private static final int CHANCE_TO_SPAWN_ZOMBIE = 10;
-    private Phases currentPhase;
-    private Random random;
+    private final Phases currentPhase;
+    private final Random random;
 
 
     /**

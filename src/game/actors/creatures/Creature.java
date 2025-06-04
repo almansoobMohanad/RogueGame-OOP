@@ -2,7 +2,6 @@ package game.actors.creatures;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
-import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
@@ -26,7 +25,7 @@ import java.util.TreeMap;
 public abstract class Creature extends Actor {
 
     /** A map of behaviours with their priorities. Lower numbers represent higher priorities. */
-    private Map<Integer, Behaviour> behaviours = new TreeMap<>();
+    private final Map<Integer, Behaviour> behaviours = new TreeMap<>();
 
     private final NPCController controller;
 

@@ -2,22 +2,15 @@ package game.actors.creatures;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
-import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.Behaviour;
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.behaviours.AttackBehaviour;
 import game.behaviours.NPCController;
 import game.behaviours.WanderBehaviour;
-import game.effects.AttributeEffect;
-import game.effects.EffectsList;
 import game.timemanagement.Phases;
 import game.timemanagement.ServiceLocator;
 import game.timemanagement.TimeAware;
-
-import java.util.Map;
 
 public class Zombie extends Creature implements TimeAware {
     private static final int DEFAULT_HIT_POINTS = 100;
