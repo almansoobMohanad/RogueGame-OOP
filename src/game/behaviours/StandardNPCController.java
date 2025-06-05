@@ -23,6 +23,7 @@ public class StandardNPCController implements NPCController {
             }
 
         }
+
         return new DoNothingAction();
     }
 }
