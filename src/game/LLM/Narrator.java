@@ -86,18 +86,17 @@ public class Narrator extends NPC implements DialogueCapable {
         String chosenText = dialogue.getCurrentOptions().get(optionIndex);
 
         if (chosenText.equalsIgnoreCase("Decline")) {
+            String declineResponse = dialogue.getResponseFor(optionIndex);
             resetDialogue();
-            return "Very well... another tale awaits on your next visit.";
-        }
-
-        if (dialogue.isFinished()) {
-            resetDialogue();
-            return  "There are no more parts of this tale right now.";
-
+            return declineResponse;
         }
 
         String response = dialogue.getResponseFor(optionIndex);
         dialogue.nextRound();
+
+        if (dialogue.isFinished()) {
+            resetDialogue();
+        }
 
         return response;
 
@@ -109,9 +108,6 @@ public class Narrator extends NPC implements DialogueCapable {
     public ActionList allowableActions(Actor actor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(actor, direction, map);
 
-        if (dialogue.isFinished()) {
-            resetDialogue();
-        }
 
         for (int i = 0; i < dialogue.getCurrentOptions().size(); i++) {
             actions.add(new TalkAction(this, i));
