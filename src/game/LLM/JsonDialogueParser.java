@@ -13,13 +13,12 @@ public class JsonDialogueParser {
         try {
             JSONObject root = new JSONObject(jsonString);
 
-            String greeting = root.getString("greeting");
 
             // Parse nested arrays into List<List<String>>
             List<List<String>> options = parseNestedStringArray(root.getJSONArray("options"));
             List<List<String>> responses = parseNestedStringArray(root.getJSONArray("responses"));
 
-            return new Dialogue(greeting, options, responses);
+            return new Dialogue(options, responses);
 
         } catch (JSONException e) {
             throw new DialogueParsingException("Failed to parse Dialogue JSON", e);

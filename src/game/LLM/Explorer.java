@@ -13,14 +13,13 @@ import java.util.Scanner;
 public class Explorer extends NPC implements DialogueCapable {
 
     private static final String EXPLORER_PROMPT_PREFIX = """
-    You are "The Explorer", a wise wanderer NPC in a fantasy game world.
+    You are "The Explorer", a wise wanderer NPC in Elden Ring Universe.
     
     When a player asks you a question about the game world, you answer in a lore-accurate and immersive way. 
     
     You must respond in this exact strict JSON format:
     
     {
-      "greeting": "Your greeting to the player.",
       "options": [["Ask a question"]],
       "responses": [["Your lore-rich response to the player's question."]]
     }
@@ -57,7 +56,6 @@ public class Explorer extends NPC implements DialogueCapable {
     public void resetDialogue() {
         // This is a "stub" greeting just to start the interaction
         this.dialogue = new Dialogue(
-                "Ah, a curious mind approaches.",
                 List.of(List.of("Hey Explorer, can I ask you something?")),
                 List.of(List.of("")) // Placeholder; overwritten after first real question
         );

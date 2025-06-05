@@ -16,7 +16,6 @@ public class Shabiri extends NPC implements DialogueCapable {
     Generate a STRICTLY JSON object representing a 3-round dialogue initiated by the player. The structure should follow this format exactly:
     
     {
-      "greeting": "Shabiri's initial mysterious greeting to the player.",
       "options": [
         ["Player greeting + question 1", "Player greeting + question 2", "Player greeting + question 3"],       // Round 1 (player starts)
         ["Reflective follow-up 1", "Thoughtful follow-up 2", "Emotionally reactive follow-up 3"],              // Round 2
@@ -71,7 +70,6 @@ public class Shabiri extends NPC implements DialogueCapable {
             e.printStackTrace();
 
             return new Dialogue(
-                    "",
                     List.of(
                             List.of("Hi"),
                             List.of("What?"),

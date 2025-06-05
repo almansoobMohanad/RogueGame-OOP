@@ -15,7 +15,6 @@ public class Narrator extends NPC implements DialogueCapable {
             Generate a Strictly JSON object representing a 3-part short story dialogue with the player. The structure should match this format:
 
             {
-              "greeting": "Your opening greeting line.",
               "options": [
                 ["Tell me a story"]
                 ["Continue", "Decline"],   // Round 1
@@ -59,7 +58,6 @@ public class Narrator extends NPC implements DialogueCapable {
             e.printStackTrace();
 
             return new Dialogue(
-                    "A fire crackles in the hearth, but no tale today.",
                     List.of(
                             List.of("…", "…"),
                             List.of("…", "…"),
