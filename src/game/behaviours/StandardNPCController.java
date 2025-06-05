@@ -14,6 +14,11 @@ public class StandardNPCController implements NPCController {
 
     @Override
     public Action playturn(Map<Integer, Behaviour> behaviours, Actor actor, GameMap map, Display display) {
+
+        if (map.locationOf(actor) == null) {
+            return new DoNothingAction();
+        }
+
         for (Behaviour behaviour : new TreeMap<>(behaviours).values()) {
 
             Action action = behaviour.getAction(actor, map);
