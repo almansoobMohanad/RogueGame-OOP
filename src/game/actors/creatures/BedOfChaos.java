@@ -15,7 +15,6 @@ public class BedOfChaos extends Creature {
     public static int MAX_HEALTH = 1000;
 
     private final List<Branch> branches = new ArrayList<>();
-    private Branch lastBranch = null;
     private int leafCount = 0;
 
     public BedOfChaos(NPCController controller) {
@@ -34,23 +33,22 @@ public class BedOfChaos extends Creature {
         int maxHP = this.getAttributeMaximum(BaseActorAttributes.HEALTH);
         display.println(this + " (" + currentHP + "/" + maxHP + ") is growing...");
 
-        Branch newBranch = new Branch(this);
-        addBranch(newBranch);
-
-        display.println("It grows a branch...");
-
-        newBranch.chainGrow(display);
-    }
-
-    public void continueGrowChain(Display display) {
-        if (lastBranch != null) {
-            lastBranch.chainGrow(display);
+        if (Math.random() < 0.5) {
+            Branch newBranch = new Branch(this);
+            addBranch(newBranch);
+            display.println("It grows a branch...");
+        }
+        else {
+            incrementLeafCount();
+            display.println("It grows a leaf...");
+            this.heal(5);
+            int healedHP = this.getAttribute(BaseActorAttributes.HEALTH);
+            display.println(this + " (" + healedHP + "/" + maxHP + ") is healed.");
         }
     }
 
     public void addBranch(Branch branch) {
         branches.add(branch);
-        lastBranch = branch;
     }
 
     public int getBranchCount() {
@@ -64,6 +62,11 @@ public class BedOfChaos extends Creature {
     public void incrementLeafCount() {
         leafCount++;
     }
+
+    public List<Branch> getBranches() {
+        return new ArrayList<>(branches);
+    }
+
 
 }
 
