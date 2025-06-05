@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
+import game.behaviours.NPCController;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -27,6 +28,9 @@ public abstract class Creature extends Actor {
     /** A map of behaviours with their priorities. Lower numbers represent higher priorities. */
     private Map<Integer, Behaviour> behaviours = new TreeMap<>();
 
+    private final NPCController controller;
+
+
     /**
      * Constructor for a Creature.
      *
@@ -34,9 +38,10 @@ public abstract class Creature extends Actor {
      * @param displayChar the character that will represent the creature in the UI
      * @param hitPoints   the creature's initial health points
      */
-    public Creature(String name, char displayChar, int hitPoints) {
+    public Creature(String name, char displayChar, int hitPoints, NPCController controller) {
 
         super(name, displayChar, hitPoints);
+        this.controller = controller;
 
     }
 
@@ -65,14 +70,8 @@ public abstract class Creature extends Actor {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        for (Behaviour behaviour : behaviours.values()) {
-            Action action = behaviour.getAction(this, map);
-            if (action != null) {
-                return action;
-            }
-        }
+        return controller.playturn(behaviours, this, map, display);
 
-        return new DoNothingAction();
     }
 
 

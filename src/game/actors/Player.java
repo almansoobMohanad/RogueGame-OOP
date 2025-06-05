@@ -29,6 +29,7 @@ public class Player extends Actor {
         this.setIntrinsicWeapon(new BareFist());
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
         this.addCapability(Ability.FOLLOWABLE);
+        this.addCapability(Ability.TELEPORT);
     }
 
     @Override

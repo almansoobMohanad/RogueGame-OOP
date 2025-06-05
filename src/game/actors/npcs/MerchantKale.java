@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actors.Status;
+import game.behaviours.NPCController;
 import game.behaviours.WanderBehaviour;
 import game.conditions.EmptyInventoryCondition;
 import game.conditions.MoneyCondition;
@@ -37,6 +38,16 @@ import java.util.List;
  */
 public class MerchantKale extends NPC implements Merchant {
 
+    private static final int MERCHANT_KALE_HP = 200;
+    private static final int MONEY_THRESHOLD = 500;
+
+    private static final int BROADSWORD_PRICE = 150;
+    private static final int BROADSWORD_STAMINA_MAX_BOOST = 30;
+
+    private static final int DRAGONSLAYER_GREATSWORD_PRICE = 1700;
+    private static final int DRAGONSLAYER_GREATSWORD_STAMINA_BOOST = 20;
+
+
     /**
      * List of items available for purchase from Merchant Kale.
      */
@@ -45,24 +56,31 @@ public class MerchantKale extends NPC implements Merchant {
     /**
      * Constructs a new instance of Merchant Kale, initializing monologues, behaviors, and merchandise.
      */
-    public MerchantKale() {
-        super("Merchant Kale", 'k', 200);
+    public MerchantKale(NPCController controller) {
+        super("Merchant Kale", 'k', MERCHANT_KALE_HP, controller);
         this.addBehaviour(0, new WanderBehaviour());
 
         // Adding monologues to the pool
         this.addIntoMonologuePool(new Monologue("A merchant’s life is a lonely one. But the roads… they whisper secrets to those who listen."));
         this.addIntoMonologuePool(new Monologue(new NearStatusCondition(this, Status.CURSED), "Rest by the flame when you can, friend. These lands will wear you thin."));
         this.addIntoMonologuePool(new Monologue(new EmptyInventoryCondition(), "Not a scrap to your name? Even a farmer should carry a trinket or two."));
-        this.addIntoMonologuePool(new Monologue(new MoneyCondition(500, false), "Ah, hard times, I see. Keep your head low and your blade sharp."));
+        this.addIntoMonologuePool(new Monologue(new MoneyCondition(MONEY_THRESHOLD, false), "Ah, hard times, I see. Keep your head low and your blade sharp."));
 
-        // Adding items to the sellItems list
+        // setup sellItems
+        initializeSellItems();
+
+    }
+
+    private void initializeSellItems() {
+
         EffectsList broadSwordEffects = new EffectsList();
-        broadSwordEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.STAMINA, 30));
-        sellItems.add(new BroadSword(150, broadSwordEffects));
+        broadSwordEffects.addEffect(new MaxAttributeEffect(BaseActorAttributes.STAMINA, BROADSWORD_STAMINA_MAX_BOOST));
+        sellItems.add(new BroadSword(BROADSWORD_PRICE, broadSwordEffects));
 
         EffectsList dragonslayerGreatswordEffects = new EffectsList();
-        dragonslayerGreatswordEffects.addEffect(new AttributeEffect(BaseActorAttributes.STAMINA, 20));
-        sellItems.add(new DragonslayerGreatsword(1700, dragonslayerGreatswordEffects));
+        dragonslayerGreatswordEffects.addEffect(new AttributeEffect(BaseActorAttributes.STAMINA, DRAGONSLAYER_GREATSWORD_STAMINA_BOOST));
+        sellItems.add(new DragonslayerGreatsword(DRAGONSLAYER_GREATSWORD_PRICE, dragonslayerGreatswordEffects));
+
     }
 
     /**

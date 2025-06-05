@@ -8,5 +8,6 @@ public enum Ability {
 
     CURE,
     FOLLOWABLE,
+    TELEPORT
 
 }

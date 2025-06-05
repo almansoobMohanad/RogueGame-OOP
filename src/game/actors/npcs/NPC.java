@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.ListenAction;
 import game.actions.AttackAction;
+import game.behaviours.NPCController;
 
 import java.util.*;
 
@@ -30,6 +31,8 @@ public abstract class NPC extends Actor {
      */
     private final Map<Integer, Behaviour> behaviours;
 
+    private final NPCController controller;
+
     /**
      * The constructor of the Actor class.
      *
@@ -37,10 +40,11 @@ public abstract class NPC extends Actor {
      * @param displayChar the character that will represent the Actor in the display
      * @param hitPoints   the Actor's starting hit points
      */
-    public NPC(String name, char displayChar, int hitPoints) {
+    public NPC(String name, char displayChar, int hitPoints, NPCController controller) {
         super(name, displayChar, hitPoints);
         this.behaviours = new TreeMap<>();
         this.monologuePool = new ArrayList<>();
+        this.controller = controller;
     }
 
     /**
@@ -76,14 +80,7 @@ public abstract class NPC extends Actor {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        for (Behaviour behaviour : behaviours.values()) {
-            Action action = behaviour.getAction(this, map);
-            if (action != null) {
-                return action;
-            }
-        }
-
-        return new DoNothingAction();
+        return controller.playturn(behaviours, this, map, display);
     }
 
     /**
