@@ -23,8 +23,8 @@ import java.util.Random;
  * @author Adrian Kristanto
  */
 public class Blight extends Ground implements Curable, TimeAware {
-    private static final int CHANCE_TO_SPAWN_ZOMBIE = 10;
-    private final Phases currentPhase;
+    private static final int CHANCE_TO_SPAWN_ZOMBIE = 1;
+    private Phases currentPhase;
     private final Random random;
 
 
@@ -41,8 +41,8 @@ public class Blight extends Ground implements Curable, TimeAware {
 
     @Override
     public void tick(Location location) {
-        super.tick(location);
         this.onTimeChange(location);
+        super.tick(location);
     }
 
     /**
@@ -87,8 +87,15 @@ public class Blight extends Ground implements Curable, TimeAware {
 
     @Override
     public void onTimeChange(Location location) {
-        if (this.currentPhase == Phases.NIGHT && random.nextInt(100) < CHANCE_TO_SPAWN_ZOMBIE) {
-            location.addActor(new Zombie(new StandardNPCController()));
+        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
+        if (!location.containsAnActor()) {
+            if (
+                    this.currentPhase == Phases.NIGHT &&
+                    random.nextInt(100) < CHANCE_TO_SPAWN_ZOMBIE &&
+                    this.hasCapability(Status.CURSED)
+            ) {
+                location.addActor(new Zombie(new StandardNPCController()));
+            }
         }
     }
 }

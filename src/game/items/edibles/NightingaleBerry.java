@@ -16,7 +16,7 @@ import game.timemanagement.TimeAware;
 
 public class NightingaleBerry extends Item implements TimeAware, Edible {
 
-    private final Phases currentPhase;
+    private Phases currentPhase;
     private final EffectsList effectsList;
     private static final int HEALTH_INCREASE_AMOUNT = 20;
     private static final float MULTIPLIER_UPDATED_VALUE = 1.5f;
@@ -37,15 +37,16 @@ public class NightingaleBerry extends Item implements TimeAware, Edible {
 
     @Override
     public void onTimeChange(Location location) {
-        if (currentPhase == Phases.DAY){
+        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
+        if (this.currentPhase == Phases.DAY){
             location.removeItem(this);
         }
     }
 
     @Override
     public void tick(Location currentLocation) {
-        super.tick(currentLocation);
         this.onTimeChange(currentLocation);
+        super.tick(currentLocation);
     }
 
     @Override

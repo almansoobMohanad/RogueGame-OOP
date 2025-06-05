@@ -34,7 +34,7 @@ public class SuspiciousMerchant extends NPC implements TimeAware, Merchant, Scam
     private static final int MERCHANT_HIT_POINTS = 100;
     private static final int CHANCE_OF_SCAMMING = 50;
     private final NPCController controller;
-    private final Phases currentPhase;
+    private Phases currentPhase;
     private final List<Buyable> sellItems;
     private final Random random;
     /**
@@ -80,6 +80,7 @@ public class SuspiciousMerchant extends NPC implements TimeAware, Merchant, Scam
 
     @Override
     public void onTimeChange(Location location) {
+        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
         if (this.currentPhase == Phases.DAY && this.isConscious()) {
             this.unconscious(location.map());
         }

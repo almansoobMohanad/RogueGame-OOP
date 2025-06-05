@@ -11,11 +11,12 @@ import game.behaviours.WanderBehaviour;
 import game.timemanagement.Phases;
 import game.timemanagement.ServiceLocator;
 import game.timemanagement.TimeAware;
+import game.weapons.BareFist;
 
 public class Zombie extends Creature implements TimeAware {
-    private static final int DEFAULT_HIT_POINTS = 100;
-
-    private final Phases currentPhase;
+    private static final int DEFAULT_HIT_POINTS = 50;
+    private static final int DAMAGE_TAKEN_IN_DAY_PHASE = 20;
+    private Phases currentPhase;
     private final NPCController controller;
     /**
      * Constructor for a Creature.
@@ -24,6 +25,7 @@ public class Zombie extends Creature implements TimeAware {
      */
     public Zombie(NPCController controller) {
         super("Zombie", 'Z', DEFAULT_HIT_POINTS, controller);
+        this.setIntrinsicWeapon(new BareFist());
         this.addBehaviour(0, new AttackBehaviour());
         this.addBehaviour(1, new WanderBehaviour());
         this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
@@ -34,13 +36,19 @@ public class Zombie extends Creature implements TimeAware {
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         this.onTimeChange(map.locationOf(this));
 
+        if (!this.isConscious()){
+            this.unconscious(map);
+        }
+
         return controller.playturn(this.getBehaviours(), this, map, display);
     }
 
     @Override
     public void onTimeChange(Location location) {
-        if (currentPhase == Phases.DAY) {
-            this.hurt(15);
+        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
+        if (this.currentPhase == Phases.DAY) {
+            this.hurt(DAMAGE_TAKEN_IN_DAY_PHASE);
         }
     }
+
 }
