@@ -94,6 +94,8 @@ public class Application {
 //        gameMap.at(8, 7).addActor(new OmenSheep(standardController));
 //        gameMap.at(20, 12).addActor(new GoldenBeetle(standardController));
         gameMap.at(20, 14).addActor(new Narrator(standardController, dialogueManager));
+        gameMap.at(25, 14).addActor(new Shabiri(standardController, dialogueManager));
+        gameMap.at(29, 14).addActor(new Explorer(standardController, dialogueManager));
         world.run();
 
         for (String line : FancyMessage.YOU_DIED.split("\n")) {
