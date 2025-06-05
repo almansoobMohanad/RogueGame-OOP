@@ -1,6 +1,8 @@
 package game.grounds.plants;
 
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Ground;
+import edu.monash.fit2099.engine.positions.Location;
 
 /**
  * A base class for all plant types in the game.
@@ -13,6 +15,7 @@ import edu.monash.fit2099.engine.positions.Ground;
  * functionality in the game.</p>
  *
  * @author Mohanad Al-Mansoob
+ * Modified by Adji Ilhamhafiz Sarie Hakim
  */
 public abstract class Plant extends Ground {
 
@@ -30,5 +33,7 @@ public abstract class Plant extends Ground {
         super(displayChar, name);
 
     }
+
+    public abstract void plantEffect(Actor actor, Location location);
 
 }

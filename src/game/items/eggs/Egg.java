@@ -3,9 +3,13 @@ package game.items.eggs;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.EatAction;
+import game.actors.creatures.Creature;
+import game.conditions.Condition;
+import game.effects.Effect;
 
 
 /**
@@ -19,14 +23,17 @@ import game.actions.EatAction;
  *
  * @author Arielle Ocampo
  */
-public abstract class Egg extends Item implements Edible {
+public class Egg extends Item implements Edible {
 
     /**
      * Counts the number of consecutive turns egg has spent
      * on the ground (upon being laid/dropped).
      *
      */
-    protected int hatchCounter = 0;
+    private int hatchCounter = 0;
+    private final Creature hatchling;
+    private Condition hatchCondition;
+    private final Effect eatEffect;
 
     /**
      * Constructs a new Egg.
@@ -34,8 +41,23 @@ public abstract class Egg extends Item implements Edible {
      * @param name the name to display for egg
      * @param displayChar the character to represent egg on map
      */
-    public Egg(String name, char displayChar) {
+    public Egg(String name, char displayChar, Creature hatchling,
+               Condition hatchCondition, Effect eatEffect) {
         super(name, displayChar, true);
+        this.hatchling = hatchling;
+        this.hatchCondition = hatchCondition;
+        this.eatEffect = eatEffect;
+    }
+
+
+    /**
+     * Sets or replaces the condition used to determine whether this egg should hatch.
+     *
+     * @param condition the new hatching Condition
+     *
+     */
+    public void setHatchCondition(Condition condition) {
+        this.hatchCondition = condition;
     }
 
     /**
@@ -46,28 +68,41 @@ public abstract class Egg extends Item implements Edible {
      */
     @Override
     public void tick(Location location) {
-            hatchCounter++;
-            if (canHatch(location)) {
-                hatch(location.map(), location);
+        hatchCounter++;
+
+        // Check if the condition is satisfied
+        if (hatchCondition.isSatisfied(null, location)) {
+
+            // try to hatch in current location if it's empty
+            if (!location.containsAnActor()) {
+                location.addActor(hatchling);
                 location.removeItem(this);
+                return;
             }
+
+            // otherwise look for the first adjacent empty location
+            for (Exit exit : location.getExits()) {
+                Location adjacent = exit.getDestination();
+                if (!adjacent.containsAnActor()) {
+                    adjacent.addActor(hatchling);
+                    location.removeItem(this);
+                    return;
+                }
+            }
+
+            // If no empty adjacent tile, do nothing
         }
+    }
 
     /**
-     * Checks if egg can hatch at current location.
+     * Returns the number of consecutive turns egg has spent on ground
+     * since it was laid or dropped.
      *
-     * @param location location to check
-     * @return true if egg meets hatching conditions
+     * @return current hatch counter value
      */
-    public abstract boolean canHatch(Location location);
-
-    /**
-     * Executes hatching logic at current location.
-     *
-     * @param map game map where hatching occurs
-     * @param location location of the egg when hatching
-     */
-    public abstract void hatch(GameMap map, Location location);
+    public int getHatchCounter() {
+        return hatchCounter;
+    }
 
     /**
      * Called when an actor eats egg from its inventory.
@@ -77,21 +112,26 @@ public abstract class Egg extends Item implements Edible {
      * @param map game map context
      * @return description of the eating action
      */
-    public abstract String eat(Actor actor, GameMap map);
+    @Override
+    public String eat(Actor actor, GameMap map) {
+        eatEffect.apply(actor, map);
+        actor.removeItemFromInventory(this);
+        return actor + " eats the egg.";
+    }
 
     /**
      * Only allows EatAction if this egg is currently held in the actor's inventory.
      *
-     * @param actor actor performing the action
-     * @param location current location
+     * @param owner actor performing the action
+     * @param map the map where the actor is performing the action on
      * @return list of actions
      */
     @Override
-    public ActionList allowableActions(Actor actor, Location location) {
-        ActionList actions = super.allowableActions(actor, location);
-        if (actor.getItemInventory().contains(this)) {
-            actions.add(new EatAction(this));
-        }
+    public ActionList allowableActions(Actor owner, GameMap map) {
+        ActionList actions = super.allowableActions(owner, map);
+
+        actions.add(new EatAction(this));
+
         return actions;
     }
 }

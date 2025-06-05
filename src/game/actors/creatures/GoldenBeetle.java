@@ -11,45 +11,87 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.CureAction;
 import game.actions.EatAction;
 import game.actors.Ability;
-import game.behaviours.FollowBehaviour;
-import game.behaviours.ReproduceBehaviour;
-import game.behaviours.WanderBehaviour;
+import game.actors.Status;
+import game.behaviours.*;
+import game.conditions.NearStatusCondition;
+import game.conditions.TurnCounterCondition;
+import game.effects.AttributeEffect;
+import game.grounds.GroundStatus;
 import game.items.eggs.Edible;
-import game.items.eggs.GoldenEgg;
-import game.items.eggs.OmenSheepEgg;
+import game.items.eggs.Egg;
+
+/**
+ * Represents a Golden Beetle creature in the game.
+ * Golden Beetles can reproduce, be eaten, and interact with other actors.
+ * @author Anfal Ahsan
+ */
 
 public class GoldenBeetle extends Creature implements Reproductive, Edible {
 
+    /** Counter to track how many turns have passed since the last egg was laid. */
     private int eggLayCounter = 0;
+    /** Maximum number of turns before the beetle lays another egg. */
+    private final int MAX_EGG_COUNTER = 5;
+    /** Amount of health restored when this beetle is eaten. */
+    private final int HEALING_AMOUNT = 15;
+    /** Reward in balance when this beetle is eaten. */
+    private final int BALANCE_REWARD = 1000;
+    /** Actor that the beetle will follow if found. */
     private Actor followTarget = null;
+    /** the stamina to be incremented*/
+    private final int STAMINA = 20;
 
-
-    public GoldenBeetle() {
-        super("Golden Beetle", 'b', 25);
+    /**
+     * Constructs a Golden Beetle with initial behaviours.
+     * It can reproduce and wander.
+     */
+    public GoldenBeetle(NPCController controller) {
+        super("Golden Beetle", 'b', 25, controller);
         addBehaviour(0, new ReproduceBehaviour(this));
         addBehaviour(2, new WanderBehaviour());
     }
 
+
     /**
-     * Lays a new Golden Beetle Egg when the counter reaches threshold.
+     * Handles the reproduction behavior.
+     * Every MAX_EGG_COUNTER turns, a Golden Egg is laid if the condition is met.
      *
-     * @param map the game map of Omen Sheep
-     * @param location the location of Omen Sheep on the map
+     * @param map the game map
+     * @param location the current location of the beetle
      */
     @Override
-    public void reproduce(GameMap map,Location location) {
+    public void reproduce(GameMap map, Location location) {
         eggLayCounter++;
-        if (eggLayCounter >= 5) {
-            location.addItem(new GoldenEgg());
-            eggLayCounter = 0;
 
+        if (eggLayCounter >= MAX_EGG_COUNTER) {
+            Egg egg = new Egg(
+                    "Golden Egg",
+                    '0',
+                    new GoldenBeetle(new StandardNPCController()),
+                    new NearStatusCondition(Status.CURSED),
+                    new AttributeEffect(BaseActorAttributes.STAMINA, STAMINA));
+
+                    location.addItem(egg);
+            System.out.println("Golden Beetle laid an egg at " + location);
+            eggLayCounter = 0;
         }
     }
 
+
+    /**
+     * Returns a list of actions that can be performed on this beetle by another actor.
+     * Adds an EatAction to allow actors to eat the beetle.
+     *
+     * @param otherActor the actor interacting with this beetle
+     * @param direction direction of the other actor
+     * @param map the current game map
+     * @return a list of allowable actions
+     */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actionList = super.allowableActions(otherActor, direction, map);
@@ -58,14 +100,33 @@ public class GoldenBeetle extends Creature implements Reproductive, Edible {
         return actionList;
     }
 
+    /**
+     * Defines what happens when another actor eats this beetle.
+     * The actor is healed, given balance, and the beetle is removed from the map.
+     *
+     * @param actor the actor that eats the beetle
+     * @param map the current game map
+     * @return a description of the result
+     */
     @Override
     public String eat(Actor actor, GameMap map) {
-        actor.heal(15);
-        actor.addBalance(1000);
+        actor.heal(HEALING_AMOUNT);
+        actor.addBalance(BALANCE_REWARD);
         map.removeActor(this);
         return actor + " eats the beetle.";
     }
 
+    /**
+     * Determines what the beetle does during its turn.
+     * If a followable actor is nearby, adds a FollowBehaviour.
+     * Otherwise, proceeds with defined behaviours.
+     *
+     * @param actions list of possible actions
+     * @param lastAction the action taken last turn
+     * @param map the current game map
+     * @param display the display used for printing messages
+     * @return the action chosen for this turn
+     */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 

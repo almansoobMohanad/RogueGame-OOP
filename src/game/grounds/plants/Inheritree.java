@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.Status;
 import game.grounds.GroundStatus;
 import game.grounds.Soil;
 
@@ -21,16 +22,9 @@ import static game.actors.Status.BLESSED_BY_GRACE;
  * element for healing and cleansing cursed areas in the game world.</p>
  *
  * @author Mohanad Al-Mansoob
+ * Modified by Adji Ilhamhafiz Sarie Hakim
  */
 public class Inheritree extends Plant {
-
-    /**
-     * Indicates whether the Inheritree has already cured surrounding cursed ground.
-     * <p>This flag ensures that the Inheritree only cures the cursed ground once per tick.
-     * After the first curing, this flag is set to true, preventing further attempts to cure
-     * the ground on subsequent ticks.</p>
-     */
-    private boolean hasCuredGround;
 
     /**
      * Constructor for the Inheritree.
@@ -40,7 +34,6 @@ public class Inheritree extends Plant {
     public Inheritree() {
 
         super('t', "Inheritree");
-        this.hasCuredGround = false;
         this.addCapability(BLESSED_BY_GRACE);
 
     }
@@ -56,11 +49,6 @@ public class Inheritree extends Plant {
     public void tick(Location location) {
 
         super.tick(location);
-
-        if (!hasCuredGround) {
-            cureSurroundingGrounds(location);
-            hasCuredGround = true;
-        }
 
         healSurroundingActors(location);
 
@@ -78,7 +66,7 @@ public class Inheritree extends Plant {
 
             Location adjacent = exit.getDestination();
 
-            if (adjacent.getGround().hasCapability(GroundStatus.CURSED)){
+            if (adjacent.getGround().hasCapability(Status.CURSED)){
                 adjacent.setGround(new Soil());
             }
 
@@ -126,4 +114,8 @@ public class Inheritree extends Plant {
 
     }
 
+    @Override
+    public void plantEffect(Actor actor, Location location) {
+        cureSurroundingGrounds(location);
+    }
 }

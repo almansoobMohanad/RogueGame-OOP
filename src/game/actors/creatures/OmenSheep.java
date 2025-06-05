@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -13,10 +14,14 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
+import game.behaviours.NPCController;
 import game.behaviours.ReproduceBehaviour;
+import game.behaviours.StandardNPCController;
 import game.behaviours.WanderBehaviour;
+import game.conditions.TurnCounterCondition;
+import game.effects.MaxAttributeEffect;
 import game.grounds.plants.Inheritree;
-import game.items.eggs.OmenSheepEgg;
+import game.items.eggs.Egg;
 
 /**
  * A passive creature that wanders around the map.
@@ -37,13 +42,22 @@ public class OmenSheep extends Creature implements Curable, Reproductive {
      */
     private int eggLayCounter = 0;
 
+    /** Maximum number of turns before the beetle lays another egg. */
+    private final int MAX_EGG_COUNTER = 7;
+
+    /** Max number of turns before egg hatches*/
+    private final int TURN_THRESHOLD = 3;
+
+    /** Amount of health increased when the omenSheep egg is eaten. */
+    private final int HEALING_AMOUNT = 10;
+
     /**
      * Constructor for the Omen Sheep.
      * <p>Initializes the Omen Sheep with a name, display character, hit points,
      * wandering behaviour, and a rot countdown attribute.</p>
      */
-    public OmenSheep() {
-        super("Omen Sheep", 'm', 75);
+    public OmenSheep(NPCController controller) {
+        super("Omen Sheep", 'm', 75, controller);
         addBehaviour(0, new ReproduceBehaviour(this));
         addBehaviour(2, new WanderBehaviour());
         addAttribute(CreatureAttributes.ROT_COUNTDOWN, new BaseActorAttribute(15));
@@ -132,8 +146,19 @@ public class OmenSheep extends Creature implements Curable, Reproductive {
     public void reproduce(GameMap map,Location location) {
         eggLayCounter++;
 
-        if (eggLayCounter >= 7) {
-            location.addItem(new OmenSheepEgg());
+        if (eggLayCounter >= MAX_EGG_COUNTER) {
+            Egg egg = new Egg(
+                    "Omen Sheep Egg", '0',
+                    new OmenSheep(new StandardNPCController()),
+                    null,
+                    new MaxAttributeEffect(BaseActorAttributes.HEALTH, HEALING_AMOUNT)
+            );
+
+            egg.setHatchCondition(new TurnCounterCondition(egg, TURN_THRESHOLD));
+
+            location.addItem(egg);
+            System.out.println("Omen Sheep laid an egg at " + location);
+
             eggLayCounter = 0;
         }
     }

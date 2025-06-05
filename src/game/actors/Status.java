@@ -8,6 +8,7 @@ package game.actors;
 public enum Status {
 
     HOSTILE_TO_ENEMY,
-    BLESSED_BY_GRACE
+    BLESSED_BY_GRACE,
+    CURSED
 
 }

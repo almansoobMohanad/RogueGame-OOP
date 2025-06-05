@@ -14,8 +14,12 @@ import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
 import game.actors.Status;
+import game.behaviours.NPCController;
 import game.behaviours.ReproduceBehaviour;
+import game.behaviours.StandardNPCController;
 import game.behaviours.WanderBehaviour;
+import game.conditions.Condition;
+import game.conditions.NearStatusCondition;
 
 /**
  * A mystical creature that passively roams around the map.
@@ -36,9 +40,9 @@ public class SpiritGoat extends Creature implements Curable, Reproductive {
      * <p>Initializes the Spirit Goat with a name, display character, hit points,
      * wandering behaviour, and a rot countdown attribute.</p>
      */
-    public SpiritGoat() {
+    public SpiritGoat(NPCController controller) {
 
-        super("Spirit Goat", 'y', 50);
+        super("Spirit Goat", 'y', 50, controller);
         addBehaviour(0, new ReproduceBehaviour(this));
         addBehaviour(2, new WanderBehaviour());
         addAttribute(CreatureAttributes.ROT_COUNTDOWN, new BaseActorAttribute(10));
@@ -113,32 +117,21 @@ public class SpiritGoat extends Creature implements Curable, Reproductive {
      */
     @Override
     public void reproduce(GameMap map, Location location) {
-        boolean nearBlessed = false;
+        Condition nearBlessed = new NearStatusCondition(this, Status.BLESSED_BY_GRACE);
+
+        if (!nearBlessed.isSatisfied(this, location)) {
+            return;
+        }
 
         for (Exit exit : location.getExits()) {
             Location adjacent = exit.getDestination();
 
-            // Check for blessed ground
-            if (adjacent.getGround().hasCapability(Status.BLESSED_BY_GRACE)) {
-                nearBlessed = true;
+            if (!adjacent.containsAnActor()) {
+                adjacent.addActor(new SpiritGoat(new StandardNPCController()));
                 break;
             }
 
-            // We can check for other blessed entities too (haven't implemented this yet)
-
         }
-
-        if (!nearBlessed) return;
-
-        // Spawn SpiritGoat in available adjacent tile
-        for (Exit exit : location.getExits()) {
-            Location spawnLocation = exit.getDestination();
-            if (!spawnLocation.containsAnActor()) {
-                map.at(spawnLocation.x(), spawnLocation.y()).addActor(new SpiritGoat());
-                break;
-            }
-        }
-
     }
 
     /**
