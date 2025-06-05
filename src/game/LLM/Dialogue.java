@@ -30,7 +30,7 @@ public class Dialogue {
         if (roundIndex < responses.size() && optionIndex < responses.get(roundIndex).size()) {
             return responses.get(roundIndex).get(optionIndex);
         }
-        return "Shhh... the story has ended.";
+        return "Shhh... we will talk later";
     }
 
     public void nextRound() {
