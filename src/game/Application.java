@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.Player;
+import game.actors.creatures.BedOfChaos;
 import game.actors.creatures.GoldenBeetle;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
@@ -133,6 +134,8 @@ public class Application {
         gameMap.at(20, 14).addActor(new Sellen(standardController));
         gameMap.at(20, 6).addActor(new MerchantKale(standardController));
         gameMap.at(21,5).addActor(new Guts(standardController));
+
+        limveldMap.at(20,10).addActor(new BedOfChaos(standardController));
 
         gameMap.at(8, 7).addActor(new OmenSheep(standardController));
         gameMap.at(20, 12).addActor(new GoldenBeetle(standardController));
