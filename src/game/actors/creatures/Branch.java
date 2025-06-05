@@ -1,6 +1,5 @@
 package game.actors.creatures;
 
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 
 public class Branch {
@@ -19,17 +18,13 @@ public class Branch {
             boss.addBranch(newBranch);
 
             display.println("It grows a branch...");
-
-            newBranch.chainGrow(display);
         }
         else {
             boss.incrementLeafCount();
             display.println("It grows a leaf...");
             boss.heal(5);
 
-            int healedHP = boss.getAttribute(BaseActorAttributes.HEALTH);
-            int maxHP = boss.getAttributeMaximum(BaseActorAttributes.HEALTH);
-            display.println(boss + " (" + healedHP + "/" + maxHP + ") is healed.");
+            display.println(boss + "is healed.");
         }
     }
 }
