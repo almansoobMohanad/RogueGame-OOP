@@ -24,6 +24,8 @@ import game.grounds.plants.Bloodrose;
 import game.grounds.plants.Inheritree;
 import game.items.Talisman;
 import game.items.Seed;
+import game.timemanagement.ServiceLocator;
+import game.timemanagement.TimeTracker;
 
 /**
  * The main class to setup and run the game.
@@ -34,6 +36,9 @@ public class Application {
     public static void main(String[] args) {
 
         World world = new World(new Display());
+
+        TimeTracker timeTracker = new TimeTracker();
+        ServiceLocator.registerTimeProvider(timeTracker);
 
         FancyGroundFactory groundFactory = new FancyGroundFactory(new Blight(),
                 new Wall(), new Floor(), new Soil(), new TeleportationCircle());
@@ -72,14 +77,12 @@ public class Application {
                 "xxxxx..xxxxxxxxxxx.............x",
                 "xxxxx..xxxxxxxxxxxx............x");
 
+        GameMap highLevelMapForTimeTracker = new EldenThingGameMap("Map to track time", groundFactory, '.', 1, 1, timeTracker);
+        GameMap gameMap = new EldenThingGameMap("Valley of the Inheritree", groundFactory, map);
+        GameMap limveldMap = new EldenThingGameMap("Limveld", groundFactory, limveldMapLayout);
 
-        GameMap gameMap = new GameMap("Valley of the Inheritree", groundFactory, map);
-        TimeTracker timeTracker = new TimeTracker();
-        ServiceLocator.registerTimeProvider(timeTracker);
-        GameMap gameMap = new EldenThingGameMap("Valley of the Inheritree", groundFactory, map, timeTracker);
+        world.addGameMap(highLevelMapForTimeTracker);
         world.addGameMap(gameMap);
-
-        GameMap limveldMap = new GameMap("Limveld", groundFactory, limveldMapLayout);
         world.addGameMap(limveldMap);
 
         // BEHOLD, ELDEN THING!
