@@ -2,7 +2,6 @@ package game.actors.npcs;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
-import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
@@ -65,6 +64,10 @@ public abstract class NPC extends Actor {
      */
     public void addBehaviour(int priority, Behaviour behaviour) {
         behaviours.put(priority, behaviour);
+    }
+
+    public Map<Integer, Behaviour> getBehaviours() {
+        return behaviours;
     }
 
     /**

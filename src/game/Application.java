@@ -74,6 +74,9 @@ public class Application {
 
 
         GameMap gameMap = new GameMap("Valley of the Inheritree", groundFactory, map);
+        TimeTracker timeTracker = new TimeTracker();
+        ServiceLocator.registerTimeProvider(timeTracker);
+        GameMap gameMap = new EldenThingGameMap("Valley of the Inheritree", groundFactory, map, timeTracker);
         world.addGameMap(gameMap);
 
         GameMap limveldMap = new GameMap("Limveld", groundFactory, limveldMapLayout);

@@ -3,7 +3,7 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.items.eggs.Edible;
+import game.items.edibles.Edible;
 
 /**
  * An action allowing an actor to eat an Edible item.

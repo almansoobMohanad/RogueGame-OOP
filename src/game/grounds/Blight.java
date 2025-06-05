@@ -1,23 +1,32 @@
 package game.grounds;
 
-import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
 import game.actors.Status;
+import game.actors.creatures.Zombie;
+import game.behaviours.StandardNPCController;
+import game.timemanagement.Phases;
+import game.timemanagement.ServiceLocator;
+import game.timemanagement.TimeAware;
+
+import java.util.Random;
 
 /**
  * A class representing a blight covering the ground of the valley.
  * @author Adrian Kristanto
  */
-public class Blight extends Ground implements Curable {
+public class Blight extends Ground implements Curable, TimeAware {
+    private static final int CHANCE_TO_SPAWN_ZOMBIE = 10;
+    private final Phases currentPhase;
+    private final Random random;
+
 
     /**
      * Constructs a Blight ground object. The Blight is initialized with the display character 'x'
@@ -25,7 +34,15 @@ public class Blight extends Ground implements Curable {
      */
     public Blight() {
         super('x', "Blight");
+        this.random = new Random();
         this.addCapability(Status.CURSED);
+        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
+    }
+
+    @Override
+    public void tick(Location location) {
+        super.tick(location);
+        this.onTimeChange(location);
     }
 
     /**
@@ -66,5 +83,12 @@ public class Blight extends Ground implements Curable {
         }
 
         return actionList;
+    }
+
+    @Override
+    public void onTimeChange(Location location) {
+        if (this.currentPhase == Phases.NIGHT && random.nextInt(100) < CHANCE_TO_SPAWN_ZOMBIE) {
+            location.addActor(new Zombie(new StandardNPCController()));
+        }
     }
 }
