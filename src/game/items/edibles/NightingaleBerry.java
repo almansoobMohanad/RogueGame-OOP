@@ -37,15 +37,15 @@ public class NightingaleBerry extends Item implements TimeAware, Edible {
 
     @Override
     public void onTimeChange(Location location) {
-        location.removeItem(this);
+        if (currentPhase == Phases.DAY){
+            location.removeItem(this);
+        }
     }
 
     @Override
     public void tick(Location currentLocation) {
         super.tick(currentLocation);
-        if (currentPhase == Phases.DAY){
-            this.onTimeChange(currentLocation);
-        }
+        this.onTimeChange(currentLocation);
     }
 
     @Override

@@ -31,13 +31,14 @@ public class Soil extends Ground implements TimeAware {
     @Override
     public void tick(Location location) {
         super.tick(location);
-        if (this.currentPhase == Phases.NIGHT && random.nextInt(100) < NIGHTINGALE_BERRY_SPAWN_CHANCE){
-            this.onTimeChange(location);
-        }
+        this.onTimeChange(location);
+
     }
 
     @Override
     public void onTimeChange(Location location) {
-        location.addItem(new NightingaleBerry());
+        if (this.currentPhase == Phases.NIGHT && random.nextInt(100) < NIGHTINGALE_BERRY_SPAWN_CHANCE){
+            location.addItem(new NightingaleBerry());
+        }
     }
 }

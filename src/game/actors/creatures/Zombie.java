@@ -32,13 +32,15 @@ public class Zombie extends Creature implements TimeAware {
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        if (currentPhase == Phases.DAY) {
-            this.hurt(15);
-        }
+        this.onTimeChange(map.locationOf(this));
+
         return controller.playturn(this.getBehaviours(), this, map, display);
     }
 
     @Override
     public void onTimeChange(Location location) {
+        if (currentPhase == Phases.DAY) {
+            this.hurt(15);
+        }
     }
 }

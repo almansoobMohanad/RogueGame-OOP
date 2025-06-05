@@ -42,9 +42,7 @@ public class Blight extends Ground implements Curable, TimeAware {
     @Override
     public void tick(Location location) {
         super.tick(location);
-        if (this.currentPhase == Phases.NIGHT && random.nextInt(100) < CHANCE_TO_SPAWN_ZOMBIE) {
-            this.onTimeChange(location);
-        }
+        this.onTimeChange(location);
     }
 
     /**
@@ -89,6 +87,8 @@ public class Blight extends Ground implements Curable, TimeAware {
 
     @Override
     public void onTimeChange(Location location) {
-        location.addActor(new Zombie(new StandardNPCController()));
+        if (this.currentPhase == Phases.NIGHT && random.nextInt(100) < CHANCE_TO_SPAWN_ZOMBIE) {
+            location.addActor(new Zombie(new StandardNPCController()));
+        }
     }
 }
