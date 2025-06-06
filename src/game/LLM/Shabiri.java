@@ -8,8 +8,26 @@ import game.behaviours.NPCController;
 
 import java.util.List;
 
+/**
+ * Shabiri is an {@link NPC} that engages in dynamically generated, deep philosophical
+ * dialogue with the player using an LLM (Large Language Model) backend.
+ * <p>
+ * Shabiri implements {@link DialogueCapable}, meaning it can provide and update
+ * {@link Dialogue} objects. Dialogue is generated based on a structured JSON prompt
+ * designed to simulate three rounds of conversation initiated by the player.
+ * </p>
+ *
+ * <p>Shabiri's dialogue is poetic, cryptic, and unsettling in tone.</p>
+ *
+ * @author Mohanad Al-Mansoob
+ */
 public class Shabiri extends NPC implements DialogueCapable {
 
+
+    /**
+     * A detailed JSON prompt instructing the LLM to generate a 3-round dialogue
+     * with specific tone and formatting.
+     */
     private final String DIALOGUE_PROMPT = """
     You are Shabiri, an ancient, cryptic entity in a fantasy world. You enjoy deep, evolving philosophical conversations with adventurers. The player always begins the dialogue.
     
@@ -39,10 +57,28 @@ public class Shabiri extends NPC implements DialogueCapable {
 
     """;
 
+    /**
+     * Controller responsible for governing Shabiri's autonomous behaviours.
+     */
     private final NPCController controller;
+
+    /**
+     * Manager responsible for sending prompts to the LLM and receiving structured dialogue responses.
+     */
     private final DialogueManager dialogueManager;
+
+    /**
+     * The current dialogue state for this NPC, which evolves as the player interacts.
+     */
     private Dialogue dialogue;
 
+
+    /**
+     * Constructs a new instance of Shabiri, generating an initial dialogue using the LLM.
+     *
+     * @param controller       the NPC behavior controller
+     * @param dialogueManager  the manager responsible for interacting with the LLM
+     */
     public Shabiri(NPCController controller, DialogueManager dialogueManager){
 
         super("Shabiri", 'Q', 76, controller);
@@ -52,16 +88,30 @@ public class Shabiri extends NPC implements DialogueCapable {
         this.dialogue = fetchNewDialogue();
     }
 
+    /**
+     * Gets the current dialogue object.
+     *
+     * @return the current {@link Dialogue}
+     */
     @Override
     public Dialogue getCurrentDialogue() {
         return this.dialogue;
     }
 
+    /**
+     * Resets the dialogue by generating a new one via the LLM.
+     */
     @Override
     public void resetDialogue() {
         this.dialogue = fetchNewDialogue();
     }
 
+    /**
+     * Fetches a new {@link Dialogue} from the {@link DialogueManager}, or provides a fallback
+     * if dialogue generation fails.
+     *
+     * @return a valid {@link Dialogue} object
+     */
     private Dialogue fetchNewDialogue() {
 
         try {
@@ -85,6 +135,14 @@ public class Shabiri extends NPC implements DialogueCapable {
 
     }
 
+
+    /**
+     * Handles the player's choice of a dialogue option, returns the NPC response,
+     * and progresses to the next round. If all rounds are completed, it resets the dialogue.
+     *
+     * @param optionIndex the index of the selected player dialogue option
+     * @return the corresponding NPC response
+     */
     @Override
     public String handleDialogueChoice(int optionIndex) {
 
@@ -98,6 +156,14 @@ public class Shabiri extends NPC implements DialogueCapable {
         return response;
     }
 
+    /**
+     * Provides allowable {@link TalkAction}s for each dialogue option available in the current round.
+     *
+     * @param actor the actor interacting with this NPC
+     * @param direction the direction of the NPC from the actor
+     * @param map the game map
+     * @return an {@link ActionList} containing all valid dialogue options
+     */
     @Override
     public ActionList allowableActions(Actor actor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(actor, direction, map);
