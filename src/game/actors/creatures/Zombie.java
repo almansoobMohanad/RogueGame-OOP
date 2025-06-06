@@ -14,15 +14,28 @@ import game.timemanagement.TimeAware;
 import game.timemanagement.TimeProvider;
 import game.weapons.BareFist;
 
+/**
+ * A Zombie creature that is controlled by an NPCController and reacts to time phases.
+ * <p>
+ * Zombies take damage during the day phase and have attack and wander behaviours.
+ * </p>
+ *
+ * @author Adji Ilhamhafiz Sarie Hakim
+ */
 public class Zombie extends Creature implements TimeAware {
     private static final int DEFAULT_HIT_POINTS = 50;
     private static final int DAMAGE_TAKEN_IN_DAY_PHASE = 20;
     private final TimeProvider timeProvider;
     private final NPCController controller;
+
+
     /**
-     * Constructor for a Creature.
+     * Constructs a Zombie with the specified NPCController.
+     * Initializes behaviours for attacking and wandering,
+     * sets intrinsic weapon to BareFist,
+     * and obtains the global time provider.
      *
-     * @param controller
+     * @param controller the NPCController that manages this Zombie's behaviour
      */
     public Zombie(NPCController controller) {
         super("Zombie", 'Z', DEFAULT_HIT_POINTS, controller);
@@ -33,6 +46,17 @@ public class Zombie extends Creature implements TimeAware {
         this.controller = controller;
     }
 
+    /**
+     * Called every turn to determine the Zombie's action.
+     * The Zombie reacts to time changes and unconscious state before
+     * delegating action selection to its NPCController.
+     *
+     * @param actions the list of possible actions for this turn
+     * @param lastAction the action performed in the previous turn
+     * @param map the game map containing this Zombie
+     * @param display the display interface
+     * @return the Action chosen for this turn
+     */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         this.onTimeChange(map.locationOf(this));
@@ -44,6 +68,12 @@ public class Zombie extends Creature implements TimeAware {
         return controller.playturn(this.getBehaviours(), this, map, display);
     }
 
+
+    /**
+     * Reacts to time changes by applying damage if the current phase is DAY.
+     *
+     * @param location the current location of the Zombie
+     */
     @Override
     public void onTimeChange(Location location) {
         if (this.timeProvider.getCurrentPhase() == Phases.DAY) {
