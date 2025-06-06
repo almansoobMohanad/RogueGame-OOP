@@ -1,4 +1,6 @@
-package game.LLM;
+package game.actors;
+
+import game.llm.Dialogue;
 
 /**
  * An interface for actors or entities that support LLM-powered dialogue.

@@ -1,4 +1,4 @@
-package game.LLM;
+package game.llm;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

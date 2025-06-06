@@ -1,9 +1,11 @@
-package game.LLM;
+package game.actors.npcs;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.npcs.NPC;
+import game.llm.*;
+import game.actions.TalkAction;
+import game.actors.DialogueCapable;
 import game.behaviours.NPCController;
 
 import java.util.List;

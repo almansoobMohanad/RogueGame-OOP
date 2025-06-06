@@ -1,4 +1,4 @@
-package game.LLM;
+package game.llm;
 
 import edu.monash.fit2099.engine.displays.Display;
 

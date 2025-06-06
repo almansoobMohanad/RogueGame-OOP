@@ -1,4 +1,4 @@
-package game.LLM;
+package game.llm;
 
 import org.json.JSONArray;
 import org.json.JSONException;

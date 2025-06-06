@@ -1,4 +1,4 @@
-package game.LLM;
+package game.llm;
 
 /**
  * An interface for integrating a Large Language Model (LLM) service.

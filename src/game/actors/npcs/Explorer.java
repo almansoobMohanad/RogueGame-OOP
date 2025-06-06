@@ -1,14 +1,14 @@
-package game.LLM;
+package game.actors.npcs;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.npcs.NPC;
+import game.llm.*;
+import game.actions.TalkAction;
+import game.actors.DialogueCapable;
 import game.behaviours.NPCController;
 
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * An NPC representing "The Explorer", a wise wanderer in the Elden Ring universe.
