@@ -1,31 +1,29 @@
 package game.behaviours;
 
 import edu.monash.fit2099.engine.actions.Action;
-import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
-import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.creatures.BedOfChaos;
-import game.actors.creatures.Branch;
+import game.actors.creatures.boss.BedOfChaos;
+import game.actions.GrowAction;
 
-import java.util.List;
-
+/**
+ * Triggers growth for BedOfChaos each turn by returning a GrowAction.
+ *
+ * @author Arielle Ocampo
+ */
 public class GrowBehaviour implements Behaviour {
 
+    /**
+     * Returns a new GrowAction for BedOfChaos.
+     *
+     * @param actor actor performing the behaviour (BedOfChaos)
+     * @param map   game map actor is on
+     * @return GrowAction that executes growth
+     */
     @Override
     public Action getAction(Actor actor, GameMap map) {
         BedOfChaos boss = (BedOfChaos) actor;
-        Display display = new Display();
-
-        List<Branch> oldBranches = boss.getBranches();
-
-        boss.growChain(display);
-
-        for (Branch b : oldBranches) {
-            b.chainGrow(display);
-        }
-
-        return new DoNothingAction();
+        return new GrowAction(boss);
     }
 }

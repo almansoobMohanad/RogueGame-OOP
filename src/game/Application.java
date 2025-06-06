@@ -9,7 +9,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.Player;
-import game.actors.creatures.BedOfChaos;
+import game.actors.creatures.boss.BedOfChaos;
 import game.actors.creatures.GoldenBeetle;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
