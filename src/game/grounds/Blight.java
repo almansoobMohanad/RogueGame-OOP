@@ -6,7 +6,7 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Curable;
+import game.actions.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
 import game.actors.Status;

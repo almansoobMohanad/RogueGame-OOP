@@ -11,7 +11,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Curable;
+import game.actions.Curable;
 import game.actions.CureAction;
 import game.actors.Ability;
 import game.behaviours.NPCController;
