@@ -40,8 +40,8 @@ public class Branch implements Growable {
     @Override
     public int getAttackPower() {
         int total = BRANCH_BASE_ATTACK;
-        for (Growable child : growables) {
-            total += child.getAttackPower();
+        for (Growable growable : growables) {
+            total += growable.getAttackPower();
         }
         return total;
     }

@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actors.creatures.boss.BedOfChaos;
-import game.actors.creatures.boss.GrowAction;
+import game.actions.GrowAction;
 
 /**
  * Triggers growth for BedOfChaos each turn by returning a GrowAction.
