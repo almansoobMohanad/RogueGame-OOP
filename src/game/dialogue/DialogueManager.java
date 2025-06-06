@@ -1,4 +1,6 @@
-package game.llm;
+package game.dialogue;
+
+import game.llm.LLMService;
 
 /**
  * Manages the generation and parsing of dialogues using an {@link LLMService}.

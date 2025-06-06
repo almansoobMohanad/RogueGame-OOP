@@ -1,4 +1,4 @@
-package game.llm;
+package game.dialogue;
 
 public class DialogueParsingException extends Exception {
     public DialogueParsingException(String message, Throwable cause) {

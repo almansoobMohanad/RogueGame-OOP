@@ -1,4 +1,4 @@
-package game.llm;
+package game.dialogue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
