@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Mohanad Al-Mansoob
  */
-public class JsonDialogueParser {
+public class JsonDialogueParser implements DialogueParser {
 
     /**
      * Parses a JSON string into a {@link Dialogue} object.
@@ -29,6 +29,7 @@ public class JsonDialogueParser {
      * @return a Dialogue object representing the parsed data
      * @throws DialogueParsingException if parsing fails due to invalid JSON structure
      */
+    @Override
     public Dialogue parse(String jsonString) throws DialogueParsingException {
         try {
             JSONObject root = new JSONObject(jsonString);

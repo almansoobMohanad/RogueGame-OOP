@@ -21,17 +21,17 @@ public class DialogueManager {
     /**
      * The parser used to convert LLM-generated JSON into a Dialogue.
      */
-    private final JsonDialogueParser parser;
+    private final DialogueParser parser;
 
     /**
      * Constructs a new {@code DialogueManager} with the specified LLM service.
      *
      * @param llmService the LLM service used to generate dialogue content
      */
-    public DialogueManager(LLMService llmService) {
+    public DialogueManager(LLMService llmService, DialogueParser parser) {
 
         this.llmService = llmService;
-        this.parser = new JsonDialogueParser();
+        this.parser = parser;
 
     }
 
