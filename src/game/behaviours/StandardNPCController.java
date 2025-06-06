@@ -10,6 +10,16 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * A controller for NPCs that prioritizes behaviours based on their keys (lowest number = highest priority).
+ *
+ * Iterates through behaviours in ascending order of priority and returns the first non-null action.
+ * If no valid action is found, the actor performs a DoNothingAction.
+ *
+ * This allows for consistent and predictable NPC behavior.
+ *
+ * @author Mohanad Al-Mansoob
+ */
 public class StandardNPCController implements NPCController {
 
     @Override
