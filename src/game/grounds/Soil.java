@@ -7,6 +7,7 @@ import game.items.edibles.NightingaleBerry;
 import game.timemanagement.Phases;
 import game.timemanagement.ServiceLocator;
 import game.timemanagement.TimeAware;
+import game.timemanagement.TimeProvider;
 
 import java.util.Random;
 
@@ -17,7 +18,7 @@ import java.util.Random;
  * Modified by Adji Ilhamhafiz Sarie Hakim
  */
 public class Soil extends Ground implements TimeAware {
-    private Phases currentPhase;
+    private final TimeProvider timeProvider;
     private final Random random;
     private static final int NIGHTINGALE_BERRY_SPAWN_CHANCE = 25;
 
@@ -26,7 +27,7 @@ public class Soil extends Ground implements TimeAware {
         super('.', "Soil");
         this.addCapability(GroundStatus.PLANTABLE);
         this.random = new Random();
-        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
+        this.timeProvider = ServiceLocator.getTimeProvider();
     }
 
     @Override
@@ -37,9 +38,8 @@ public class Soil extends Ground implements TimeAware {
 
     @Override
     public void onTimeChange(Location location) {
-        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
         if (
-            this.currentPhase == Phases.NIGHT &&
+            this.timeProvider.getCurrentPhase() == Phases.NIGHT &&
             random.nextInt(100) < NIGHTINGALE_BERRY_SPAWN_CHANCE &&
             this.hasCapability(Status.BLESSED_BY_GRACE)
         ){

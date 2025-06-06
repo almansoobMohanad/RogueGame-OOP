@@ -52,8 +52,7 @@ public class EldenThingGameMap extends GameMap implements TimeAware {
     @Override
     public void onTimeChange(Location location) {
         if (timeProvider != null) {
-            Phases currentPhase = this.timeProvider.getCurrentPhase();
-            if (currentPhase == Phases.NIGHT && !merchantSpawned) {
+            if (this.timeProvider.getCurrentPhase() == Phases.NIGHT && !merchantSpawned) {
 
                 boolean containsActor = location.containsAnActor();
 
@@ -62,7 +61,7 @@ public class EldenThingGameMap extends GameMap implements TimeAware {
                 }
 
                 merchantSpawned = true;
-            } else if (currentPhase == Phases.DAY) {
+            } else if (this.timeProvider.getCurrentPhase() == Phases.DAY) {
                 merchantSpawned = false;
             }
         }

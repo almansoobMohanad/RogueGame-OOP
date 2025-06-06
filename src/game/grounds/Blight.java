@@ -15,6 +15,7 @@ import game.behaviours.StandardNPCController;
 import game.timemanagement.Phases;
 import game.timemanagement.ServiceLocator;
 import game.timemanagement.TimeAware;
+import game.timemanagement.TimeProvider;
 
 import java.util.Random;
 
@@ -24,7 +25,7 @@ import java.util.Random;
  */
 public class Blight extends Ground implements Curable, TimeAware {
     private static final int CHANCE_TO_SPAWN_ZOMBIE = 1;
-    private Phases currentPhase;
+    private final TimeProvider timeProvider;
     private final Random random;
 
 
@@ -36,7 +37,7 @@ public class Blight extends Ground implements Curable, TimeAware {
         super('x', "Blight");
         this.random = new Random();
         this.addCapability(Status.CURSED);
-        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
+        this.timeProvider = ServiceLocator.getTimeProvider();
     }
 
     @Override
@@ -87,10 +88,9 @@ public class Blight extends Ground implements Curable, TimeAware {
 
     @Override
     public void onTimeChange(Location location) {
-        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
         if (!location.containsAnActor()) {
             if (
-                    this.currentPhase == Phases.NIGHT &&
+                    this.timeProvider.getCurrentPhase() == Phases.NIGHT &&
                     random.nextInt(100) < CHANCE_TO_SPAWN_ZOMBIE &&
                     this.hasCapability(Status.CURSED)
             ) {

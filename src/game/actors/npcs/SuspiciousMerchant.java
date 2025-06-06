@@ -19,6 +19,7 @@ import game.effects.EffectsList;
 import game.timemanagement.Phases;
 import game.timemanagement.ServiceLocator;
 import game.timemanagement.TimeAware;
+import game.timemanagement.TimeProvider;
 import game.weapons.BroadSword;
 import game.weapons.Buyable;
 import game.weapons.DragonslayerGreatsword;
@@ -34,7 +35,7 @@ public class SuspiciousMerchant extends NPC implements TimeAware, Merchant, Scam
     private static final int MERCHANT_HIT_POINTS = 100;
     private static final int CHANCE_OF_SCAMMING = 50;
     private final NPCController controller;
-    private Phases currentPhase;
+    private final TimeProvider timeProvider;
     private final List<Buyable> sellItems;
     private final Random random;
     /**
@@ -44,7 +45,7 @@ public class SuspiciousMerchant extends NPC implements TimeAware, Merchant, Scam
     public SuspiciousMerchant(NPCController controller) {
         super("Suspicious Merchant", 'M', MERCHANT_HIT_POINTS, controller);
         this.controller = controller;
-        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
+        this.timeProvider = ServiceLocator.getTimeProvider();
         this.addBehaviour(1, new WanderBehaviour());
 
         this.sellItems = new ArrayList<>();
@@ -80,8 +81,7 @@ public class SuspiciousMerchant extends NPC implements TimeAware, Merchant, Scam
 
     @Override
     public void onTimeChange(Location location) {
-        this.currentPhase = ServiceLocator.getTimeProvider().getCurrentPhase();
-        if (this.currentPhase == Phases.DAY && this.isConscious()) {
+        if (this.timeProvider.getCurrentPhase() == Phases.DAY && this.isConscious()) {
             this.unconscious(location.map());
         }
     }
