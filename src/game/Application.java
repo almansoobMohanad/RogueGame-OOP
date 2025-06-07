@@ -24,6 +24,8 @@ import game.grounds.plants.Bloodrose;
 import game.grounds.plants.Inheritree;
 import game.items.Talisman;
 import game.items.Seed;
+import game.llm.GeminiService;
+import game.llm.LLMService;
 import game.timemanagement.ServiceLocator;
 import game.timemanagement.TimeTracker;
 
@@ -54,11 +56,11 @@ public class Application {
                 "....xxxxxxxxxxx.........xxx....xxxx.....",
                 "....xxxxxxxxxxx................xxxx.....",
                 "...xxxx...xxxxxx.....#####.....xxx......",
-                "...xxx....xxxxxxx....#___#.....xx.......",
-                "..xxxx...xxxxxxxxx...#___#....xx........",
-                "xxxxx...xxxxxxxxxx...##_##...xxx.......x",
-                "xxxxx..xxxxxxxxxxx.........xxxxx......xx",
-                "xxxxx..xxxxxxxxxxxx.......xxxxxx......xx");
+                "...xxx....xxxxxxx....#___#.....xx.######",
+                "..xxxx...xxxxxxxxx...#___#....xx..#____#",
+                "xxxxx...xxxxxxxxxx...##_##...xxx..#____#",
+                "xxxxx..xxxxxxxxxxx.........xxxxx...____#",
+                "xxxxx..xxxxxxxxxxxx.......xxxxxx..######");
 
         List<String> limveldMapLayout = Arrays.asList(
                 "xxxx...xxxxxxxxxxxx.......xxxxxx",
@@ -94,6 +96,8 @@ public class Application {
                 exception.printStackTrace();
             }
         }
+
+        //LLMService gemini = new GeminiService();
 
         Player player = new Player("Farmer", '@', 100, 200);
         player.hurt(20);
