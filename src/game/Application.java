@@ -13,12 +13,12 @@ import game.actors.creatures.boss.BedOfChaos;
 import game.actors.creatures.GoldenBeetle;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
-import game.actors.npcs.Guts;
-import game.actors.npcs.MerchantKale;
-import game.actors.npcs.Sellen;
+import game.actors.npcs.*;
 import game.behaviours.NPCController;
 import game.behaviours.RandomNPCController;
 import game.behaviours.StandardNPCController;
+import game.dialogue.DialogueManager;
+import game.dialogue.JsonDialogueParser;
 import game.grounds.*;
 import game.grounds.plants.Bloodrose;
 import game.grounds.plants.Inheritree;
@@ -46,21 +46,21 @@ public class Application {
                 new Wall(), new Floor(), new Soil(), new TeleportationCircle());
 
         List<String> map = Arrays.asList(
-                "xxxx...xxxxxxxxxxxxxxxxxxxxxxx........xx",
+                "xxxx...x..............................xx",
                 "xxx.....xxxxxxx..xxxxxxxxxxxxx.........x",
                 "..........xxxx....xxxxxxxxxxxxxx.......x",
-                "....xxx...........xxxxxxxxxxxxxxx.....xx",
-                "...xxxxx...........xxxxxxxxxxxxxx.....xx",
+                "....xxx...........xx.........xxxx.....xx",
+                "...xxxxx...........x...........xx.....xx",
                 "...xxxxxxxxxx.......xxxxxxxx...xx......x",
                 "....xxxxxxxxxx........xxxxxx...xxx......",
-                "....xxxxxxxxxxx.........xxx....xxxx.....",
+                "....x.......xxx.........xxx....xxxx.....",
                 "....xxxxxxxxxxx................xxxx.....",
                 "...xxxx...xxxxxx.....#####.....xxx......",
                 "...xxx....xxxxxxx....#___#.....xx.######",
                 "..xxxx...xxxxxxxxx...#___#....xx..#____#",
-                "xxxxx...xxxxxxxxxx...##_##...xxx..#____#",
-                "xxxxx..xxxxxxxxxxx.........xxxxx...____#",
-                "xxxxx..xxxxxxxxxxxx.......xxxxxx..######");
+                "xxxxx..xx......xxx...##_##...xxx..#____#",
+                "xxxxx......................xxxxx...____#",
+                "xxxxx..xx........xx.......xxxxxx..######");
 
         List<String> limveldMapLayout = Arrays.asList(
                 "xxxx...xxxxxxxxxxxx.......xxxxxx",
@@ -97,7 +97,10 @@ public class Application {
             }
         }
 
-        //LLMService gemini = new GeminiService();
+        LLMService gemini = new GeminiService(System.getenv("GEMINI_API_KEY"));
+        DialogueManager dialogueManager = new DialogueManager(gemini, new JsonDialogueParser());
+
+
 
         Player player = new Player("Farmer", '@', 100, 200);
         player.hurt(20);
@@ -140,10 +143,13 @@ public class Application {
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
         gameMap.at(20, 1).addActor(new SpiritGoat(standardController));
-        gameMap.at(35, 14).addActor(new OmenSheep(standardController));
+        gameMap.at(10, 5 ).addActor(new OmenSheep(standardController));
         gameMap.at(20, 14).addActor(new Sellen(standardController));
         gameMap.at(20, 6).addActor(new MerchantKale(standardController));
         gameMap.at(21,5).addActor(new Guts(standardController));
+        gameMap.at(38, 13).addActor(new Shabiri(standardController, dialogueManager));
+        gameMap.at(38, 11).addActor(new Explorer(standardController, dialogueManager));
+        gameMap.at(35, 11).addActor(new Narrator(standardController, dialogueManager));
 
         limveldMap.at(20,10).addActor(new BedOfChaos(standardController));
 

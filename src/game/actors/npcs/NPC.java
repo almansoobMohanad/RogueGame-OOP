@@ -98,7 +98,9 @@ public abstract class NPC extends Actor {
     @Override
     public ActionList allowableActions(Actor actor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(actor, direction, map);
-        actions.add(new ListenAction(this));
+        if (!monologuePool.isEmpty()) {
+            actions.add(new ListenAction(this));
+        }
         actions.add(new AttackAction(this, direction));
         return actions;
     }
