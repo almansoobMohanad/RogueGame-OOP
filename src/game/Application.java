@@ -97,6 +97,7 @@ public class Application {
             }
         }
 
+        // Please add your Gemini API Key as an Environment Variable!
         LLMService gemini = new GeminiService(System.getenv("GEMINI_API_KEY"));
         DialogueManager dialogueManager = new DialogueManager(gemini, new JsonDialogueParser());
 
