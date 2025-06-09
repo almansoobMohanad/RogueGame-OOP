@@ -13,17 +13,19 @@ import game.actors.creatures.boss.BedOfChaos;
 import game.actors.creatures.GoldenBeetle;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
-import game.actors.npcs.Guts;
-import game.actors.npcs.MerchantKale;
-import game.actors.npcs.Sellen;
+import game.actors.npcs.*;
 import game.behaviours.NPCController;
 import game.behaviours.RandomNPCController;
 import game.behaviours.StandardNPCController;
+import game.dialogue.DialogueManager;
+import game.dialogue.JsonDialogueParser;
 import game.grounds.*;
 import game.grounds.plants.Bloodrose;
 import game.grounds.plants.Inheritree;
 import game.items.Talisman;
 import game.items.Seed;
+import game.llm.GeminiService;
+import game.llm.LLMService;
 import game.timemanagement.ServiceLocator;
 import game.timemanagement.TimeTracker;
 
@@ -44,21 +46,21 @@ public class Application {
                 new Wall(), new Floor(), new Soil(), new TeleportationCircle());
 
         List<String> map = Arrays.asList(
-                "xxxx...xxxxxxxxxxxxxxxxxxxxxxx........xx",
+                "xxxx...x..............................xx",
                 "xxx.....xxxxxxx..xxxxxxxxxxxxx.........x",
                 "..........xxxx....xxxxxxxxxxxxxx.......x",
-                "....xxx...........xxxxxxxxxxxxxxx.....xx",
-                "...xxxxx...........xxxxxxxxxxxxxx.....xx",
+                "....xxx...........xx.........xxxx.....xx",
+                "...xxxxx...........x...........xx.....xx",
                 "...xxxxxxxxxx.......xxxxxxxx...xx......x",
                 "....xxxxxxxxxx........xxxxxx...xxx......",
-                "....xxxxxxxxxxx.........xxx....xxxx.....",
+                "....x.......xxx.........xxx....xxxx.....",
                 "....xxxxxxxxxxx................xxxx.....",
                 "...xxxx...xxxxxx.....#####.....xxx......",
-                "...xxx....xxxxxxx....#___#.....xx.......",
-                "..xxxx...xxxxxxxxx...#___#....xx........",
-                "xxxxx...xxxxxxxxxx...##_##...xxx.......x",
-                "xxxxx..xxxxxxxxxxx.........xxxxx......xx",
-                "xxxxx..xxxxxxxxxxxx.......xxxxxx......xx");
+                "...xxx....xxxxxxx....#___#.....xx.######",
+                "..xxxx...xxxxxxxxx...#___#....xx..#____#",
+                "xxxxx..xx......xxx...##_##...xxx..#____#",
+                "xxxxx......................xxxxx...____#",
+                "xxxxx..xx........xx.......xxxxxx..######");
 
         List<String> limveldMapLayout = Arrays.asList(
                 "xxxx...xxxxxxxxxxxx.......xxxxxx",
@@ -95,6 +97,12 @@ public class Application {
             }
         }
 
+        // Please add your Gemini API Key as an Environment Variable!
+        LLMService gemini = new GeminiService(System.getenv("GEMINI_API_KEY"));
+        DialogueManager dialogueManager = new DialogueManager(gemini, new JsonDialogueParser());
+
+
+
         Player player = new Player("Farmer", '@', 100, 200);
         player.hurt(20);
         player.addItemToInventory(new Seed("Bloodrose Seed", new Bloodrose(), 75));
@@ -111,7 +119,7 @@ public class Application {
         //can we have multiple teleportation circles?
 
         // Set up Valley locations
-        Location valleyPortalLoc = gameMap.at(15, 14);  // Where the portal sits in Valley
+        Location valleyPortalLoc = gameMap.at(23, 14);  // Where the portal sits in Valley
         Location valleyDestLoc = gameMap.at(19, 5);     // Valley destination
 
         // Set up Limveld locations
@@ -131,15 +139,17 @@ public class Application {
 
         // Add return destinations to Limveld portals
         limveldCircle1.addDestination(new TeleportDestination(gameMap, valleyPortalLoc));     // Back to Valley portal
-        //when the actor is choosing they might now know where they're teleporting to since the toString doesnt show map name
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
         gameMap.at(20, 1).addActor(new SpiritGoat(standardController));
-        gameMap.at(35, 14).addActor(new OmenSheep(standardController));
+        gameMap.at(10, 5 ).addActor(new OmenSheep(standardController));
         gameMap.at(20, 14).addActor(new Sellen(standardController));
         gameMap.at(20, 6).addActor(new MerchantKale(standardController));
         gameMap.at(21,5).addActor(new Guts(standardController));
+        gameMap.at(38, 13).addActor(new Shabiri(standardController, dialogueManager));
+        gameMap.at(38, 11).addActor(new Explorer(standardController, dialogueManager));
+        gameMap.at(35, 11).addActor(new Narrator(standardController, dialogueManager));
 
         limveldMap.at(20,10).addActor(new BedOfChaos(standardController));
 
