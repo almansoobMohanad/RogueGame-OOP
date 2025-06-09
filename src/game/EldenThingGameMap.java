@@ -58,9 +58,9 @@ public class EldenThingGameMap extends GameMap implements TimeAware {
 
                 if (!containsActor) {
                     location.addActor(new SuspiciousMerchant(new StandardNPCController()));
+                    merchantSpawned = true;
                 }
 
-                merchantSpawned = true;
             } else if (this.timeProvider.getCurrentPhase() == Phases.DAY) {
                 merchantSpawned = false;
             }
