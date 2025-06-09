@@ -118,7 +118,7 @@ public class Application {
         //can we have multiple teleportation circles?
 
         // Set up Valley locations
-        Location valleyPortalLoc = gameMap.at(15, 14);  // Where the portal sits in Valley
+        Location valleyPortalLoc = gameMap.at(23, 14);  // Where the portal sits in Valley
         Location valleyDestLoc = gameMap.at(19, 5);     // Valley destination
 
         // Set up Limveld locations
@@ -138,7 +138,6 @@ public class Application {
 
         // Add return destinations to Limveld portals
         limveldCircle1.addDestination(new TeleportDestination(gameMap, valleyPortalLoc));     // Back to Valley portal
-        //when the actor is choosing they might now know where they're teleporting to since the toString doesnt show map name
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
